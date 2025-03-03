@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/_16sdp"
+    android:elevation="@dimen/_5sdp"
+    android:radius="@dimen/_10sdp"
+    android:minHeight="@dimen/_180sdp">
+
+    <ImageView
+        android:id="@+id/bannerimage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:src="@drawable/banner_bike_rental" />  <!-- You can set a placeholder image or use this programmatically -->
+
+</androidx.cardview.widget.CardView>

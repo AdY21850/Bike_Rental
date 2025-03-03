@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffff"
+    tools:context=".screen2">
+
+    <ImageView
+        android:id="@+id/iamge1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_300sdp"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:src="@drawable/bikerental12" />
+
+
+
+    <!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/lottie1"-->
+<!--        android:layout_width="120dp"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_marginBottom="98dp"-->
+<!--        android:elevation="5dp"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_rawRes="@raw/anime" />-->
+
+
+    <FrameLayout
+        android:id="@+id/signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle2"
+        android:layout_below="@+id/iamge1"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:backgroundTint="#2B4C59"
+        android:layout_marginTop="@dimen/_50sdp">
+        <TextView
+            android:id="@+id/signup1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:fontFamily="@font/inter_medium"
+            android:textStyle="bold"
+            android:textSize="@dimen/_30ssp"
+            android:shadowColor="#000000"
+            android:shadowDx="10"
+            android:shadowDy="10"
+            android:shadowRadius="10"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/Login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle2"
+        android:layout_below="@+id/signup"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:backgroundTint="#2B4C59"
+        android:layout_marginTop="@dimen/_30sdp">
+        <TextView
+            android:id="@+id/loginTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:fontFamily="@font/inter_medium"
+            android:textStyle="bold"
+            android:textSize="@dimen/_30ssp"
+            android:shadowColor="#000000"
+            android:shadowDx="10"
+            android:shadowDy="10"
+            android:shadowRadius="10"/>
+    </FrameLayout>
+
+<!--    <TextView-->
+<!--            android:id="@+id/text"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_marginBottom="70dp"-->
+<!--            android:fontFamily="@font/robotoslab_variablefont_wght"-->
+<!--            android:text="Next "-->
+<!--            android:textColor="#555724"-->
+<!--            android:textSize="25dp"-->
+<!--            android:textStyle="bold" />-->
+
+
+
+
+
+</RelativeLayout>

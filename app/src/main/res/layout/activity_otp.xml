@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".otp">
+
+    <ImageView
+        android:id="@+id/otpimage"
+       android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_200sdp"
+        android:layout_marginTop="@dimen/_90sdp"
+        android:src="@drawable/otpimage"/>
+
+    <TextView
+        android:id="@+id/verification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/otpimage"
+        android:text="Verification"
+        android:textSize="@dimen/_40sdp"
+        android:textStyle="bold"
+        android:fontFamily="@font/robotoslab_variablefont_wght"/>
+    <TextView
+        android:id="@+id/textvext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/verification"
+        android:text="You will get OTP via email"
+        android:textSize="@dimen/_20sdp"
+        android:textStyle="normal"
+        android:textColor="#E5E5E5"
+        android:fontFamily="@font/matemasie_regular"/>
+    <FrameLayout
+        android:id="@+id/otpfeild"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textvext"
+        android:layout_marginTop="@dimen/_80sdp"
+        android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_marginRight="@dimen/_30sdp"
+        android:backgroundTint="#E5E5E5"
+        android:background="@drawable/rectangle2">
+
+        <EditText
+            android:id="@+id/editTextAddress2"
+            android:layout_width="@dimen/_186sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@null"
+            android:hint="* * * * * * "
+            android:layout_marginLeft="@dimen/_140sdp"
+            android:inputType="text"
+            android:textColor="@color/black"/>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle2"
+        android:layout_below="@+id/otpfeild"
+        android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_marginRight="@dimen/_30sdp"
+        android:backgroundTint="#2B4C59"
+        android:layout_marginTop="@dimen/_20sdp"
+        >
+        <TextView
+            android:id="@+id/loginTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:fontFamily="@font/inter_medium"
+            android:textStyle="bold"
+            android:textSize="@dimen/_30sdp"
+            android:shadowColor="#000000"
+            android:shadowDx="10"
+            android:shadowDy="10"
+            android:shadowRadius="10"/>
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/submit"
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:orientation="horizontal">
+    <TextView
+        android:id="@+id/textvext2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+
+        android:layout_below="@+id/submit"
+        android:text="Didn't recieve verification otp?"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="normal"
+        android:textColor="#E5E5E5"
+        android:fontFamily="@font/robotoslab_variablefont_wght"/>
+
+        <TextView
+            android:id="@+id/textvext3"
+            android:layout_width="84dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/robotoslab_variablefont_wght"
+            android:text="Resend again"
+            android:textColor="#E5E5E5"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</RelativeLayout>
