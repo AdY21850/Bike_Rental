@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#252B45"
     tools:context=".home">
 
     <ScrollView
@@ -32,13 +32,19 @@
                     android:src="@drawable/side_drawer" />
 
                 <View
-                    android:layout_width="@dimen/_1sdp"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
+                <ImageView
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:src="@drawable/baseline_search_24" />
 
                 <ImageView
                     android:id="@+id/cart1"
-                    android:layout_width="@dimen/_41sdp"
+                    android:layout_width="@dimen/_30sdp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/_20sdp"
                     android:src="@drawable/cart" />
@@ -48,7 +54,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16sdp"
                 android:visibility="visible">
 
                 <ProgressBar
@@ -65,9 +70,7 @@
                     android:id="@+id/viewpagerslider"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_180sdp"
-                    android:paddingStart="@dimen/_24sdp"
-                    android:paddingEnd="@dimen/_24sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:padding="@dimen/_5sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -120,9 +123,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="  Road Biks   "
+                                android:text="Road Bikes"
                                 android:textColor="#2B4C59"
-                                android:textSize="@dimen/_18ssp" />
+                                android:textSize="@dimen/_15ssp" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -138,9 +141,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="  Mountain bikes   "
+                                android:text="Mountain bikes"
                                 android:textColor="#2B4C59"
-                                android:textSize="@dimen/_18ssp" />
+                                android:textSize="@dimen/_15ssp" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -156,9 +159,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="  Sports Bikes   "
+                                android:text="Sports Bikes"
                                 android:textColor="#2B4C59"
-                                android:textSize="@dimen/_18ssp" />
+                                android:textSize="@dimen/_15ssp" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -174,9 +177,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="  Electric Bikes   "
+                                android:text="Electric Bikes"
                                 android:textColor="#2B4C59"
-                                android:textSize="@dimen/_18ssp" />
+                                android:textSize="@dimen/_15ssp" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -192,9 +195,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="  Heavyweight   "
+                                android:text="Heavyweight"
                                 android:textColor="#2B4C59"
-                                android:textSize="@dimen/_18ssp" />
+                                android:textSize="@dimen/_15ssp" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -210,20 +213,18 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="  street Bikes   "
+                                android:text="street Bikes"
                                 android:textColor="#2B4C59"
-                                android:textSize="@dimen/_18ssp" />
+                                android:textSize="@dimen/_15ssp" />
                         </FrameLayout>
+                        <View
+                            android:layout_width="@dimen/_10sdp"
+                            android:layout_height="match_parent"/>
 
                     </LinearLayout>
                 </HorizontalScrollView>
 
-                <ImageView
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:src="@drawable/baseline_search_24" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -233,21 +234,24 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:layout_marginLeft="@dimen/_15sdp"
                     android:text="Bikes Available Near You"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_20ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:gravity="bottom"
+                    android:layout_weight="0.3"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:text="see all"
                     android:textColor="#C64949"
-                    android:textSize="@dimen/_20ssp" />
+                    android:textSize="@dimen/_10ssp" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

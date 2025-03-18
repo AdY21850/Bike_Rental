@@ -136,7 +136,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Do you have an account?"
+            android:text="create an account -->"
             android:gravity="left"
             android:textColor="#000000"
             android:fontFamily="@font/inter_medium"

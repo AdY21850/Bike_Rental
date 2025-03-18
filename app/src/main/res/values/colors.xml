@@ -3,4 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="kuch">#2B4C59</color>
+    <color name="main_color">#384959</color>
+    <color name="text_color">#BDDDFC</color>
+    <color name="text_color2">#6A89A7</color>
+    <color name="frame">#88BDF2</color>
 </resources>
