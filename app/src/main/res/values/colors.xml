@@ -7,4 +7,31 @@
     <color name="text_color">#BDDDFC</color>
     <color name="text_color2">#6A89A7</color>
     <color name="frame">#88BDF2</color>
+
+        <!-- Primary Colors -->
+        <color name="primary_black">#000000</color>
+        <color name="primary_white">#FFFFFF</color>
+        <color name="primary_red">#D32F2F</color>
+        <color name="primary_blue">#2196F3</color>
+
+        <!-- Background Colors -->
+        <color name="background_light_blue">#E3F2FD</color>
+        <color name="background_grey">#F8F8F8</color>
+        <color name="background_circle">#E0E0E0</color>
+
+        <!-- Text Colors -->
+        <color name="text_black">#212121</color>
+        <color name="text_grey">#757575</color>
+
+        <!-- Button Colors -->
+        <color name="button_black">#000000</color>
+        <color name="button_white">#FFFFFF</color>
+
+        <!-- Icon Colors -->
+        <color name="icon_grey">#BDBDBD</color>
+
+        <!-- Miscellaneous -->
+        <color name="divider_color">#DDDDDD</color>
+
+
 </resources>

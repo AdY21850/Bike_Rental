@@ -10,6 +10,7 @@ public class User {
     private String image;
     private String createdAt;
     private String updatedAt;
+    private String date_of_birth;
 
     // Add Getters
     public String getFullName() { return fullName; }
@@ -20,5 +21,7 @@ public class User {
     }
 
     public String getDrivingLicenseNo() {return drivingLicenseNo;
+    }
+    public String getdate_of_birth() {return date_of_birth;
     }
 }

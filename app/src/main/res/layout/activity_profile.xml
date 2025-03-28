@@ -18,65 +18,90 @@
         android:background="@drawable/semicircle"
         android:backgroundTint="#838383">
 
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-           >
+            android:padding="@dimen/_16sdp">
 
-            <ImageView
+            <!-- Profile Picture Container -->
+            <FrameLayout
+                android:id="@+id/profileContainer"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/rectangle2"
+                android:backgroundTint="#838383"
+               >
+
+                <!-- Profile Picture -->
+
+                <ImageView
+                    android:id="@+id/profilepicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/outline_account_circle_24" />
+
+            </FrameLayout>
+
+            <!-- Edit Profile Floating Button -->
+
+            <!-- Name and Username Container -->
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/edit_profile"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_alignEnd="@id/profileContainer"
+                android:layout_alignBottom="@id/profileContainer"
+                android:layout_marginEnd="-23dp"
+                android:layout_marginBottom="-17dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="@dimen/_20sdp"
+                app:cardElevation="@dimen/_5sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_edit_24"
+                    android:tint="@color/black" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="right"
-                android:layout_marginLeft="@dimen/_90sdp"
-                android:layout_marginEnd="17dp"
-                android:src="@drawable/baseline_edit_24" />
+                android:layout_below="@id/profileContainer"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:layout_marginTop="30dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/edit_profile"
-                android:layout_alignEnd="@+id/edit_profile"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="-14dp"
-                android:text="Edit Profile"
-                android:textSize="@dimen/_15ssp" />
+                <!-- Name -->
+                <TextView
+                    android:id="@+id/name12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bungee_regular"
+                    android:includeFontPadding="false"
+                    android:text="Aditya Sharma"
+                    android:textSize="@dimen/_20ssp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"/>
 
-            <ImageView
-                android:id="@+id/profilepicture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/outline_account_circle_24" />
-
-
-            <TextView
-                android:id="@+id/name12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_toRightOf="@+id/profilepicture"
-                android:fontFamily="@font/bungee_regular"
-                android:includeFontPadding="false"
-                android:text="Aditya Sharma"
-                android:textSize="@dimen/_20ssp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/name12"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_toRightOf="@+id/profilepicture"
-                android:includeFontPadding="false"
-                android:text="aditya _sharma1204"
-                android:textSize="@dimen/_15ssp" />
+                <!-- Username -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="aditya_sharma1204"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_15ssp" />
+            </LinearLayout>
         </RelativeLayout>
     </FrameLayout>
+
+
 
 
     <LinearLayout

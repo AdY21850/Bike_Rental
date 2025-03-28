@@ -48,6 +48,7 @@ public class navdraw extends AppCompatActivity {
         profilebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 startActivity(new Intent(navdraw.this, profile.class));
             }
         });

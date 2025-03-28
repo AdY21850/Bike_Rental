@@ -62,4 +62,19 @@ dependencies {
 
     implementation libs.sdp.android
     implementation libs.ssp.android
+
+
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+    implementation 'com.caverock:androidsvg:1.4'
+
+
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+
+    // SVG support for Glide
+    implementation 'com.caverock:androidsvg:1.4'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+
+
 }
