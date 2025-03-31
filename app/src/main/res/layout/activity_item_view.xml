@@ -8,91 +8,93 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        >
 
-        <!-- Car Image Section -->
+        <!-- Bike Image Section -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@color/background_light_blue"
-            android:cornerRadius="20dp">
+            android:layout_height="@dimen/_300sdp"
+            android:background="@drawable/rectangle2"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:backgroundTint="@color/white"
+         >
 
-            <!-- Car Image -->
             <ImageView
-                android:id="@+id/car_image"
+                android:id="@+id/bike_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerInside"
-                android:src="@drawable/sample_car" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/duke" />
 
-            <!-- Back Button -->
             <ImageView
                 android:id="@+id/back_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="10dp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_margin="@dimen/_10sdp"
                 android:background="@drawable/circle_background"
-                android:padding="8dp"
-                android:src="@drawable/ic_back"
+                android:src="@drawable/baseline_west_24"
                 android:layout_alignParentStart="true" />
         </FrameLayout>
 
-        <!-- Car Name & Price -->
+        <!-- Bike Name & Price -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="space-between"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="@dimen/_16sdp">
 
             <TextView
-                android:id="@+id/car_name"
+                android:id="@+id/bike_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Range Rover"
-                android:textSize="20sp"
+                android:layout_weight="1"
+                android:text="Activa"
+                android:textSize="@dimen/_30ssp"
                 android:textStyle="bold"
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:textColor="@android:color/black" />
 
             <TextView
-                android:id="@+id/car_price"
+                android:id="@+id/bike_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$200.00"
-                android:textSize="18sp"
+                android:text="₹ 300.00"
+                android:textSize="@dimen/_15ssp"
                 android:textStyle="bold"
+                android:layout_marginRight="@dimen/_10sdp"
                 android:textColor="@android:color/holo_red_dark" />
         </LinearLayout>
 
-        <!-- Car Attributes -->
+        <!-- Bike Attributes -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="@dimen/_10sdp">
 
             <!-- Transmission -->
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="80dp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_card"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="8dp">
+                android:padding="@dimen/_8sdp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Transition"
-                    android:textSize="14sp"
+                    android:text="Transmission"
+                    android:textSize="@dimen/_10ssp"
                     android:textColor="@android:color/darker_gray"/>
 
                 <TextView
+                    android:id="@+id/bike_transmission"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Automatic"
-                    android:textSize="16sp"
+                    android:text="Manual"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"/>
             </LinearLayout>
@@ -100,130 +102,169 @@
             <!-- Speed -->
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="80dp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_card"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:layout_marginStart="8dp"
-                android:padding="8dp">
+                android:layout_marginStart="@dimen/_5sdp"
+                android:padding="@dimen/_8sdp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Speed"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/_10ssp"
                     android:textColor="@android:color/darker_gray"/>
+
+                <TextView
+                    android:id="@+id/bike_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="110 km/h"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <!-- Mileage -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_card"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:padding="@dimen/_8sdp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="200 kmph"
-                    android:textSize="16sp"
+                    android:text="Mileage"
+                    android:textSize="@dimen/_10ssp"
+                    android:textColor="@android:color/darker_gray"/>
+
+                <TextView
+                    android:id="@+id/bike_mileage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="35 kmpl"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"/>
             </LinearLayout>
+
         </LinearLayout>
 
-        <!-- Render Section -->
+        <!-- Owner Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="20dp">
+            android:padding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp">
 
             <!-- Profile Image -->
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/profile_placeholder"
+                android:id="@+id/owner_image"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:src="@drawable/profilepicturebikerental"
                 android:background="@drawable/circle_background"
                 android:scaleType="centerCrop"/>
 
             <!-- Name -->
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/owner_name"
+                android:layout_width="@dimen/_90sdp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="Lorem Ipsum"
-                android:textSize="16sp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Jane Smith"
+                android:textSize="@dimen/_10ssp"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"/>
+
+
 
             <!-- Contact Icons -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="auto">
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_message"
+                    android:id="@+id/owner_email"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:src="@drawable/baseline_mail_24"
                     android:background="@drawable/circle_background"/>
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_call"
+                    android:id="@+id/owner_contact"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:src="@drawable/baseline_call_24"
                     android:background="@drawable/circle_background"
-                    android:layout_marginStart="8dp"/>
+                    android:layout_marginStart="@dimen/_8sdp"/>
             </LinearLayout>
         </LinearLayout>
-
-        <!-- Quantity & Book Now Button -->
         <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:gravity="center">
+
+        <!-- Quantity Selector -->
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:gravity="center">
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_card"
+            android:padding="@dimen/_10sdp">
 
-            <!-- Quantity Selector -->
-            <LinearLayout
+            <ImageView
+                android:id="@+id/minus1"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:src="@drawable/ic_minus"/>
+
+            <TextView
+                android:id="@+id/quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/rounded_card"
-                android:padding="10dp">
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:text="1"
+                android:textSize="@dimen/_16ssp"
+                android:textColor="@android:color/black"/>
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_minus"/>
-
-                <TextView
-                    android:id="@+id/quantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:text="1"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_plus"/>
-            </LinearLayout>
-
-            <!-- Book Now Button -->
-            <Button
-                android:id="@+id/book_now"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:backgroundTint="@android:color/black"
-                android:text="BOOK NOW"
-                android:textColor="@android:color/white"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:textStyle="bold"/>
+            <ImageView
+                android:id="@+id/plus1"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/ic_plus"/>
         </LinearLayout>
 
+        <!-- Book Now Button -->
+        <Button
+            android:id="@+id/book_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:backgroundTint="@android:color/black"
+            android:text="BOOK NOW"
+            android:textColor="@android:color/white"
+            android:paddingHorizontal="@dimen/_20sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:textStyle="bold"/>
+    </LinearLayout>
     </LinearLayout>
 </ScrollView>
