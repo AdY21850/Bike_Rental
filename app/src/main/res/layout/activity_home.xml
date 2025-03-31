@@ -103,124 +103,144 @@
                 <HorizontalScrollView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:scrollbars="none">
+                    android:scrollbars="horizontal">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                      >
 
-                        <FrameLayout
+                        <!-- Road Bikes -->
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/family_cars"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/_10sdp"
-                            android:background="@drawable/rectangle2"
-                            android:backgroundTint="@color/white"
-                            android:clickable="true"
-                            android:focusable="true">
+                            app:cardCornerRadius="@dimen/_20sdp"
+                            app:cardElevation="@dimen/_5sdp"
+
+                           >
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="Road Bikes"
                                 android:textColor="#2B4C59"
-                                android:textSize="@dimen/_15ssp" />
-                        </FrameLayout>
+                                android:textSize="@dimen/_15ssp"
+                                android:gravity="center"
+                                android:padding="@dimen/_10sdp"/>
+                        </androidx.cardview.widget.CardView>
 
-                        <FrameLayout
+                        <!-- Mountain Bikes -->
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/cheapcars"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/_20sdp"
-                            android:background="@drawable/rectangle2"
-                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="@dimen/_20sdp"
+                            app:cardElevation="@dimen/_5sdp"
                             android:clickable="true"
-                            android:focusable="true">
+                            >
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:text="Mountain bikes"
+                                android:gravity="center"
+                                android:padding="@dimen/_10sdp"
+                                android:text="Mountain Bikes"
                                 android:textColor="#2B4C59"
                                 android:textSize="@dimen/_15ssp" />
-                        </FrameLayout>
+                        </androidx.cardview.widget.CardView>
 
-                        <FrameLayout
+                        <!-- Sports Bikes -->
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/sports_Bikes"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/_20sdp"
-                            android:background="@drawable/rectangle2"
-                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="@dimen/_20sdp"
+                            app:cardElevation="@dimen/_5sdp"
                             android:clickable="true"
-                            android:focusable="true">
+                           >
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="Sports Bikes"
                                 android:textColor="#2B4C59"
-                                android:textSize="@dimen/_15ssp" />
-                        </FrameLayout>
+                                android:textSize="@dimen/_15ssp"
+                                android:gravity="center"
+                                android:padding="@dimen/_10sdp"/>
+                        </androidx.cardview.widget.CardView>
 
-                        <FrameLayout
-                            android:id="@+id/Electical_Bikes"
+                        <!-- Electric Bikes -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/Electrical_Bikes"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/_20sdp"
-                            android:background="@drawable/rectangle2"
-                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="@dimen/_20sdp"
+                            app:cardElevation="@dimen/_5sdp"
                             android:clickable="true"
-                            android:focusable="true">
+                            >
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="Electric Bikes"
                                 android:textColor="#2B4C59"
-                                android:textSize="@dimen/_15ssp" />
-                        </FrameLayout>
+                                android:textSize="@dimen/_15ssp"
+                                android:gravity="center"
+                                android:padding="@dimen/_10sdp"/>
+                        </androidx.cardview.widget.CardView>
 
-                        <FrameLayout
+                        <!-- Heavyweight Bikes -->
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/heavy_bikes"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/_20sdp"
-                            android:background="@drawable/rectangle2"
-                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="@dimen/_20sdp"
+                            app:cardElevation="@dimen/_5sdp"
                             android:clickable="true"
-                            android:focusable="true">
+                           >
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="Heavyweight"
                                 android:textColor="#2B4C59"
-                                android:textSize="@dimen/_15ssp" />
-                        </FrameLayout>
+                                android:textSize="@dimen/_15ssp"
+                                android:gravity="center"
+                                android:padding="@dimen/_10sdp"/>
+                        </androidx.cardview.widget.CardView>
 
-                        <FrameLayout
+                        <!-- Street Bikes -->
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/street_bikes"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/_20sdp"
-                            android:background="@drawable/rectangle2"
-                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="@dimen/_20sdp"
+                            app:cardElevation="@dimen/_5sdp"
                             android:clickable="true"
-                            android:focusable="true">
+                           >
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="street Bikes"
+                                android:text="Street Bikes"
                                 android:textColor="#2B4C59"
-                                android:textSize="@dimen/_15ssp" />
-                        </FrameLayout>
+                                android:textSize="@dimen/_15ssp"
+                                android:gravity="center"
+                                android:padding="@dimen/_10sdp"/>
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- Spacer -->
                         <View
                             android:layout_width="@dimen/_10sdp"
                             android:layout_height="match_parent"/>
-
                     </LinearLayout>
                 </HorizontalScrollView>
 

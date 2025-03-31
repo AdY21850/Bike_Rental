@@ -9,32 +9,30 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
 
 public class home extends Activity {
 
-    private static final String TAG = "HomeActivity"; // Tag for logging
-    private static final String SELECTED_COLOR = "#2B4C59"; // Color for the selected state
-    private static final String DEFAULT_COLOR = "#FFFFFF"; // Default color for the background (white)
-
+    private static final String TAG = "HomeActivity";
     ViewPager2 viewPager2;
     vpAdapter viewPagerAdapter;
     ArrayList<HomeBannerviewpager> viewpageritemArrayList;
     DotsIndicator dotsIndicator;
     ProgressBar progressBar;
+    RecyclerView recyclerView;
     ProgressBar progressbar;
-
+    ArrayList<bikeModel> bikeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,175 +41,143 @@ public class home extends Activity {
 
         Log.d(TAG, "onCreate: Activity started");
 
-        //------------------------on click listeners to drawer and cart-------------------------------------------------
-        //--------------------------drawer----------------------------------------------------------------------
+        // Navigation Drawer
         ImageView navdraw = findViewById(R.id.to_the_drawer);
         if (navdraw != null) {
             navdraw.setOnClickListener(view -> {
                 Log.d(TAG, "onCreate: Navigation drawer clicked");
                 startActivity(new Intent(home.this, navdraw.class));
             });
-        } else {
-            Log.e(TAG, "onCreate: Navigation drawer ImageView is null");
         }
 
-        //-----------------------cart -----------------------------------
+        // Cart Button
         ImageView cartimage = findViewById(R.id.cart1);
         if (cartimage != null) {
             cartimage.setOnClickListener(view -> {
                 Log.d(TAG, "onCreate: Cart clicked");
                 startActivity(new Intent(home.this, cart.class));
             });
-        } else {
-            Log.e(TAG, "onCreate: Cart ImageView is null");
         }
 
-        //----------------------------------------------ViewPager banner---------------------------------------------------
+        // ViewPager setup
         viewPager2 = findViewById(R.id.viewpagerslider);
         dotsIndicator = findViewById(R.id.dots_indicator);
         progressBar = findViewById(R.id.progressbar);
-
-        if (viewPager2 != null) {
-            Log.d(TAG, "onCreate: ViewPager2 initialized");
-        } else {
-            Log.e(TAG, "onCreate: ViewPager2 is null");
-        }
-
-        if (dotsIndicator != null) {
-            Log.d(TAG, "onCreate: DotsIndicator initialized");
-        } else {
-            Log.e(TAG, "onCreate: DotsIndicator is null");
-        }
-
-        if (progressBar != null) {
-            Log.d(TAG, "onCreate: ProgressBar initialized");
-        } else {
-            Log.e(TAG, "onCreate: ProgressBar is null");
-        }
-
         viewpageritemArrayList = new ArrayList<>();
 
-        // Adding static images from the drawable folder
-        try {
-            viewpageritemArrayList.add(new HomeBannerviewpager(R.drawable.banner_home_image));
-            viewpageritemArrayList.add(new HomeBannerviewpager(R.drawable.banner_image_home));
-            viewpageritemArrayList.add(new HomeBannerviewpager(R.drawable.banner_bike_rental));
-            viewpageritemArrayList.add(new HomeBannerviewpager(R.drawable.rental_bike));
-            viewpageritemArrayList.add(new HomeBannerviewpager(R.drawable.rental_poster));
-            Log.d(TAG, "onCreate: Static images added to the ViewPager");
-        } catch (Exception e) {
-            Log.e(TAG, "onCreate: Error adding static images", e);
-        }
+        // Load banner images
+        loadBannerImages();
 
-        // Show ProgressBar while loading images
-        if (progressBar != null) {
-            progressBar.setVisibility(View.VISIBLE);
-            Log.d(TAG, "onCreate: ProgressBar set to VISIBLE");
-        }
-
-        // Fetch dynamic images from backend and add them to the list
-        loadImagesFromBackend();
-
-        // Set up the ViewPager2 adapter
+        // Set up adapter
         viewPagerAdapter = new vpAdapter(viewpageritemArrayList);
         viewPager2.setAdapter(viewPagerAdapter);
-        Log.d(TAG, "onCreate: Adapter set to ViewPager2");
-
-        // Bind the DotsIndicator to ViewPager2
         dotsIndicator.setViewPager2(viewPager2);
-        Log.d(TAG, "onCreate: DotsIndicator bound to ViewPager2");
+        progressBar.setVisibility(View.GONE);
 
-        // Set ViewPager2 visibility to VISIBLE after setting the adapter
-        viewPager2.setVisibility(View.VISIBLE);
-        dotsIndicator.setVisibility(View.VISIBLE); // Make DotsIndicator visible too
-        Log.d(TAG, "onCreate: ViewPager2 and DotsIndicator visibility set to VISIBLE");
-
-        // Hide ProgressBar after the adapter is set
-        if (progressBar != null) {
-            progressBar.setVisibility(View.GONE);
-            Log.d(TAG, "onCreate: ProgressBar set to GONE");
-        }
-        //-----------------------------------------recyclerview--------------------
+        // RecyclerView setup
         progressbar = findViewById(R.id.progressbar2);
-        ArrayList<contactModel> arrdetails = new ArrayList<>();
-        RecyclerView recyclerView = findViewById(R.id.view_brands);
-
-
-        // Set the GridLayoutManager
+        recyclerView = findViewById(R.id.view_brands);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // Load bike data
+        loadBikeData();
 
-        Log.d(TAG, "onCreate: RecyclerView initialized and layout manager set");
+        // Set Adapter
+        BikeAdapter bikeAdapter = new BikeAdapter(this, bikeList);
+        recyclerView.setAdapter(bikeAdapter);
 
-        // Add bike details to the ArrayList
-        try {
-            arrdetails.add(new contactModel(R.drawable.duke, "Duke", 400));
-            arrdetails.add(new contactModel(R.drawable.royalenfield, "royalenfield", 300));
-            arrdetails.add(new contactModel(R.drawable.scooty, "scooter", 100));
-            arrdetails.add(new contactModel(R.drawable.pulsar, "pulsar", 250));
-            arrdetails.add(new contactModel(R.drawable.activa, "activa", 150));
-            arrdetails.add(new contactModel(R.drawable.supermeteor, "supermeteor", 350));
-            arrdetails.add(new contactModel(R.drawable.rider, "rider", 300));
-            arrdetails.add(new contactModel(R.drawable.threequater, "threequater", 120));
-            arrdetails.add(new contactModel(R.drawable.razur, "razur", 60));
-            arrdetails.add(new contactModel(R.drawable.harleyxhonda, "harleyxhonda", 500));
-            arrdetails.add(new contactModel(R.drawable.pulsaradvance, "pulsaradvance", 450));
-            arrdetails.add(new contactModel(R.drawable.apache, "apache", 350));
-            Log.d(TAG, "onCreate: Bike details added to the ArrayList");
-        } catch (Exception e) {
-            Log.e(TAG, "onCreate: Error adding bike details to ArrayList", e);
-        }
-
-        // Set RecyclerBikedetailsAdapter to RecyclerView
-        try {
-            recyclerBikedetailsAdapter recyclerBikedetailsAdapter = new recyclerBikedetailsAdapter(this, arrdetails);
-            recyclerView.setAdapter(recyclerBikedetailsAdapter);
-            Log.d(TAG, "onCreate: RecyclerBikedetailsAdapter set to RecyclerView");
-        } catch (Exception e) {
-            Log.e(TAG, "onCreate: Error setting adapter to RecyclerView", e);
-        }
-
-        // Add spacing between grid items
-     // Change this to the desired spacing in pixels (10 reduces vertical spacing)
-
-
-        // Hide ProgressBar after loading is complete
         progressbar.setVisibility(View.GONE);
-        Log.d(TAG, "onCreate: ProgressBar set to GONE");
 
-
-        //-------------------------------------category functionality-------------------
+        // Category click listeners
         setupClickListeners();
     }
 
-    private void loadImagesFromBackend() {
-        try {
-            // Example URLs, replace with actual image URLs fetched from your backend
-            // viewpageritemArrayList.add(new HomeBannerviewpager("https://example.com/images/banner1.jpg"));
-            // viewpageritemArrayList.add(new HomeBannerviewpager("https://example.com/images/banner2.jpg"));
-            Log.d(TAG, "loadImagesFromBackend: Dynamic images added from backend");
-        } catch (Exception e) {
-            Log.e(TAG, "loadImagesFromBackend: Error fetching images from backend", e);
+    private void loadBannerImages() {
+        String[] imageUrls = {
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380194/banner_home_image_hldh3m.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380193/banner_image_home_jaaube.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380184/img_1_cpbpfr.jpg?_s=public-apps"
+        };
+
+        for (String url : imageUrls) {
+            viewpageritemArrayList.add(new HomeBannerviewpager(url));
         }
     }
 
-    private static final String SELECTED_FRAME_COLOR = "#2B4C59";
-    private static final String DEFAULT_FRAME_COLOR = "#FFFFFF"; // Default color when reset
-    private static final String DEFAULT_TEXT_COLOR = "#2B4C59";  // Text color when reset
-    private static final String SELECTED_TEXT_COLOR = "#FFFFFF"; // White color for selected text
+    private void loadBikeData() {
+        bikeList = new ArrayList<>();
+        bikeList.add(new bikeModel(
+                "Apache", 400, "Manual", "240 km/h", "30 kmpl",
+                "pawan pandey", "papajikimail2@gmail.com", "9555883490",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380193/apache_iellgk.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386623/images_yvnq0s.jpg?_s=public-apps"
+        ));
+        bikeList.add(new bikeModel(
+                "Activa", 120, "Automatic", "110 km/h", "35 kmpl",
+                "Jane Smith", "janesmith@example.com", "+987654321",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380194/activa_ytjdao.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386618/images_n1dbos.jpg?_s=public-apps"
+        ));
+        bikeList.add(new bikeModel(
+                "Royal Enfield", 200, "Manual", "120 km/h", "30 kmpl",
+                "John Doe", "johndoe@example.com", "+123456789",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380182/royalenfield_libvj0.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386524/gsvbejvulurft3bhfoh0.jpg?_s=public-apps"
+        ));
+        bikeList.add(new bikeModel(
+                "Duke", 400, "Semi-Automatic", "450 km/h", "10 kmpl",
+                "bablu badmosh", "papajikimail2@gmail.com", "9555883490",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380186/duke_zazboo.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dorc5p2jg/image/upload/fl_preserve_transparency/v1742665112/iaozlnauip5g9fkm5wsr.jpg?_s=public-apps"
+        ));
+        bikeList.add(new bikeModel(
+                "suzuki", 180, "Manual", "150 km/h", "30 kmpl",
+                "chitranjan tripathi", "papajikimail2@gmail.com", "9555883490",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380186/diodiorightfrontthreequarter_nelsos.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dorc5p2jg/image/upload/fl_preserve_transparency/v1742661925/sydney_sweeney_xneyx7.jpg?_s=public-sapp\""
+        ));
+        bikeList.add(new bikeModel(
+                "harleyXhonda", 280, "Manual", "120 km/h", "30 kmpl",
+                "Munna Bhaiya", "papajikimail2@gmail.com", "9555883490",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380185/harleyxhonda_tbfcie.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dorc5p2jg/image/upload/fl_preserve_transparency/v1742661928/will_attenborough_m5mo2b.jpg?_s=public-apps"
+        ));
+        bikeList.add(new bikeModel(
+                "bmwR20", 4000, "Manual", "290 km/h", "20 kmpl",
+                "Ram Bahadur", "papajikimail2@gmail.com", "9555883490",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743387115/bmw-r18-right-side-view0_pvvibh.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dorc5p2jg/image/upload/fl_preserve_transparency/v1742661922/resume_img_1_mhlikw.jpg?_s=public-apps"
+        ));
+        bikeList.add(new bikeModel(
+                "pulsar", 100, "Automatic", "190 km/h", "30 kmpl",
+                "Dinanath Shastree", "papajikimail2@gmail.com", "9555883490",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380183/pulsarrs200rsleftfrontthreequarter_yphm8k.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386605/images_m2e6ti.jpg?_s=public-apps"
+        ));
+        bikeList.add(new bikeModel(
+                "splendor", 150, "Manual | semi-Atuo", "120 km/h", "30 kmpl",
+                "billu chamar", "papajikimail2@gmil.com", "9555883490",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386852/hero-select-model-blue-black-1706531445236_edhupn.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386590/images_mfeomn.jpg?_s=public-apps"
+        ));
+        bikeList.add(new bikeModel(
+                "gt 650", 320, "Manual", "320 km/h", "30 kmpl",
+                "Parashuram Sharma", "papajikimail2@gmail.com", "9555883490",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386806/royal-enfield-select-model-british-racing-green-1668419802695_rufcsy.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386563/images_yq8mnv.jpg?_s=public-apps"
+        ));
+    }
 
     private void setupClickListeners() {
-        // Array of FrameLayouts and their corresponding TextViews
-        FrameLayout[] frameLayouts = {
+        CardView[] cardViews = {
                 findViewById(R.id.family_cars),
                 findViewById(R.id.cheapcars),
                 findViewById(R.id.sports_Bikes),
-                findViewById(R.id.Electical_Bikes),
+                findViewById(R.id.Electrical_Bikes),
                 findViewById(R.id.heavy_bikes),
                 findViewById(R.id.street_bikes)
         };
 
-        // Array of category names
         String[] categories = {
                 "Road Bikes",
                 "Mountain Bikes",
@@ -221,50 +187,37 @@ public class home extends Activity {
                 "Street Bikes"
         };
 
-        for (int i = 0; i < frameLayouts.length; i++) {
-            int index = i; // Required for the inner class
-            frameLayouts[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Swap colors for the selected FrameLayout and its TextView
-                    swapColors((FrameLayout) v);
-
-                    // Show the selected category
-                    Toast.makeText(home.this, "Selected: " + categories[index], Toast.LENGTH_SHORT).show();
-                }
+        for (int i = 0; i < cardViews.length; i++) {
+            int index = i;
+            cardViews[i].setOnClickListener(v -> {
+                swapColors((CardView) v);
+                Toast.makeText(home.this, "Selected: " + categories[index], Toast.LENGTH_SHORT).show();
             });
         }
     }
 
-    private void swapColors(FrameLayout selectedFrame) {
-        TextView selectedTextView = (TextView) selectedFrame.getChildAt(0); // Assuming the TextView is the first child
-
-        // Set the selected FrameLayout background and text color
-        selectedFrame.setBackgroundColor(Color.parseColor(SELECTED_FRAME_COLOR));
-        selectedTextView.setTextColor(Color.parseColor(SELECTED_TEXT_COLOR));
-
-        // Reset other FrameLayouts
-        resetFrameLayouts(selectedFrame);
+    private void swapColors(CardView selectedCard) {
+        resetCardViews(selectedCard);
+        TextView selectedTextView = (TextView) selectedCard.getChildAt(0);
+        selectedCard.setCardBackgroundColor(Color.parseColor("#2B4C59")); // Highlight selected card
+        selectedTextView.setTextColor(Color.parseColor("#FFFFFF")); // Change text color to white
     }
 
-    private void resetFrameLayouts(FrameLayout selectedFrame) {
-        FrameLayout[] frameLayouts = {
+    private void resetCardViews(CardView selectedCard) {
+        CardView[] cardViews = {
                 findViewById(R.id.family_cars),
                 findViewById(R.id.cheapcars),
                 findViewById(R.id.sports_Bikes),
-                findViewById(R.id.Electical_Bikes),
+                findViewById(R.id.Electrical_Bikes),
                 findViewById(R.id.heavy_bikes),
                 findViewById(R.id.street_bikes)
         };
 
-        for (FrameLayout frameLayout : frameLayouts) {
-            if (frameLayout != selectedFrame) { // Don't reset the selected frame
-                frameLayout.setBackgroundResource(0); // Remove any existing drawable resource
-                frameLayout.setBackgroundColor(Color.parseColor(DEFAULT_FRAME_COLOR)); // Set default color
-                ((TextView) frameLayout.getChildAt(0)).setTextColor(Color.parseColor(DEFAULT_TEXT_COLOR)); // Reset text color
+        for (CardView cardView : cardViews) {
+            if (cardView != selectedCard) {
+                cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF")); // Reset to white
+                ((TextView) cardView.getChildAt(0)).setTextColor(Color.parseColor("#2B4C59")); // Reset text color
             }
         }
     }
-
 }
-
