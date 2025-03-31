@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,10 +42,21 @@ public class BikeAdapter extends RecyclerView.Adapter<BikeAdapter.ViewHolder> {
 
         Glide.with(context).load(bike.getImageUrl()).into(holder.bikeImage);
 
+        // Click listener for bike item (Navigates to item view)
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, item_view.class);
             intent.putExtra("bike", bike);
             context.startActivity(intent);
+        });
+
+        // Click listener for "like" button (Adds bike to cart)
+        holder.like.setOnClickListener(v -> {
+            if (!CartManager.isBikeInCart(bike)) {
+                CartManager.addToCart(bike);
+                Toast.makeText(context, bike.getName() + " added to cart!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, bike.getName() + " is already in the cart!", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -55,13 +67,14 @@ public class BikeAdapter extends RecyclerView.Adapter<BikeAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView bikeName, bikePrice;
-        ImageView bikeImage;
+        ImageView bikeImage, like;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             bikeName = itemView.findViewById(R.id.bikename);
             bikePrice = itemView.findViewById(R.id.cost);
             bikeImage = itemView.findViewById(R.id.image123);
+            like = itemView.findViewById(R.id.like);
         }
     }
 }

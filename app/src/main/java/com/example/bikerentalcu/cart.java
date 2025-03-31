@@ -1,20 +1,62 @@
 package com.example.bikerentalcu;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
 
 public class cart extends AppCompatActivity {
+    private RecyclerView cartRecyclerView;
+    private BikeAdapter cartAdapter;
+    private List<bikeModel> cartList;
+    private ProgressBar progressBar;
+    private Button nextButton;
+    private ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cart);
 
+        // Initialize views
+        cartRecyclerView = findViewById(R.id.cartRecyclerView);
+        progressBar = findViewById(R.id.progressBar);
+        nextButton = findViewById(R.id.nextButton);
+        backButton = findViewById(R.id.backButton);
+
+        // Setup RecyclerView
+        cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        cartList = CartManager.getCart();  // Fetch bikes added to the cart
+        cartAdapter = new BikeAdapter(this, cartList);
+        cartRecyclerView.setAdapter(cartAdapter);
+
+        // Show ProgressBar while loading data
+        progressBar.setVisibility(View.VISIBLE);
+        loadCartData();
+
+        // Back Button Click Listener
+        backButton.setOnClickListener(v -> finish());
+
+        // Next Button Click Listener (Navigate to Checkout)
+        nextButton.setOnClickListener(v -> {
+            Intent intent = new Intent(cart.this, checkout.class);
+            startActivity(intent);
+        });
+    }
+
+    // Load Cart Data
+    private void loadCartData() {
+        new android.os.Handler().postDelayed(() -> {
+            cartAdapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
+        }, 1500); // Simulating delay
     }
 }
