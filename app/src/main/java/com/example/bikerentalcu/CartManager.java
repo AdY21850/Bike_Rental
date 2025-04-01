@@ -4,28 +4,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartManager {
-    private static List<bikeModel> cart = new ArrayList<>();
+    private static List<CartItem> cartList = new ArrayList<>();
 
-    public static void addToCart(bikeModel bike) {
-        if (!isBikeInCart(bike)) {
-            cart.add(bike);
+    public static List<CartItem> getCart() {
+        return cartList;
+    }
+
+    public static void addToCart(CartItem bike) {
+        cartList.add(bike);
+    }
+
+    public static void removeFromCart(CartItem item) {
+        if (cartList.contains(item)) {
+            cartList.remove(item);
         }
     }
 
+    public static void clearCart() {
+        cartList.clear();
+    }
+
+    public static int getTotalPrice() {
+        int total = 0;
+        for (CartItem item : cartList) {
+            total += item.getPrice();
+        }
+        return total;
+    }
+
+    public static boolean isCartEmpty() {
+        return cartList.isEmpty();
+    }
+
     public static boolean isBikeInCart(bikeModel bike) {
-        for (bikeModel b : cart) {
-            if (b.getName().equals(bike.getName())) {
+        for (CartItem item : cartList) {
+            if (item.getName().equals(bike.getName())) {
                 return true;
             }
         }
         return false;
-    }
-
-    public static List<bikeModel> getCart() {
-        return cart;
-    }
-
-    public static void clearCart() {
-        cart.clear();
     }
 }

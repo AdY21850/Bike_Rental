@@ -115,4 +115,6 @@ public class bikeModel implements Parcelable {
         dest.writeString(imageUrl);
         dest.writeString(ownerurl);
     }
+
+
 }

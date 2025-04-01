@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -22,75 +21,112 @@ public class item_view extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_item_view);
 
-        // Get data from intent
+        // Initialize views
+        ImageView bikeImage = findViewById(R.id.bike_image);
+        ImageView owner_image = findViewById(R.id.owner_image);
+        TextView bikeName = findViewById(R.id.bike_name);
+        TextView bikePrice = findViewById(R.id.bike_price);
+        TextView bikeTransmission = findViewById(R.id.bike_transmission);
+        TextView bikeSpeed = findViewById(R.id.bike_speed);
+        TextView bikeMileage = findViewById(R.id.bike_mileage);
+        TextView ownerName = findViewById(R.id.owner_name);
+        ImageView ownerEmail = findViewById(R.id.owner_email);
+        ImageView ownerContact = findViewById(R.id.owner_contact);
+        Button bookNow = findViewById(R.id.book_now);
+        ImageView backButton = findViewById(R.id.back_button);
+
+        ImageView decreaseQuantity = findViewById(R.id.minus1);
+        ImageView increaseQuantity = findViewById(R.id.plus1);
+        quantityText = findViewById(R.id.quantity);
+
+        // Get data from the intent
         Intent intent = getIntent();
         if (intent != null) {
-            bikeModel bike = intent.getParcelableExtra("bike");
+            // Check if the data is of type bikeModel or CartItem
+            if (intent.hasExtra("bike")) {
+                // Retrieve bikeModel
+                bikeModel bike = intent.getParcelableExtra("bike");
 
-            if (bike != null) {
-                // Initialize views
-                ImageView bikeImage = findViewById(R.id.bike_image);
-                ImageView owner_image = findViewById(R.id.owner_image);
-                TextView bikeName = findViewById(R.id.bike_name);
-                TextView bikePrice = findViewById(R.id.bike_price);
-                TextView bikeTransmission = findViewById(R.id.bike_transmission);
-                TextView bikeSpeed = findViewById(R.id.bike_speed);
-                TextView bikeMileage = findViewById(R.id.bike_mileage);
-                TextView ownerName = findViewById(R.id.owner_name);
-                ImageView ownerEmail = findViewById(R.id.owner_email);
-                ImageView ownerContact = findViewById(R.id.owner_contact);
-                Button bookNow = findViewById(R.id.book_now);
-                ImageView backButton = findViewById(R.id.back_button);
+                if (bike != null) {
+                    // Set values to views for bikeModel
+                    bikeName.setText(bike.getName());
+                    bikePrice.setText("₹ " + bike.getPrice());
+                    bikeTransmission.setText(bike.getTransmission());
+                    bikeSpeed.setText(bike.getSpeed());
+                    bikeMileage.setText(bike.getMileage());
+                    ownerName.setText(bike.getOwnerName());
 
-                ImageView decreaseQuantity = findViewById(R.id.minus1);
-                ImageView increaseQuantity = findViewById(R.id.plus1);
-                quantityText = findViewById(R.id.quantity);
+                    // Load bike image using Glide
+                    Glide.with(this).load(bike.getImageUrl()).into(bikeImage);
+                    Glide.with(this)
+                            .load(bike.getownerurl())
+                            .placeholder(R.drawable.exclamation_mark)
+                            .error(R.drawable.exclamation_mark)
+                            .into(owner_image);
 
-                // Set values to views
-                bikeName.setText(bike.getName());
-                bikePrice.setText("₹ " + bike.getPrice());
-                bikeTransmission.setText(bike.getTransmission());
-                bikeSpeed.setText(bike.getSpeed());
-                bikeMileage.setText(bike.getMileage());
-                ownerName.setText(bike.getOwnerName());
-//                Log.d("owner ka url -->",
-//                        bike.getownerurl());
-                // Load bike image using Glide
-                Glide.with(this).load(bike.getImageUrl()).into(bikeImage);
-                //load owner image
-                Glide.with(this)
-                        .load(bike.getownerurl())
-                        .placeholder(R.drawable.exclamation_mark) // Use a valid placeholder image
-                        .error(R.drawable.exclamation_mark) // Show an error image if loading fails
-                        .into(owner_image);
+                    // Email click listener
+                    ownerEmail.setOnClickListener(v -> {
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                        emailIntent.setData(Uri.parse("mailto:" + bike.getOwnerEmail()));
+                        startActivity(emailIntent);
+                    });
 
-                // Email click listener
-                ownerEmail.setOnClickListener(v -> {
-                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-                    emailIntent.setData(Uri.parse("mailto:" + bike.getOwnerEmail()));
-                    startActivity(emailIntent);
-                });
+                    // Contact click listener
+                    ownerContact.setOnClickListener(v -> {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                        callIntent.setData(Uri.parse("tel:" + bike.getOwnerContact()));
+                        startActivity(callIntent);
+                    });
+                }
+            } else if (intent.hasExtra("cartItems")) {
+                // Retrieve CartItem
+                CartItem cartItem = intent.getParcelableExtra("cartItems");
+                int quantity = intent.getIntExtra("quantity", 1);
 
+                if (cartItem != null) {
+                    // Set values to views for CartItem
+                    bikeName.setText(cartItem.getName());
+                    bikePrice.setText("₹ " + cartItem.getPrice());
+                    bikeTransmission.setText(cartItem.getTransmission());
+                    bikeSpeed.setText(cartItem.getSpeed());
+                    bikeMileage.setText(cartItem.getMileage());
+                    ownerName.setText(cartItem.getOwnerName());
+                    quantityText.setText(String.valueOf(quantity));
 
+                    // Load bike image using Glide
+                    Glide.with(this).load(cartItem.getImageUrl()).into(bikeImage);
+                    Glide.with(this)
+                            .load(cartItem.getOwnerUrl())
+                            .placeholder(R.drawable.exclamation_mark)
+                            .error(R.drawable.exclamation_mark)
+                            .into(owner_image);
 
-                // Contact click listener
-                ownerContact.setOnClickListener(v -> {
-                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                    callIntent.setData(Uri.parse("tel:" + bike.getOwnerContact()));
-                    startActivity(callIntent);
-                });
+                    // Email click listener
+                    ownerEmail.setOnClickListener(v -> {
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                        emailIntent.setData(Uri.parse("mailto:" + cartItem.getOwnerEmail()));
+                        startActivity(emailIntent);
+                    });
 
-                // Back button
-                backButton.setOnClickListener(v -> finish());
-
-                // Quantity selection listeners
-                decreaseQuantity.setOnClickListener(v -> updateQuantity(false));
-                increaseQuantity.setOnClickListener(v -> updateQuantity(true));
+                    // Contact click listener
+                    ownerContact.setOnClickListener(v -> {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                        callIntent.setData(Uri.parse("tel:" + cartItem.getOwnerContact()));
+                        startActivity(callIntent);
+                    });
+                }
             }
         }
+
+        // Back button
+        backButton.setOnClickListener(v -> finish());
+        findViewById(R.id.book_now).setOnClickListener(v -> startActivity(new Intent(this, checkout.class)));
+
+        // Quantity selection listeners
+        decreaseQuantity.setOnClickListener(v -> updateQuantity(false));
+        increaseQuantity.setOnClickListener(v -> updateQuantity(true));
     }
 
     private void updateQuantity(boolean increase) {

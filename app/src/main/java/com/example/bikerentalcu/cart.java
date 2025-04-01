@@ -15,8 +15,8 @@ import java.util.List;
 
 public class cart extends AppCompatActivity {
     private RecyclerView cartRecyclerView;
-    private BikeAdapter cartAdapter;
-    private List<bikeModel> cartList;
+    private CartAdapter cartAdapter;
+    private List<CartItem> cartList;
     private ProgressBar progressBar;
     private Button nextButton;
     private ImageView backButton;
@@ -35,7 +35,7 @@ public class cart extends AppCompatActivity {
         // Setup RecyclerView
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         cartList = CartManager.getCart();  // Fetch bikes added to the cart
-        cartAdapter = new BikeAdapter(this, cartList);
+        cartAdapter = new CartAdapter(this, cartList);
         cartRecyclerView.setAdapter(cartAdapter);
 
         // Show ProgressBar while loading data
@@ -52,11 +52,11 @@ public class cart extends AppCompatActivity {
         });
     }
 
-    // Load Cart Data
+    // Load Cart Data (Simulating delay for fetching data)
     private void loadCartData() {
         new android.os.Handler().postDelayed(() -> {
             cartAdapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
-        }, 1500); // Simulating delay
+        }, 1000); // Simulating delay of 1.5 seconds to load data
     }
 }
