@@ -47,7 +47,7 @@ public class profile extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
 
     private EditText nameField, emailField, phoneField, dobField, dlField;
-    private TextView nameField2;
+    private TextView nameField2,username;
     private FrameLayout updateButton;
     private ImageView profileImage;
 
@@ -82,7 +82,7 @@ public class profile extends AppCompatActivity {
         dlField = findViewById(R.id.dl1);
         updateButton = findViewById(R.id.move_to_home);
         profileImage = findViewById(R.id.profilepicture);
-
+        username=findViewById(R.id.user_name);
         updateButton.setOnClickListener(v -> startActivity(new Intent(profile.this, home.class)));
     }
 
@@ -145,7 +145,8 @@ public class profile extends AppCompatActivity {
         phoneField.setText(userDetails.getContactNumber());
         dobField.setText(userDetails.getdate_of_birth());
         dlField.setText(userDetails.getDrivingLicenseNo());
-
+        String firstPart = userDetails.getEmail().split("@")[0];
+        username.setText(firstPart);
         String imageUrl = userDetails.getImage();
         Log.d("Image URL Before Loading", imageUrl);
 

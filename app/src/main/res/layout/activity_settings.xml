@@ -106,46 +106,7 @@
 
                 </FrameLayout>
 
-                <FrameLayout
-                    android:id="@+id/settingsbtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rectangle2"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:elevation="@dimen/_20sdp"
-                    android:backgroundTint="@color/white">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
 
-
-
-                        <TextView
-                            android:id="@+id/drawer_settings_txt"
-                            android:layout_width="@dimen/_200sdp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/robotoslab_variablefont_wght"
-                            android:text="Language"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginLeft="@dimen/_25sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:textColor="#2B4C59"
-                            android:textSize="@dimen/_25ssp"
-                            />
-                        <ImageView
-                            android:layout_width="@dimen/_20sdp"
-                            android:layout_height="@dimen/_20sdp"
-                            android:layout_weight="1"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/baseline_arrow_forward_ios_24"/>
-                    </LinearLayout>
-
-                </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/notificationbtn"
