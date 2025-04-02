@@ -6,9 +6,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,95 +17,130 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class home extends Activity {
 
     private static final String TAG = "HomeActivity";
-    ViewPager2 viewPager2;
-    vpAdapter viewPagerAdapter;
-    ArrayList<HomeBannerviewpager> viewpageritemArrayList;
-    DotsIndicator dotsIndicator;
-    ProgressBar progressBar;
-    RecyclerView recyclerView;
-    ProgressBar progressbar;
-    ArrayList<bikeModel> bikeList;
+
+    private ViewPager2 viewPager2;
+    private vpAdapter viewPagerAdapter;
+    private ArrayList<HomeBannerviewpager> viewpageritemArrayList;
+    private DotsIndicator dotsIndicator;
+    private ProgressBar progressBar, progressbar;
+    private RecyclerView recyclerView, searchRecyclerView;
+    private ArrayList<bikeModel> bikeList;
+    private BikeAdapter bikeAdapter, searchBikeAdapter;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        getWindow().setStatusBarColor(Color.parseColor("#252B45"));
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+
         Log.d(TAG, "onCreate: Activity started");
 
-        // Navigation Drawer
-        ImageView navdraw = findViewById(R.id.to_the_drawer);
-        if (navdraw != null) {
-            navdraw.setOnClickListener(view -> {
-                Log.d(TAG, "onCreate: Navigation drawer clicked");
-                startActivity(new Intent(home.this, navdraw.class));
-            });
-        }
+        initializeViews();
+        setupNavigation();
+        setupSearchView();
+        setupViewPager();
+        setupRecyclerView();
+        setupCategoryClickListeners();
+    }
 
-        // Cart Button
-        ImageView cartimage = findViewById(R.id.cart1);
-        if (cartimage != null) {
-            cartimage.setOnClickListener(view -> {
-                Log.d(TAG, "onCreate: Cart clicked");
-                startActivity(new Intent(home.this, cart.class));
-            });
-        }
-
-        // ViewPager setup
+    private void initializeViews() {
+        searchView = findViewById(R.id.searchview);
         viewPager2 = findViewById(R.id.viewpagerslider);
         dotsIndicator = findViewById(R.id.dots_indicator);
         progressBar = findViewById(R.id.progressbar);
+        progressbar = findViewById(R.id.progressbar2);
+        recyclerView = findViewById(R.id.view_brands);
+        searchRecyclerView = findViewById(R.id.search_view_recycler);
+    }
+
+    private void setupNavigation() {
+        findViewById(R.id.to_the_drawer).setOnClickListener(view -> {
+            Log.d(TAG, "Navigation drawer clicked");
+            startActivity(new Intent(home.this, navdraw.class));
+        });
+
+        findViewById(R.id.cart1).setOnClickListener(view -> {
+            Log.d(TAG, "Cart clicked");
+            startActivity(new Intent(home.this, cart.class));
+        });
+    }
+
+    private void setupSearchView() {
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    toggleRecyclerView(false);
+                } else {
+                    filterList(newText);
+                }
+                return true;
+            }
+        });
+    }
+
+    private void setupViewPager() {
         viewpageritemArrayList = new ArrayList<>();
-
-        // Load banner images
-        loadBannerImages();
-
-        // Set up adapter
+        String[] imageUrls = {
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380194/banner_home_image_hldh3m.jpg",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380193/banner_image_home_jaaube.jpg",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380184/img_1_cpbpfr.jpg"
+        };
+        for (String url : imageUrls) {
+            viewpageritemArrayList.add(new HomeBannerviewpager(url));
+        }
         viewPagerAdapter = new vpAdapter(viewpageritemArrayList);
         viewPager2.setAdapter(viewPagerAdapter);
         dotsIndicator.setViewPager2(viewPager2);
         progressBar.setVisibility(View.GONE);
+    }
 
-        // RecyclerView setup
-        progressbar = findViewById(R.id.progressbar2);
-        recyclerView = findViewById(R.id.view_brands);
+    private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        searchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Load bike data
-        loadBikeData();
-
-        // Set Adapter
-        BikeAdapter bikeAdapter = new BikeAdapter(this, bikeList);
-        recyclerView.setAdapter(bikeAdapter);
-
-        progressbar.setVisibility(View.GONE);
-
-        // Category click listeners
-        setupClickListeners();
-    }
-
-    private void loadBannerImages() {
-        String[] imageUrls = {
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380194/banner_home_image_hldh3m.jpg?_s=public-apps",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380193/banner_image_home_jaaube.jpg?_s=public-apps",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380184/img_1_cpbpfr.jpg?_s=public-apps"
-        };
-
-        for (String url : imageUrls) {
-            viewpageritemArrayList.add(new HomeBannerviewpager(url));
-        }
-    }
-
-    private void loadBikeData() {
         bikeList = new ArrayList<>();
+        addBikeData();
+
+        bikeAdapter = new BikeAdapter(this, new ArrayList<>(bikeList));
+        searchBikeAdapter = new BikeAdapter(this, new ArrayList<>());
+
+        recyclerView.setAdapter(bikeAdapter);
+        searchRecyclerView.setAdapter(searchBikeAdapter);
+
+        searchRecyclerView.setVisibility(View.GONE);
+        progressbar.setVisibility(View.GONE);
+    }
+
+    private void addBikeData() {
+        bikeList.add(new bikeModel("Apache", 400, "Manual", "240 km/h", "30 kmpl", "Pawan Pandey", "papajikimail2@gmail.com", "9555883490",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380193/apache_iellgk.jpg",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743386623/images_yvnq0s.jpg"));
+
+        bikeList.add(new bikeModel("Activa", 120, "Automatic", "110 km/h", "35 kmpl", "Jane Smith", "janesmith@example.com", "+987654321",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380194/activa_ytjdao.jpg",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743386618/images_n1dbos.jpg"));
+
+        bikeList.add(new bikeModel("Royal Enfield", 200, "Manual", "120 km/h", "30 kmpl", "John Doe", "johndoe@example.com", "+123456789",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380182/royalenfield_libvj0.jpg",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743386524/gsvbejvulurft3bhfoh0.jpg"));
         bikeList.add(new bikeModel(
                 "Apache", 400, "Manual", "240 km/h", "30 kmpl",
                 "pawan pandey", "papajikimail2@gmail.com", "9555883490",
@@ -145,7 +180,7 @@ public class home extends Activity {
         bikeList.add(new bikeModel(
                 "bmwR20", 4000, "Manual", "290 km/h", "20 kmpl",
                 "Ram Bahadur", "papajikimail2@gmail.com", "9555883490",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743387115/bmw-r18-right-side-view0_pvvibh.jpg?_s=public-apps",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743597010/bmw_r20_concept-removebg-preview_yfpgso.jpg?_s=public-apps",
                 "https://res.cloudinary.com/dorc5p2jg/image/upload/fl_preserve_transparency/v1742661922/resume_img_1_mhlikw.jpg?_s=public-apps"
         ));
         bikeList.add(new bikeModel(
@@ -168,7 +203,36 @@ public class home extends Activity {
         ));
     }
 
-    private void setupClickListeners() {
+    private void filterList(String text) {
+        List<bikeModel> searchResults = new ArrayList<>();
+        for (bikeModel bike : bikeList) {
+            if (bike.getName().toLowerCase().contains(text.toLowerCase()) ||
+                    bike.getTransmission().toLowerCase().contains(text.toLowerCase()) ||
+                    bike.getOwnerName().toLowerCase().contains(text.toLowerCase())) {
+                searchResults.add(bike);
+            }
+        }
+
+        if (searchResults.isEmpty()) {
+            Toast.makeText(this, "No bikes found", Toast.LENGTH_SHORT).show();
+            toggleRecyclerView(false);
+        } else {
+            searchBikeAdapter.updateList(searchResults);
+            toggleRecyclerView(true);
+        }
+    }
+
+    private void toggleRecyclerView(boolean showSearch) {
+        if (showSearch) {
+            searchRecyclerView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            searchRecyclerView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setupCategoryClickListeners() {
         CardView[] cardViews = {
                 findViewById(R.id.family_cars),
                 findViewById(R.id.cheapcars),
@@ -190,7 +254,7 @@ public class home extends Activity {
         for (int i = 0; i < cardViews.length; i++) {
             int index = i;
             cardViews[i].setOnClickListener(v -> {
-                swapColors((CardView) v);
+                swapColors(cardViews[index]);
                 Toast.makeText(home.this, "Selected: " + categories[index], Toast.LENGTH_SHORT).show();
             });
         }
@@ -198,9 +262,8 @@ public class home extends Activity {
 
     private void swapColors(CardView selectedCard) {
         resetCardViews(selectedCard);
-        TextView selectedTextView = (TextView) selectedCard.getChildAt(0);
-        selectedCard.setCardBackgroundColor(Color.parseColor("#2B4C59")); // Highlight selected card
-        selectedTextView.setTextColor(Color.parseColor("#FFFFFF")); // Change text color to white
+        selectedCard.setCardBackgroundColor(Color.parseColor("#2B4C59"));
+        ((TextView) selectedCard.getChildAt(0)).setTextColor(Color.parseColor("#FFFFFF"));
     }
 
     private void resetCardViews(CardView selectedCard) {
@@ -215,8 +278,8 @@ public class home extends Activity {
 
         for (CardView cardView : cardViews) {
             if (cardView != selectedCard) {
-                cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF")); // Reset to white
-                ((TextView) cardView.getChildAt(0)).setTextColor(Color.parseColor("#2B4C59")); // Reset text color
+                cardView.setCardBackgroundColor(Color.WHITE);
+                ((TextView) cardView.getChildAt(0)).setTextColor(Color.parseColor("#2B4C59"));
             }
         }
     }

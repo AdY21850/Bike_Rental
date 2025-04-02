@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BikeAdapter extends RecyclerView.Adapter<BikeAdapter.ViewHolder> {
@@ -97,5 +98,11 @@ public class BikeAdapter extends RecyclerView.Adapter<BikeAdapter.ViewHolder> {
             bikeImage = itemView.findViewById(R.id.image123);
             like = itemView.findViewById(R.id.like);
         }
+    }
+    // **Method to Update List for Search**
+    public void updateList(List<bikeModel> newList) {
+        bikeList.clear();
+        bikeList.addAll(newList);
+        notifyDataSetChanged();
     }
 }

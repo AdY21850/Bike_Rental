@@ -17,39 +17,60 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal"
+                android:padding="@dimen/_10sdp"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/to_the_drawer"
                     android:layout_width="39dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_5sdp"
                     android:src="@drawable/side_drawer" />
 
-                <View
-                    android:layout_width="0dp"
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchview"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
-                <ImageView
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:src="@drawable/baseline_search_24" />
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle"
+                    android:backgroundTint="@color/white"
+                    app:defaultQueryHint="search here"
+                    android:focusable="true"
+                    android:clickable="true"
+                    app:iconifiedByDefault="false"
+                    android:focusableInTouchMode="true"/>
 
                 <ImageView
                     android:id="@+id/cart1"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
                     android:src="@drawable/cart" />
 
             </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_view_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@color/white"
+                android:elevation="8dp"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -290,6 +311,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
 
                 <ProgressBar
                     android:id="@+id/progressbar2"
