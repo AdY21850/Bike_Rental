@@ -76,5 +76,8 @@ dependencies {
     implementation 'com.caverock:androidsvg:1.4'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
+    implementation 'com.android.volley:volley:1.2.1'
+
+
 
 }
