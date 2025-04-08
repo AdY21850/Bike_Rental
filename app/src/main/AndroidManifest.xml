@@ -9,12 +9,13 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="34" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -29,6 +30,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
+        <activity
+            android:name=".confirm_bike"
+            android:exported="false" />
         <activity
             android:name=".checkout"
             android:exported="false" />
@@ -54,7 +58,7 @@
             android:exported="false" />
         <activity
             android:name=".cart"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".navdraw"
             android:exported="false" />
@@ -66,23 +70,19 @@
             android:exported="false" />
         <activity
             android:name=".home"
-            android:exported="false">
-
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".screen2"
             android:exported="false" />
         <activity
             android:name=".spalshscreen"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

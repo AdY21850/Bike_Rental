@@ -70,6 +70,9 @@ public class CartItem implements Parcelable {
         Log.d("Owner URL", ownerUrl);
         return ownerUrl;
     }
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     @Override
     public int describeContents() {

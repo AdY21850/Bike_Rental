@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:id="@+id/scrollViewConfirmBike"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:id="@+id/layoutConfirmBikeMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_16sdp">
+
+        <!-- Top bar -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/_16sdp">
+
+            <ImageView
+                android:id="@+id/backBtn"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/baseline_west_24"
+                android:contentDescription="Back Button" />
+
+            <ImageView
+                android:id="@+id/cartBtn"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/cart"
+                android:contentDescription="Cart" />
+        </RelativeLayout>
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/selectedLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selected"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <!-- bike image and info -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp">
+
+            <ImageView
+                android:id="@+id/bikeImage"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_130sdp"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/duke"
+                android:contentDescription="Bike Image" />
+
+            <LinearLayout
+                android:id="@+id/bikeInfoLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/bikeImage"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/bikeName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DUKE"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_14ssp" />
+
+                <TextView
+                    android:id="@+id/bikePrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹200.00"
+                    android:textColor="#FF0000"
+                    android:textSize="@dimen/_14ssp"
+                    android:layout_marginTop="@dimen/_4sdp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/_4sdp">
+
+                    <TextView
+                        android:id="@+id/ratingLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Ratings:"
+                        android:layout_gravity="left"
+                        android:gravity="center"
+                        android:textColor="#777777"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_15ssp" />
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_30sdp"
+                        android:numStars="4"
+                        android:rating="3.5"
+                        android:isIndicator="true"
+                        android:stepSize="0.5"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
+                        android:layout_gravity="center_horizontal" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Summary Info -->
+        <LinearLayout
+            android:id="@+id/summaryInfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#F5F5F5"
+            android:padding="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_8sdp">
+
+            <TextView
+                android:id="@+id/selectedCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selected: 1"
+                android:textColor="#777777"
+                android:textSize="@dimen/_14ssp" />
+
+            <!-- START DATE -->
+            <TextView
+                android:id="@+id/startDateText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Start Date"
+                android:padding="@dimen/_10sdp"
+                android:background="#E0E0E0"
+                android:textColor="#000000"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:textSize="@dimen/_14ssp" />
+
+            <!-- END DATE -->
+            <TextView
+                android:id="@+id/endDateText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select End Date"
+                android:padding="@dimen/_10sdp"
+                android:background="#E0E0E0"
+                android:textColor="#000000"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textSize="@dimen/_14ssp" />
+
+            <!-- Days input -->
+            <EditText
+                android:id="@+id/editDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter number of days"
+                android:inputType="number"
+                android:imeOptions="actionDone"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:padding="@dimen/_10sdp"
+                android:backgroundTint="@color/background_circle"
+                android:background="@drawable/rectangle2" />
+
+            <TextView
+                android:id="@+id/totalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price: ₹600"
+                android:textColor="#777777"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:textSize="@dimen/_14ssp" />
+
+            <TextView
+                android:id="@+id/driverFee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="delivery chages: ₹50"
+                android:textColor="#777777"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:textSize="@dimen/_14ssp" />
+        </LinearLayout>
+
+        <!-- Total -->
+        <TextView
+            android:id="@+id/totalAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TOTAL    ₹650"
+            android:textStyle="bold"
+            android:textSize="@dimen/_16ssp"
+            android:textColor="#000000"
+            android:layout_marginTop="@dimen/_12sdp" />
+
+        <!-- Location -->
+        <TextView
+            android:id="@+id/locationLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOCATION"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="@dimen/_14ssp"
+            android:layout_marginTop="@dimen/_16sdp" />
+
+        <RelativeLayout
+            android:id="@+id/locationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F5F5F5"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_8sdp">
+
+            <ImageView
+                android:id="@+id/locationIcon"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/baseline_location_pin_24"
+                android:layout_alignParentStart="true"
+                android:contentDescription="Location Icon" />
+
+            <TextView
+                android:id="@+id/locationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Street 203  House 348  City Kigali"
+                android:textColor="#777777"
+                android:textSize="@dimen/_13ssp"
+                android:layout_toEndOf="@id/locationIcon"
+                android:layout_marginStart="@dimen/_8sdp" />
+        </RelativeLayout>
+
+        <!-- Confirm Button -->
+        <Button
+            android:id="@+id/confirmBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/main_color"
+            android:textSize="@dimen/_14ssp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:padding="@dimen/_12sdp" />
+    </LinearLayout>
+</ScrollView>

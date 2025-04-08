@@ -47,9 +47,12 @@ public class profile extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
 
     private EditText nameField, emailField, phoneField, dobField, dlField;
-    private TextView nameField2,username;
+    private TextView nameField2, username;
     private FrameLayout updateButton;
     private ImageView profileImage;
+
+    // Made static properly
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,7 @@ public class profile extends AppCompatActivity {
         super.onStart();
         preferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         String token = preferences.getString("authToken", null);
-        Log.d("Token Retrieved", token);
+        Log.d("Token Retrieved", "Token: " + token);
         fetchUserData(token);
     }
 
@@ -82,8 +85,12 @@ public class profile extends AppCompatActivity {
         dlField = findViewById(R.id.dl1);
         updateButton = findViewById(R.id.move_to_home);
         profileImage = findViewById(R.id.profilepicture);
-        username=findViewById(R.id.user_name);
-        updateButton.setOnClickListener(v -> startActivity(new Intent(profile.this, home.class)));
+        username = findViewById(R.id.user_name);
+
+        updateButton.setOnClickListener(v -> {
+            Log.d(TAG, "Moving to home screen");
+            startActivity(new Intent(profile.this, home.class));
+        });
     }
 
     private void setupRetrofit() {
@@ -112,7 +119,7 @@ public class profile extends AppCompatActivity {
     }
 
     private void fetchUserData(String token) {
-        Log.d("Fetching Profile with Token", token);
+        Log.d(TAG, "Fetching profile with token: " + token);
 
         if (token == null) {
             Toast.makeText(this, "Authentication error", Toast.LENGTH_SHORT).show();
@@ -124,6 +131,7 @@ public class profile extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<ResponseData> call, @NonNull Response<ResponseData> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "User profile fetched successfully");
                     displayUserData(response.body().getUserDetails());
                 } else {
                     handleErrorResponse(response);
@@ -139,16 +147,31 @@ public class profile extends AppCompatActivity {
     }
 
     private void displayUserData(User userDetails) {
+        if (userDetails == null) {
+            Log.e(TAG, "User details are null");
+            return;
+        }
+
+        Log.d(TAG, "Displaying user data: " + userDetails.getFullName());
+
         nameField.setText(userDetails.getFullName());
         nameField2.setText(userDetails.getFullName());
+        String nme = userDetails.getFullName();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("userName", nme);
+        editor.apply();
+
+
         emailField.setText(userDetails.getEmail());
         phoneField.setText(userDetails.getContactNumber());
         dobField.setText(userDetails.getdate_of_birth());
         dlField.setText(userDetails.getDrivingLicenseNo());
-        String firstPart = userDetails.getEmail().split("@")[0];
-        username.setText(firstPart);
+
+        String emailPart = userDetails.getEmail().split("@")[0];
+        username.setText(emailPart);
+
         String imageUrl = userDetails.getImage();
-        Log.d("Image URL Before Loading", imageUrl);
+        Log.d(TAG, "Image URL: " + imageUrl);
 
         if (imageUrl != null && !imageUrl.trim().isEmpty()) {
             if (imageUrl.endsWith(".svg")) {
@@ -169,10 +192,10 @@ public class profile extends AppCompatActivity {
     private void handleErrorResponse(Response<?> response) {
         try {
             String errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
-            Log.e(TAG, "Error: " + errorBody);
+            Log.e(TAG, "API Error: " + errorBody);
             Toast.makeText(this, "Error: " + errorBody, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e(TAG, "Error reading response", e);
+            Log.e(TAG, "Exception while reading error body", e);
         }
     }
 
@@ -193,7 +216,7 @@ public class profile extends AppCompatActivity {
 
         @NonNull
         @Override
-        public List<Cookie> loadForRequest(HttpUrl url) {
+        public List<Cookie> loadForRequest(@NonNull HttpUrl url) {
             return cookies;
         }
 

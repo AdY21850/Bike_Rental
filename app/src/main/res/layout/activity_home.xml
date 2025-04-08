@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#252B45"
+    android:background="@color/white"
     tools:context=".home">
 
     <ScrollView
@@ -128,7 +128,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_25sdp"
                         android:orientation="horizontal"
                       >
 
@@ -136,9 +136,10 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/family_cars"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_marginLeft="@dimen/_10sdp"
                             app:cardCornerRadius="@dimen/_20sdp"
+
                             app:cardElevation="@dimen/_5sdp"
 
                            >
@@ -149,15 +150,18 @@
                                 android:text="Road Bikes"
                                 android:textColor="#2B4C59"
                                 android:textSize="@dimen/_15ssp"
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:layout_marginRight="@dimen/_3sdp"
+                                android:textStyle="bold"
                                 android:gravity="center"
-                                android:padding="@dimen/_10sdp"/>
+                                />
                         </androidx.cardview.widget.CardView>
 
                         <!-- Mountain Bikes -->
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cheapcars"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_marginLeft="@dimen/_20sdp"
                             app:cardCornerRadius="@dimen/_20sdp"
                             app:cardElevation="@dimen/_5sdp"
@@ -168,7 +172,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
-                                android:padding="@dimen/_10sdp"
+                               android:textStyle="bold"
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:layout_marginRight="@dimen/_3sdp"
                                 android:text="Mountain Bikes"
                                 android:textColor="#2B4C59"
                                 android:textSize="@dimen/_15ssp" />
@@ -178,7 +184,7 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/sports_Bikes"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_marginLeft="@dimen/_20sdp"
                             app:cardCornerRadius="@dimen/_20sdp"
                             app:cardElevation="@dimen/_5sdp"
@@ -191,15 +197,18 @@
                                 android:text="Sports Bikes"
                                 android:textColor="#2B4C59"
                                 android:textSize="@dimen/_15ssp"
+                                android:textStyle="bold"
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:layout_marginRight="@dimen/_3sdp"
                                 android:gravity="center"
-                                android:padding="@dimen/_10sdp"/>
+                               />
                         </androidx.cardview.widget.CardView>
 
                         <!-- Electric Bikes -->
                         <androidx.cardview.widget.CardView
                             android:id="@+id/Electrical_Bikes"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_marginLeft="@dimen/_20sdp"
                             app:cardCornerRadius="@dimen/_20sdp"
                             app:cardElevation="@dimen/_5sdp"
@@ -212,15 +221,18 @@
                                 android:text="Electric Bikes"
                                 android:textColor="#2B4C59"
                                 android:textSize="@dimen/_15ssp"
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:layout_marginRight="@dimen/_3sdp"
+                                android:textStyle="bold"
                                 android:gravity="center"
-                                android:padding="@dimen/_10sdp"/>
+                                />
                         </androidx.cardview.widget.CardView>
 
                         <!-- Heavyweight Bikes -->
                         <androidx.cardview.widget.CardView
                             android:id="@+id/heavy_bikes"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_marginLeft="@dimen/_20sdp"
                             app:cardCornerRadius="@dimen/_20sdp"
                             app:cardElevation="@dimen/_5sdp"
@@ -233,15 +245,18 @@
                                 android:text="Heavyweight"
                                 android:textColor="#2B4C59"
                                 android:textSize="@dimen/_15ssp"
+                                android:textStyle="bold"
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:layout_marginRight="@dimen/_3sdp"
                                 android:gravity="center"
-                                android:padding="@dimen/_10sdp"/>
+                                />
                         </androidx.cardview.widget.CardView>
 
                         <!-- Street Bikes -->
                         <androidx.cardview.widget.CardView
                             android:id="@+id/street_bikes"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_marginLeft="@dimen/_20sdp"
                             app:cardCornerRadius="@dimen/_20sdp"
                             app:cardElevation="@dimen/_5sdp"
@@ -255,7 +270,10 @@
                                 android:textColor="#2B4C59"
                                 android:textSize="@dimen/_15ssp"
                                 android:gravity="center"
-                                android:padding="@dimen/_10sdp"/>
+                                android:textStyle="bold"
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:layout_marginRight="@dimen/_3sdp"
+                                />
                         </androidx.cardview.widget.CardView>
 
                         <!-- Spacer -->
@@ -324,7 +342,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
+<View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_20sdp"/>
         </LinearLayout>
     </ScrollView>
 
