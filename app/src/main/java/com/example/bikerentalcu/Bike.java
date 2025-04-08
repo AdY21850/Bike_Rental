@@ -1,52 +1,68 @@
 package com.example.bikerentalcu;
 
 public class Bike {
-    public class Car {
+    private String name;
+    private String price;
+    private String transmission;
+    private String speed;
+    private String mileage;
+    private String imageUrl;
+    private String ownerName;
+    private String ownerEmail;
+    private String ownerContact;
+    private String ownerImageUrl;
 
-        // Fields (Attributes)
-        private String name;
-        private String brand;
-        private double price;
-
-        // Constructor
-        public Car(String name, String brand, double price) {
-            this.name = name;
-            this.brand = brand;
-            this.price = price;
-        }
-
-        // Getter and Setter for 'name'
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        // Getter and Setter for 'brand'
-        public String getBrand() {
-            return brand;
-        }
-
-        public void setBrand(String brand) {
-            this.brand = brand;
-        }
-
-        // Getter and Setter for 'price'
-        public double getPrice() {
-            return price;
-        }
-
-        public void setPrice(double price) {
-            this.price = price;
-        }
-
-        // Optional: Override toString() for readable object representation
-        @Override
-        public String toString() {
-            return "Car [Name: " + name + ", Brand: " + brand + ", Price: " + price + "]";
-        }
+    public Bike(String name, String price, String transmission, String speed, String mileage,
+                String imageUrl, String ownerName, String ownerEmail, String ownerContact, String ownerImageUrl) {
+        this.name = name;
+        this.price = price;
+        this.transmission = transmission;
+        this.speed = speed;
+        this.mileage = mileage;
+        this.imageUrl = imageUrl;
+        this.ownerName = ownerName;
+        this.ownerEmail = ownerEmail;
+        this.ownerContact = ownerContact;
+        this.ownerImageUrl = ownerImageUrl;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public String getTransmission() {
+        return transmission;
+    }
+
+    public String getSpeed() {
+        return speed;
+    }
+
+    public String getMileage() {
+        return mileage;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    public String getOwnerContact() {
+        return ownerContact;
+    }
+
+    public String getOwnerImageUrl() {
+        return ownerImageUrl;
+    }
 }

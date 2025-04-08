@@ -8,16 +8,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +39,8 @@ public class home extends Activity {
     private DotsIndicator dotsIndicator;
     private ProgressBar progressBar, progressbar;
     private RecyclerView recyclerView, searchRecyclerView;
-    private ArrayList<bikeModel> bikeList;
+    private ArrayList<Bike> bikeList;
+    private ArrayList<bikeModel> bikeList1;
     private BikeAdapter bikeAdapter, searchBikeAdapter;
     private SearchView searchView;
 
@@ -44,8 +52,6 @@ public class home extends Activity {
         getWindow().setStatusBarColor(Color.parseColor("#252B45"));
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
 
-        Log.d(TAG, "onCreate: Activity started");
-
         initializeViews();
         setupNavigation();
         setupSearchView();
@@ -53,7 +59,21 @@ public class home extends Activity {
         setupRecyclerView();
         setupCategoryClickListeners();
     }
-
+    private void setupViewPager() {
+        viewpageritemArrayList = new ArrayList<>();
+        String[] imageUrls = {
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380194/banner_home_image_hldh3m.jpg",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380193/banner_image_home_jaaube.jpg",
+                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380184/img_1_cpbpfr.jpg"
+        };
+        for (String url : imageUrls) {
+            viewpageritemArrayList.add(new HomeBannerviewpager(url));
+        }
+        viewPagerAdapter = new vpAdapter(viewpageritemArrayList);
+        viewPager2.setAdapter(viewPagerAdapter);
+        dotsIndicator.setViewPager2(viewPager2);
+        progressBar.setVisibility(View.GONE);
+    }
     private void initializeViews() {
         searchView = findViewById(R.id.searchview);
         viewPager2 = findViewById(R.id.viewpagerslider);
@@ -65,15 +85,11 @@ public class home extends Activity {
     }
 
     private void setupNavigation() {
-        findViewById(R.id.to_the_drawer).setOnClickListener(view -> {
-            Log.d(TAG, "Navigation drawer clicked");
-            startActivity(new Intent(home.this, navdraw.class));
-        });
+        findViewById(R.id.to_the_drawer).setOnClickListener(view ->
+                startActivity(new Intent(home.this, navdraw.class)));
 
-        findViewById(R.id.cart1).setOnClickListener(view -> {
-            Log.d(TAG, "Cart clicked");
-            startActivity(new Intent(home.this, cart.class));
-        });
+        findViewById(R.id.cart1).setOnClickListener(view ->
+                startActivity(new Intent(home.this, cart.class)));
     }
 
     private void setupSearchView() {
@@ -96,116 +112,106 @@ public class home extends Activity {
         });
     }
 
-    private void setupViewPager() {
-        viewpageritemArrayList = new ArrayList<>();
-        String[] imageUrls = {
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380194/banner_home_image_hldh3m.jpg",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380193/banner_image_home_jaaube.jpg",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380184/img_1_cpbpfr.jpg"
-        };
-        for (String url : imageUrls) {
-            viewpageritemArrayList.add(new HomeBannerviewpager(url));
-        }
-        viewPagerAdapter = new vpAdapter(viewpageritemArrayList);
-        viewPager2.setAdapter(viewPagerAdapter);
-        dotsIndicator.setViewPager2(viewPager2);
-        progressBar.setVisibility(View.GONE);
-    }
+//    private void setupViewPager() {
+//        viewpageritemArrayList = new ArrayList<>();
+//        viewPagerAdapter = new vpAdapter(viewpageritemArrayList);
+//        viewPager2.setAdapter(viewPagerAdapter);
+//        dotsIndicator.setViewPager2(viewPager2);
+//        progressBar.setVisibility(View.VISIBLE);
+//
+//        String bannerUrl = "https://your-api.com/api/get-banner-images";
+//
+//        JsonArrayRequest bannerRequest = new JsonArrayRequest(Request.Method.GET, bannerUrl, null,
+//                response -> {
+//                    try {
+//                        for (int i = 0; i < response.length(); i++) {
+//                            JSONObject obj = response.getJSONObject(i);
+//                            String imageUrl = obj.getString("imageUrl");
+//                            viewpageritemArrayList.add(new HomeBannerviewpager(imageUrl));
+//                        }
+//                        viewPagerAdapter.notifyDataSetChanged();
+//                        progressBar.setVisibility(View.GONE);
+//                    } catch (JSONException e) {
+//                        Log.e(TAG, "Banner JSON error: " + e.getMessage());
+//                        progressBar.setVisibility(View.GONE);
+//                    }
+//                },
+//                error -> {
+//                    Log.e(TAG, "Banner fetch error: " + error.getMessage());
+//                    Toast.makeText(home.this, "Failed to load banners", Toast.LENGTH_SHORT).show();
+//                    progressBar.setVisibility(View.GONE);
+//                });
+//
+//        VolleySingleton.getInstance(this).addToRequestQueue(bannerRequest);
+//    }
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         searchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         bikeList = new ArrayList<>();
-        addBikeData();
+        bikeList1 = new ArrayList<>();
 
-        bikeAdapter = new BikeAdapter(this, new ArrayList<>(bikeList));
+        bikeAdapter = new BikeAdapter(this, bikeList1);
         searchBikeAdapter = new BikeAdapter(this, new ArrayList<>());
 
         recyclerView.setAdapter(bikeAdapter);
         searchRecyclerView.setAdapter(searchBikeAdapter);
 
         searchRecyclerView.setVisibility(View.GONE);
-        progressbar.setVisibility(View.GONE);
+        progressbar.setVisibility(View.VISIBLE);
+
+        fetchBikeData();
     }
 
-    private void addBikeData() {
-        bikeList.add(new bikeModel("Apache", 400, "Manual", "240 km/h", "30 kmpl", "Pawan Pandey", "papajikimail2@gmail.com", "9555883490",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380193/apache_iellgk.jpg",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743386623/images_yvnq0s.jpg"));
+    private void fetchBikeData() {
+        String url = "https://bikewale-wyxw.onrender.com/api/v1/bike/allbikes";
 
-        bikeList.add(new bikeModel("Activa", 120, "Automatic", "110 km/h", "35 kmpl", "Jane Smith", "janesmith@example.com", "+987654321",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380194/activa_ytjdao.jpg",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743386618/images_n1dbos.jpg"));
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        JSONArray dataArray = response.getJSONArray("data");
 
-        bikeList.add(new bikeModel("Royal Enfield", 200, "Manual", "120 km/h", "30 kmpl", "John Doe", "johndoe@example.com", "+123456789",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743380182/royalenfield_libvj0.jpg",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/v1743386524/gsvbejvulurft3bhfoh0.jpg"));
-        bikeList.add(new bikeModel(
-                "Apache", 400, "Manual", "240 km/h", "30 kmpl",
-                "pawan pandey", "papajikimail2@gmail.com", "9555883490",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380193/apache_iellgk.jpg?_s=public-apps",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386623/images_yvnq0s.jpg?_s=public-apps"
-        ));
-        bikeList.add(new bikeModel(
-                "Activa", 120, "Automatic", "110 km/h", "35 kmpl",
-                "Jane Smith", "janesmith@example.com", "+987654321",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380194/activa_ytjdao.jpg?_s=public-apps",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386618/images_n1dbos.jpg?_s=public-apps"
-        ));
-        bikeList.add(new bikeModel(
-                "Royal Enfield", 200, "Manual", "120 km/h", "30 kmpl",
-                "John Doe", "johndoe@example.com", "+123456789",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380182/royalenfield_libvj0.jpg?_s=public-apps",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386524/gsvbejvulurft3bhfoh0.jpg?_s=public-apps"
-        ));
-        bikeList.add(new bikeModel(
-                "Duke", 400, "Semi-Automatic", "450 km/h", "10 kmpl",
-                "bablu badmosh", "papajikimail2@gmail.com", "9555883490",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380186/duke_zazboo.jpg?_s=public-apps",
-                "https://res.cloudinary.com/dorc5p2jg/image/upload/fl_preserve_transparency/v1742665112/iaozlnauip5g9fkm5wsr.jpg?_s=public-apps"
-        ));
-        bikeList.add(new bikeModel(
-                "suzuki", 180, "Manual", "150 km/h", "30 kmpl",
-                "chitranjan tripathi", "papajikimail2@gmail.com", "9555883490",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380186/diodiorightfrontthreequarter_nelsos.jpg?_s=public-apps",
-                "https://res.cloudinary.com/dorc5p2jg/image/upload/fl_preserve_transparency/v1742661925/sydney_sweeney_xneyx7.jpg?_s=public-sapp\""
-        ));
-        bikeList.add(new bikeModel(
-                "harleyXhonda", 280, "Manual", "120 km/h", "30 kmpl",
-                "Munna Bhaiya", "papajikimail2@gmail.com", "9555883490",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380185/harleyxhonda_tbfcie.jpg?_s=public-apps",
-                "https://res.cloudinary.com/dorc5p2jg/image/upload/fl_preserve_transparency/v1742661928/will_attenborough_m5mo2b.jpg?_s=public-apps"
-        ));
-        bikeList.add(new bikeModel(
-                "bmwR20", 4000, "Manual", "290 km/h", "20 kmpl",
-                "Ram Bahadur", "papajikimail2@gmail.com", "9555883490",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743597010/bmw_r20_concept-removebg-preview_yfpgso.jpg?_s=public-apps",
-                "https://res.cloudinary.com/dorc5p2jg/image/upload/fl_preserve_transparency/v1742661922/resume_img_1_mhlikw.jpg?_s=public-apps"
-        ));
-        bikeList.add(new bikeModel(
-                "pulsar", 100, "Automatic", "190 km/h", "30 kmpl",
-                "Dinanath Shastree", "papajikimail2@gmail.com", "9555883490",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743380183/pulsarrs200rsleftfrontthreequarter_yphm8k.jpg?_s=public-apps",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386605/images_m2e6ti.jpg?_s=public-apps"
-        ));
-        bikeList.add(new bikeModel(
-                "splendor", 150, "Manual | semi-Atuo", "120 km/h", "30 kmpl",
-                "billu chamar", "papajikimail2@gmil.com", "9555883490",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386852/hero-select-model-blue-black-1706531445236_edhupn.jpg?_s=public-apps",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386590/images_mfeomn.jpg?_s=public-apps"
-        ));
-        bikeList.add(new bikeModel(
-                "gt 650", 320, "Manual", "320 km/h", "30 kmpl",
-                "Parashuram Sharma", "papajikimail2@gmail.com", "9555883490",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386806/royal-enfield-select-model-british-racing-green-1668419802695_rufcsy.jpg?_s=public-apps",
-                "https://res.cloudinary.com/dfmbnrvif/image/upload/fl_preserve_transparency/v1743386563/images_yq8mnv.jpg?_s=public-apps"
-        ));
+                        for (int i = 0; i < dataArray.length(); i++) {
+                            JSONObject bikeObject = dataArray.getJSONObject(i);
+
+                            String name = bikeObject.getString("bikemodel");
+                            String price = bikeObject.getString("rentprice");
+                            String transmission = bikeObject.optString("typeofbike", "N/A");
+                            String speed = bikeObject.optString("topSpeed", "N/A");
+                            String mileage = bikeObject.optString("mileage", "N/A");
+                            String imageUrl = bikeObject.getString("bikepic");
+
+                            JSONObject owner = bikeObject.optJSONObject("profile");
+                            String ownerName = (owner != null) ? owner.optString("name", "Unknown") : "Unknown";
+                            String ownerEmail = (owner != null) ? owner.optString("email", "Unknown") : "Unknown";
+                            String ownerContact = (owner != null) ? owner.optString("contactNumber", "Unknown") : "Unknown";
+                            String ownerImageUrl = (owner != null) ? owner.optString("profileImage", "") : "";
+                            Log.d("owner image url -->",ownerImageUrl);
+
+                            bikeList.add(new Bike(name, price, transmission, speed, mileage, imageUrl, ownerName, ownerEmail, ownerContact, ownerImageUrl));
+
+                            int intPrice = Integer.parseInt(price);
+                            bikeList1.add(new bikeModel(name, intPrice, transmission, speed, mileage, ownerName, ownerEmail, ownerContact, imageUrl, ownerImageUrl));
+                        }
+
+                        bikeAdapter.notifyDataSetChanged();
+                        progressbar.setVisibility(View.GONE);
+
+                    } catch (JSONException e) {
+                        Log.e(TAG, "JSON parsing error: " + e.getMessage());
+                    }
+                },
+                error -> Log.e(TAG, "Bike fetch error: " + error.toString())
+        );
+
+        VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
+
 
     private void filterList(String text) {
         List<bikeModel> searchResults = new ArrayList<>();
-        for (bikeModel bike : bikeList) {
+        for (bikeModel bike : bikeList1) {
             if (bike.getName().toLowerCase().contains(text.toLowerCase()) ||
                     bike.getTransmission().toLowerCase().contains(text.toLowerCase()) ||
                     bike.getOwnerName().toLowerCase().contains(text.toLowerCase())) {
@@ -223,13 +229,8 @@ public class home extends Activity {
     }
 
     private void toggleRecyclerView(boolean showSearch) {
-        if (showSearch) {
-            searchRecyclerView.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        } else {
-            searchRecyclerView.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
+        searchRecyclerView.setVisibility(showSearch ? View.VISIBLE : View.GONE);
+        recyclerView.setVisibility(showSearch ? View.GONE : View.VISIBLE);
     }
 
     private void setupCategoryClickListeners() {
@@ -263,7 +264,7 @@ public class home extends Activity {
     private void swapColors(CardView selectedCard) {
         resetCardViews(selectedCard);
         selectedCard.setCardBackgroundColor(Color.parseColor("#2B4C59"));
-        ((TextView) selectedCard.getChildAt(0)).setTextColor(Color.parseColor("#FFFFFF"));
+        ((TextView) selectedCard.getChildAt(0)).setTextColor(Color.WHITE);
     }
 
     private void resetCardViews(CardView selectedCard) {

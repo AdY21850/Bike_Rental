@@ -47,7 +47,7 @@ public class item_view extends AppCompatActivity {
             // Check if the data is of type bikeModel or CartItem
             if (intent.hasExtra("bike")) {
                 // Retrieve bikeModel
-                bikeModel bike = intent.getParcelableExtra("bike");
+                bikeModel bike = (bikeModel) intent.getSerializableExtra("bike");
 
                 if (bike != null) {
                     // Set values to views for bikeModel

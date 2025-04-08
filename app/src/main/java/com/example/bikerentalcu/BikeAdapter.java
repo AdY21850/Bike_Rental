@@ -2,6 +2,7 @@ package com.example.bikerentalcu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -25,7 +25,7 @@ public class BikeAdapter extends RecyclerView.Adapter<BikeAdapter.ViewHolder> {
 
     public BikeAdapter(Context context, List<bikeModel> bikeList) {
         this.context = context;
-        this.bikeList = bikeList;
+        this.bikeList = (bikeList != null) ? bikeList : new ArrayList<>();
     }
 
     @NonNull
@@ -38,32 +38,27 @@ public class BikeAdapter extends RecyclerView.Adapter<BikeAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         bikeModel bike = bikeList.get(position);
-
         holder.bikeName.setText(bike.getName());
         holder.bikePrice.setText("₹" + bike.getPrice());
 
-        // Load image using Glide with caching and error handling
         Glide.with(context)
                 .load(bike.getImageUrl())
-                .placeholder(R.drawable.exclamation_mark) // Placeholder while loading
-                .error(R.drawable.exclamation_mark) // Fallback if loading fails
-                .diskCacheStrategy(DiskCacheStrategy.ALL) // Cache the image
+                .placeholder(R.drawable.exclamation_mark)
+                .error(R.drawable.exclamation_mark)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.bikeImage);
 
-        // Click listener for bike item (Navigates to item view)
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, item_view.class);
-            intent.putExtra("bike", bike); // Ensure bikeModel implements Parcelable
+            intent.putExtra("bike", bike);
             context.startActivity(intent);
         });
 
-        // Click listener for "like" button (Adds bike to cart)
         holder.like.setOnClickListener(v -> {
             if (!CartManager.isBikeInCart(bike)) {
-                int price = Integer.parseInt(String.valueOf(bike.getPrice())); // Ensure price is an integer
                 CartItem cartItem = new CartItem(
                         bike.getName(),
-                        price,
+                        bike.getPrice(),
                         bike.getTransmission(),
                         bike.getSpeed(),
                         bike.getMileage(),
@@ -79,12 +74,17 @@ public class BikeAdapter extends RecyclerView.Adapter<BikeAdapter.ViewHolder> {
                 Toast.makeText(context, bike.getName() + " is already in the cart!", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return bikeList.size();
+        return (bikeList != null) ? bikeList.size() : 0;
+    }
+
+    public void updateList(List<bikeModel> newList) {
+        bikeList.clear();
+        bikeList.addAll(newList);
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -98,11 +98,5 @@ public class BikeAdapter extends RecyclerView.Adapter<BikeAdapter.ViewHolder> {
             bikeImage = itemView.findViewById(R.id.image123);
             like = itemView.findViewById(R.id.like);
         }
-    }
-    // **Method to Update List for Search**
-    public void updateList(List<bikeModel> newList) {
-        bikeList.clear();
-        bikeList.addAll(newList);
-        notifyDataSetChanged();
     }
 }

@@ -1,10 +1,8 @@
 package com.example.bikerentalcu;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
+import java.io.Serializable;
 
-public class bikeModel implements Parcelable {
+public class bikeModel implements Serializable {
     private String name;
     private int price;
     private String transmission;
@@ -14,10 +12,11 @@ public class bikeModel implements Parcelable {
     private String ownerEmail;
     private String ownerContact;
     private String imageUrl;
-    private String ownerurl;
+    private String ownerImageUrl;
 
     public bikeModel(String name, int price, String transmission, String speed, String mileage,
-                     String ownerName, String ownerEmail, String ownerContact, String imageUrl,String ownerurl) {
+                     String ownerName, String ownerEmail, String ownerContact,
+                     String imageUrl, String ownerImageUrl) {
         this.name = name;
         this.price = price;
         this.transmission = transmission;
@@ -27,33 +26,8 @@ public class bikeModel implements Parcelable {
         this.ownerEmail = ownerEmail;
         this.ownerContact = ownerContact;
         this.imageUrl = imageUrl;
-        this.ownerurl=ownerurl;
+        this.ownerImageUrl = ownerImageUrl;
     }
-
-    protected bikeModel(Parcel in) {
-        name = in.readString();
-        price = in.readInt();
-        transmission = in.readString();
-        speed = in.readString();
-        mileage = in.readString();
-        ownerName = in.readString();
-        ownerEmail = in.readString();
-        ownerContact = in.readString();
-        imageUrl = in.readString();
-        ownerurl = in.readString();
-    }
-
-    public static final Creator<bikeModel> CREATOR = new Creator<bikeModel>() {
-        @Override
-        public bikeModel createFromParcel(Parcel in) {
-            return new bikeModel(in);
-        }
-
-        @Override
-        public bikeModel[] newArray(int size) {
-            return new bikeModel[size];
-        }
-    };
 
     public String getName() {
         return name;
@@ -92,29 +66,6 @@ public class bikeModel implements Parcelable {
     }
 
     public String getownerurl() {
-        Log.d("owner ka url -->",
-                ownerurl);
-        return ownerurl;
+        return ownerImageUrl;
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeInt(price);
-        dest.writeString(transmission);
-        dest.writeString(speed);
-        dest.writeString(mileage);
-        dest.writeString(ownerName);
-        dest.writeString(ownerEmail);
-        dest.writeString(ownerContact);
-        dest.writeString(imageUrl);
-        dest.writeString(ownerurl);
-    }
-
-
 }
