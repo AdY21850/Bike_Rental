@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -146,8 +148,16 @@ public class home extends Activity {
 //    }
 
     private void setupRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        searchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        int numberOfColumns = 2;
+        int spacingInDp = 0; // you can change this to 30 or whatever you like
+        int spacingInPx = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                spacingInDp,
+                getResources().getDisplayMetrics()
+        );
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(numberOfColumns, spacingInPx, true));
 
         bikeList = new ArrayList<>();
         bikeList1 = new ArrayList<>();
@@ -163,6 +173,7 @@ public class home extends Activity {
 
         fetchBikeData();
     }
+
 
     private void fetchBikeData() {
         String url = "https://bikewale-wyxw.onrender.com/api/v1/bike/allbikes";

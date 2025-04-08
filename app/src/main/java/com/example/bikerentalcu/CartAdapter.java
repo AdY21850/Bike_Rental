@@ -72,7 +72,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         // Open item details when clicking on the cart item
         holder.itemView.setOnClickListener(v -> {
             int quantity = Integer.parseInt(holder.quantity.getText().toString()); // Get the quantity value
-            Intent intent = new Intent(context, item_view.class);
+            Intent intent = new Intent(context, confirm_bike.class);
             intent.putExtra("cartItems", item);  // Ensure CartItem is Parcelable
             intent.putExtra("quantity", quantity); // Send quantity to item_view
             context.startActivity(intent);

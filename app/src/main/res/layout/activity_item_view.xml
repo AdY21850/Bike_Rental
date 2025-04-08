@@ -260,7 +260,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16sdp"
             android:backgroundTint="@android:color/black"
-            android:text="BOOK NOW"
+            android:text="add to cart"
             android:textColor="@android:color/white"
             android:paddingHorizontal="@dimen/_20sdp"
             android:paddingVertical="@dimen/_10sdp"

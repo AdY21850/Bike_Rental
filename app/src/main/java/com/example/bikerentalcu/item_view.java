@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -122,7 +123,43 @@ public class item_view extends AppCompatActivity {
 
         // Back button
         backButton.setOnClickListener(v -> finish());
-        findViewById(R.id.book_now).setOnClickListener(v -> startActivity(new Intent(this, checkout.class)));
+        bookNow.setOnClickListener(v -> {
+            CartItem cartItemToAdd = null;
+
+            if (getIntent().hasExtra("bike")) {
+                bikeModel bike = (bikeModel) getIntent().getSerializableExtra("bike");
+                if (bike != null && !CartManager.isBikeInCart(bike)) {
+                    cartItemToAdd = new CartItem(
+                            bike.getName(),
+                            bike.getPrice() * quantity,             // price
+                            bike.getTransmission(),                 // transmission
+                            bike.getSpeed(),                        // speed
+                            bike.getMileage(),                      // mileage
+                            bike.getOwnerName(),                    // owner name
+                            bike.getOwnerEmail(),                   // owner email
+                            bike.getOwnerContact(),                 // owner contact
+                            bike.getImageUrl(),                     // image URL
+                            bike.getownerurl()                      // owner URL
+                    );
+
+                } else {
+                    // Optional: show message if already in cart
+                    Toast.makeText(this, "Bike already in cart!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } else if (getIntent().hasExtra("cartItems")) {
+                cartItemToAdd = getIntent().getParcelableExtra("cartItems");
+                if (cartItemToAdd != null) {
+                    cartItemToAdd.setPrice(cartItemToAdd.getPrice() * quantity); // update price based on quantity
+                }
+            }
+
+            if (cartItemToAdd != null) {
+                CartManager.addToCart(cartItemToAdd);
+                Toast.makeText(this, "Bike added to cart", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, cart.class));
+            }
+        });
 
         // Quantity selection listeners
         decreaseQuantity.setOnClickListener(v -> updateQuantity(false));
