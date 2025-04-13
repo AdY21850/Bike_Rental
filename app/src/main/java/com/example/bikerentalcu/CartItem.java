@@ -16,9 +16,10 @@ public class CartItem implements Parcelable {
     private String ownerContact;
     private String imageUrl;
     private String ownerUrl;
+    private String ownerupi;
 
     public CartItem(String name, int price, String transmission, String speed, String mileage,
-                    String ownerName, String ownerEmail, String ownerContact, String imageUrl, String ownerUrl) {
+                    String ownerName, String ownerEmail, String ownerContact, String imageUrl, String ownerUrl,String ownerupi) {
         this.name = name;
         this.price = price;
         this.transmission = transmission;
@@ -29,6 +30,7 @@ public class CartItem implements Parcelable {
         this.ownerContact = ownerContact;
         this.imageUrl = imageUrl;
         this.ownerUrl = ownerUrl;
+        this.ownerupi=ownerupi;
     }
 
     protected CartItem(Parcel in) {
@@ -42,6 +44,7 @@ public class CartItem implements Parcelable {
         ownerContact = in.readString();
         imageUrl = in.readString();
         ownerUrl = in.readString();
+        ownerupi = in.readString();
     }
 
     public static final Creator<CartItem> CREATOR = new Creator<CartItem>() {
@@ -66,6 +69,9 @@ public class CartItem implements Parcelable {
     public String getOwnerEmail() { return ownerEmail; }
     public String getOwnerContact() { return ownerContact; }
     public String getImageUrl() { return imageUrl; }
+    public String getownerupi() {
+        return ownerupi;
+    }
     public String getOwnerUrl() {
         Log.d("Owner URL", ownerUrl);
         return ownerUrl;
@@ -91,6 +97,7 @@ public class CartItem implements Parcelable {
         dest.writeString(ownerContact);
         dest.writeString(imageUrl);
         dest.writeString(ownerUrl);
+        dest.writeString(ownerupi);
     }
 
     @Override

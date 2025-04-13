@@ -13,10 +13,11 @@ public class bikeModel implements Serializable {
     private String ownerContact;
     private String imageUrl;
     private String ownerImageUrl;
+    private String ownerupi;
 
     public bikeModel(String name, int price, String transmission, String speed, String mileage,
                      String ownerName, String ownerEmail, String ownerContact,
-                     String imageUrl, String ownerImageUrl) {
+                     String imageUrl, String ownerImageUrl, String ownerupi) {
         this.name = name;
         this.price = price;
         this.transmission = transmission;
@@ -27,6 +28,7 @@ public class bikeModel implements Serializable {
         this.ownerContact = ownerContact;
         this.imageUrl = imageUrl;
         this.ownerImageUrl = ownerImageUrl;
+        this.ownerupi = ownerupi;
     }
 
     public String getName() {
@@ -67,5 +69,9 @@ public class bikeModel implements Serializable {
 
     public String getownerurl() {
         return ownerImageUrl;
+    }
+
+    public String getownerupi() {
+        return ownerupi;
     }
 }

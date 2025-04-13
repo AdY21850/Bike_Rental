@@ -11,9 +11,10 @@ public class Bike {
     private String ownerEmail;
     private String ownerContact;
     private String ownerImageUrl;
+    private String ownerupi;
 
     public Bike(String name, String price, String transmission, String speed, String mileage,
-                String imageUrl, String ownerName, String ownerEmail, String ownerContact, String ownerImageUrl) {
+                String imageUrl, String ownerName, String ownerEmail, String ownerContact, String ownerImageUrl,String ownerupi) {
         this.name = name;
         this.price = price;
         this.transmission = transmission;
@@ -23,7 +24,8 @@ public class Bike {
         this.ownerName = ownerName;
         this.ownerEmail = ownerEmail;
         this.ownerContact = ownerContact;
-        this.ownerImageUrl = ownerImageUrl;
+
+        this.ownerupi = ownerupi;
     }
 
     public String getName() {
@@ -64,5 +66,8 @@ public class Bike {
 
     public String getOwnerImageUrl() {
         return ownerImageUrl;
+    }
+    public String getownerupi() {
+        return ownerupi;
     }
 }

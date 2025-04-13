@@ -66,7 +66,8 @@ public class BikeAdapter extends RecyclerView.Adapter<BikeAdapter.ViewHolder> {
                         bike.getOwnerEmail(),
                         bike.getOwnerContact(),
                         bike.getImageUrl(),
-                        bike.getownerurl()
+                        bike.getownerurl(),
+                        bike.getownerupi()
                 );
                 CartManager.addToCart(cartItem);
                 Toast.makeText(context, bike.getName() + " added to cart!", Toast.LENGTH_SHORT).show();
