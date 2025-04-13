@@ -187,9 +187,9 @@
                 android:id="@+id/driverFee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="delivery chages: ₹50"
-                android:textColor="#777777"
                 android:layout_marginTop="@dimen/_4sdp"
+                android:text="delivery chages: ₹5"
+                android:textColor="#777777"
                 android:textSize="@dimen/_14ssp" />
         </LinearLayout>
 

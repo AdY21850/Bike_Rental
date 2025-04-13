@@ -139,7 +139,8 @@ public class item_view extends AppCompatActivity {
                             bike.getOwnerEmail(),                   // owner email
                             bike.getOwnerContact(),                 // owner contact
                             bike.getImageUrl(),                     // image URL
-                            bike.getownerurl()                      // owner URL
+                            bike.getownerurl(),
+                            bike.getownerupi()// owner URL
                     );
 
                 } else {

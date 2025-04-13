@@ -116,7 +116,7 @@
                     android:id="@+id/codeTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="OUR CODE : "
+                    android:text="total amount : "
                     android:textStyle="bold"
                     android:textSize="@dimen/_15ssp"
                     android:textColor="#001F3F" />
@@ -142,13 +142,14 @@
             <EditText
                 android:id="@+id/simName"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_height="wrap_content"
+                android:hint="Enter number of days"
+                android:inputType="number"
+                android:imeOptions="actionDone"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:padding="@dimen/_10sdp"
                 android:backgroundTint="@color/background_circle"
-                android:text="+91 36365 25254"
-                android:textColor="#000000"
-                android:background="@drawable/rectangle2"
-                android:textSize="@dimen/_15ssp" />
-
+                android:background="@drawable/rectangle2" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -161,11 +162,12 @@
                 android:id="@+id/phoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:text="xyz@paytm"
+                android:hint="xyz@paytm"
                 android:background="@drawable/rectangle2"
                 android:backgroundTint="@color/background_circle"
                 android:textSize="@dimen/_15ssp"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:inputType="textEmailAddress"/>
 
             <!-- Switch Row -->
             <LinearLayout
