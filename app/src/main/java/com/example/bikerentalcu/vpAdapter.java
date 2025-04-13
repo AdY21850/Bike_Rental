@@ -14,7 +14,8 @@ import java.util.ArrayList;
 
 public class vpAdapter extends RecyclerView.Adapter<vpAdapter.ViewHolder> {
 
-    private ArrayList<HomeBannerviewpager> viewpageritemArrayList;
+    private final ArrayList<HomeBannerviewpager> viewpageritemArrayList;
+    private final int MULTIPLIER = 1000; // Large but manageable
 
     public vpAdapter(ArrayList<HomeBannerviewpager> viewpageritemArrayList) {
         this.viewpageritemArrayList = viewpageritemArrayList;
@@ -23,25 +24,30 @@ public class vpAdapter extends RecyclerView.Adapter<vpAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.veiwpager_home1, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.veiwpager_home1, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        HomeBannerviewpager viewpagerItem = viewpageritemArrayList.get(position);
+        // Use modulo to loop within the list bounds
+        int actualPosition = position % viewpageritemArrayList.size();
+        HomeBannerviewpager viewpagerItem = viewpageritemArrayList.get(actualPosition);
 
-        // Load image using Glide
         Glide.with(holder.itemView.getContext())
                 .load(viewpagerItem.getImageUrl())
-                .placeholder(R.drawable.exclamation_mark) // Placeholder image
-                .error(R.drawable.activa) // Error image if loading fails
+                .placeholder(R.drawable.exclamation_mark)
+                .error(R.drawable.activa)
                 .into(holder.bannerImage);
     }
 
     @Override
     public int getItemCount() {
-        return viewpageritemArrayList.size();
+        // Return large finite count instead of Integer.MAX_VALUE
+        return viewpageritemArrayList == null || viewpageritemArrayList.isEmpty()
+                ? 0
+                : viewpageritemArrayList.size() * MULTIPLIER;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
