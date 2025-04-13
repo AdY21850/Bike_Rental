@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -31,6 +32,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+// ... [package & imports remain unchanged] ...
+
 public class home extends Activity {
 
     private static final String TAG = "HomeActivity";
@@ -42,9 +45,21 @@ public class home extends Activity {
     private ProgressBar progressBar, progressbar;
     private RecyclerView recyclerView, searchRecyclerView;
     private ArrayList<Bike> bikeList;
-    private ArrayList<bikeModel> bikeList1;
+    private ArrayList<bikeModel> bikeList1; // working filtered list
+    private ArrayList<bikeModel> originalBikeList = new ArrayList<>(); // true source
     private BikeAdapter bikeAdapter, searchBikeAdapter;
     private SearchView searchView;
+    private Handler sliderHandler = new Handler();
+
+    private Runnable sliderRunnable = new Runnable() {
+        @Override
+        public void run() {
+            int currentItem = viewPager2.getCurrentItem();
+            int nextItem = (currentItem + 1) % viewpageritemArrayList.size();
+            viewPager2.setCurrentItem(nextItem, true);
+            sliderHandler.postDelayed(this, 3000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +76,7 @@ public class home extends Activity {
         setupRecyclerView();
         setupCategoryClickListeners();
     }
+
     private void setupViewPager() {
         viewpageritemArrayList = new ArrayList<>();
         String[] imageUrls = {
@@ -75,7 +91,17 @@ public class home extends Activity {
         viewPager2.setAdapter(viewPagerAdapter);
         dotsIndicator.setViewPager2(viewPager2);
         progressBar.setVisibility(View.GONE);
+        sliderHandler.postDelayed(sliderRunnable, 3000);
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                sliderHandler.removeCallbacks(sliderRunnable);
+                sliderHandler.postDelayed(sliderRunnable, 3000);
+            }
+        });
     }
+
     private void initializeViews() {
         searchView = findViewById(R.id.searchview);
         viewPager2 = findViewById(R.id.viewpagerslider);
@@ -114,42 +140,9 @@ public class home extends Activity {
         });
     }
 
-//    private void setupViewPager() {
-//        viewpageritemArrayList = new ArrayList<>();
-//        viewPagerAdapter = new vpAdapter(viewpageritemArrayList);
-//        viewPager2.setAdapter(viewPagerAdapter);
-//        dotsIndicator.setViewPager2(viewPager2);
-//        progressBar.setVisibility(View.VISIBLE);
-//
-//        String bannerUrl = "https://your-api.com/api/get-banner-images";
-//
-//        JsonArrayRequest bannerRequest = new JsonArrayRequest(Request.Method.GET, bannerUrl, null,
-//                response -> {
-//                    try {
-//                        for (int i = 0; i < response.length(); i++) {
-//                            JSONObject obj = response.getJSONObject(i);
-//                            String imageUrl = obj.getString("imageUrl");
-//                            viewpageritemArrayList.add(new HomeBannerviewpager(imageUrl));
-//                        }
-//                        viewPagerAdapter.notifyDataSetChanged();
-//                        progressBar.setVisibility(View.GONE);
-//                    } catch (JSONException e) {
-//                        Log.e(TAG, "Banner JSON error: " + e.getMessage());
-//                        progressBar.setVisibility(View.GONE);
-//                    }
-//                },
-//                error -> {
-//                    Log.e(TAG, "Banner fetch error: " + error.getMessage());
-//                    Toast.makeText(home.this, "Failed to load banners", Toast.LENGTH_SHORT).show();
-//                    progressBar.setVisibility(View.GONE);
-//                });
-//
-//        VolleySingleton.getInstance(this).addToRequestQueue(bannerRequest);
-//    }
-
     private void setupRecyclerView() {
         int numberOfColumns = 2;
-        int spacingInDp = 0; // you can change this to 30 or whatever you like
+        int spacingInDp = 0;
         int spacingInPx = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 spacingInDp,
@@ -174,7 +167,6 @@ public class home extends Activity {
         fetchBikeData();
     }
 
-
     private void fetchBikeData() {
         String url = "https://bikewale-wyxw.onrender.com/api/v1/bike/allbikes";
 
@@ -194,16 +186,18 @@ public class home extends Activity {
                             String imageUrl = bikeObject.getString("bikepic");
 
                             JSONObject owner = bikeObject.optJSONObject("profile");
-                            String ownerName = (owner != null) ? owner.optString("name", "Unknown") : "Unknown";
+                            String ownerName = (owner != null) ? owner.optString("fullName", "Unknown") : "Unknown";
                             String ownerEmail = (owner != null) ? owner.optString("email", "Unknown") : "Unknown";
                             String ownerContact = (owner != null) ? owner.optString("contactNumber", "Unknown") : "Unknown";
-                            String ownerImageUrl = (owner != null) ? owner.optString("profileImage", "") : "";
-                            Log.d("owner image url -->",ownerImageUrl);
+                            String ownerImageUrl = (owner != null) ? owner.optString("upiId", "") : "";
+                            String ownerupi = (owner != null) ? owner.optString("upiId", "") : "";
 
-                            bikeList.add(new Bike(name, price, transmission, speed, mileage, imageUrl, ownerName, ownerEmail, ownerContact, ownerImageUrl));
+                            Bike bike = new Bike(name, price, transmission, speed, mileage, imageUrl, ownerName, ownerEmail, ownerContact, ownerImageUrl, ownerupi);
+                            bikeList.add(bike);
 
-                            int intPrice = Integer.parseInt(price);
-                            bikeList1.add(new bikeModel(name, intPrice, transmission, speed, mileage, ownerName, ownerEmail, ownerContact, imageUrl, ownerImageUrl));
+                            bikeModel model = new bikeModel(name, Integer.parseInt(price), transmission, speed, mileage, ownerName, ownerEmail, ownerContact, imageUrl, ownerImageUrl, ownerupi);
+                            bikeList1.add(model);             // Working list
+                            originalBikeList.add(model);      // 🔒 Permanent source
                         }
 
                         bikeAdapter.notifyDataSetChanged();
@@ -219,10 +213,9 @@ public class home extends Activity {
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
-
     private void filterList(String text) {
         List<bikeModel> searchResults = new ArrayList<>();
-        for (bikeModel bike : bikeList1) {
+        for (bikeModel bike : originalBikeList) {
             if (bike.getName().toLowerCase().contains(text.toLowerCase()) ||
                     bike.getTransmission().toLowerCase().contains(text.toLowerCase()) ||
                     bike.getOwnerName().toLowerCase().contains(text.toLowerCase())) {
@@ -256,11 +249,11 @@ public class home extends Activity {
 
         String[] categories = {
                 "Road Bikes",
-                "Mountain Bikes",
-                "Sports Bikes",
-                "Electric Bikes",
+                "Mountain",
+                "Sports",
+                "Electric",
                 "Heavyweight",
-                "Street Bikes"
+                "Street"
         };
 
         for (int i = 0; i < cardViews.length; i++) {
@@ -268,6 +261,7 @@ public class home extends Activity {
             cardViews[i].setOnClickListener(v -> {
                 swapColors(cardViews[index]);
                 Toast.makeText(home.this, "Selected: " + categories[index], Toast.LENGTH_SHORT).show();
+                filterByCategory(categories[index]);
             });
         }
     }
@@ -289,10 +283,43 @@ public class home extends Activity {
         };
 
         for (CardView cardView : cardViews) {
-            if (cardView != selectedCard) {
+            if (selectedCard == null || cardView != selectedCard) {
                 cardView.setCardBackgroundColor(Color.WHITE);
                 ((TextView) cardView.getChildAt(0)).setTextColor(Color.parseColor("#2B4C59"));
             }
+        }
+    }
+
+    private void filterByCategory(String category) {
+        List<bikeModel> filteredList = new ArrayList<>();
+
+        for (bikeModel bike : originalBikeList) { // ✅ always use full source
+            if (bike.getTransmission().equalsIgnoreCase(category)) {
+                filteredList.add(bike);
+            }
+        }
+
+        if (filteredList.isEmpty()) {
+            Toast.makeText(this, "No bikes found in " + category, Toast.LENGTH_SHORT).show();
+        }
+
+        bikeAdapter.updateList(filteredList);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (searchRecyclerView.getVisibility() == View.VISIBLE || recyclerView.getVisibility() == View.GONE) {
+            bikeAdapter.updateList(originalBikeList); // ✅ Reset from full source
+            recyclerView.setVisibility(View.VISIBLE);
+            searchRecyclerView.setVisibility(View.GONE);
+            resetCardViews(null);
+
+            if (!searchView.getQuery().toString().isEmpty()) {
+                searchView.setQuery("", false);
+                searchView.clearFocus();
+            }
+        } else {
+            super.onBackPressed();
         }
     }
 }

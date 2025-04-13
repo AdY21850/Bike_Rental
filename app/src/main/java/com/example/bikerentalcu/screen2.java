@@ -32,7 +32,7 @@ public class screen2 extends Activity {
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String BASE_URL = "https://bikewale-wyxw.onrender.com"; // Replace with your actual backend URL
+    private String BASE_URL = "https://bikewale-wyxw.onrender.com";
     private SharedPreferences preferences;
 
     @Override
@@ -40,29 +40,21 @@ public class screen2 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen2);
 
-        // Set status bar color and theme
         getWindow().setStatusBarColor(Color.parseColor("#FFFFFF"));
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
-        // Initialize Retrofit
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
-
-        // Initialize SharedPreferences
         preferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
-        // Login Button action
         findViewById(R.id.Login).setOnClickListener(view -> handleLoginDialog());
-
-        // Signup Button action
         findViewById(R.id.signup).setOnClickListener(view -> handleSignupDialog());
     }
 
-    // Handle Login Dialog
     private void handleLoginDialog() {
         final Dialog dialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         View view = getLayoutInflater().inflate(R.layout.activity_login, null);
@@ -77,13 +69,11 @@ public class screen2 extends Activity {
             String email = emailEdit.getText().toString();
             String password = passwordEdit.getText().toString();
 
-            // Input Validation
             if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                 Toast.makeText(screen2.this, "Email and password cannot be empty", Toast.LENGTH_LONG).show();
                 return;
             }
 
-            // Create a new thread for the API call
             new Thread(() -> {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("email", email);
@@ -93,17 +83,12 @@ public class screen2 extends Activity {
                 call.enqueue(new Callback<LoginResult>() {
                     @Override
                     public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
-                        runOnUiThread(() -> dialog.dismiss()); // Dismiss dialog after response
+                        runOnUiThread(() -> dialog.dismiss());
                         if (response.isSuccessful() && response.body() != null) {
                             LoginResult loginResult = response.body();
-
-                            // Retrieve the token and save it
                             String token = loginResult.getToken();
                             saveToken(token);
-
-                            // Fetch user profile
                             fetchUserProfile(token);
-
                         } else if (response.code() == 404) {
                             runOnUiThread(() -> Toast.makeText(screen2.this, "Wrong credentials", Toast.LENGTH_LONG).show());
                         } else {
@@ -113,22 +98,22 @@ public class screen2 extends Activity {
 
                     @Override
                     public void onFailure(Call<LoginResult> call, Throwable t) {
-                        runOnUiThread(() -> dialog.dismiss()); // Dismiss dialog on failure
-                        runOnUiThread(() -> Toast.makeText(screen2.this, t.getMessage(), Toast.LENGTH_LONG).show());
+                        runOnUiThread(() -> {
+                            dialog.dismiss();
+                            Toast.makeText(screen2.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                        });
                     }
                 });
             }).start();
         });
 
-        // Handle Signup Redirection
         TextView signup = view.findViewById(R.id.singup);
         signup.setOnClickListener(v -> {
-            dialog.dismiss(); // Dismiss login dialog before opening signup
+            dialog.dismiss();
             handleSignupDialog();
         });
     }
 
-    // Fetch user profile using token
     private void fetchUserProfile(String token) {
         new Thread(() -> {
             Call<ResponseData> call = retrofitInterface.getUserProfile("Bearer " + token);
@@ -139,18 +124,14 @@ public class screen2 extends Activity {
 
                     if (response.isSuccessful() && response.body() != null) {
                         Log.d("API_RESPONSE_BODY", new Gson().toJson(response.body()));
-
                         ResponseData responseData = response.body();
                         if (responseData.getUserDetails() == null) {
                             Log.e("API_ERROR", "userDetails is null");
-                            runOnUiThread(() ->
-                                    Toast.makeText(screen2.this, "User details missing", Toast.LENGTH_LONG).show()
-                            );
+                            runOnUiThread(() -> Toast.makeText(screen2.this, "User details missing", Toast.LENGTH_LONG).show());
                             return;
                         }
 
                         User userProfile = responseData.getUserDetails();
-
                         Intent intent = new Intent(screen2.this, home.class);
                         intent.putExtra("userProfile", userProfile.toString());
                         intent.putExtra("authtoken", token);
@@ -165,32 +146,18 @@ public class screen2 extends Activity {
                         });
                     } else {
                         Log.e("API_ERROR", "Response failed: " + response.errorBody());
-                        runOnUiThread(() ->
-                                Toast.makeText(screen2.this, "Failed to fetch profile. Please try again.", Toast.LENGTH_LONG).show()
-                        );
+                        runOnUiThread(() -> Toast.makeText(screen2.this, "Failed to fetch profile. Please try again.", Toast.LENGTH_LONG).show());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ResponseData> call, Throwable t) {
                     Log.e("API_FAILURE", t.getMessage());
-                    runOnUiThread(() ->
-                            Toast.makeText(screen2.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show()
-                    );
+                    runOnUiThread(() -> Toast.makeText(screen2.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show());
                 }
             });
         }).start();
     }
-
-
-
-
-
-
-
-
-
-    // Save token in SharedPreferences
 
     private void saveToken(String token) {
         SharedPreferences.Editor editor = preferences.edit();
@@ -199,7 +166,6 @@ public class screen2 extends Activity {
         editor.apply();
     }
 
-    // Handle Signup Dialog
     private void handleSignupDialog() {
         final Dialog dialog1 = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         View view = getLayoutInflater().inflate(R.layout.activity_register, null);
@@ -212,7 +178,6 @@ public class screen2 extends Activity {
         EditText email = view.findViewById(R.id.email1);
         EditText password = view.findViewById(R.id.password1);
         EditText confirmPassword = view.findViewById(R.id.password3);
-
         FrameLayout signupBtn = view.findViewById(R.id.framelayout);
 
         signupBtn.setOnClickListener(v -> {
@@ -223,7 +188,6 @@ public class screen2 extends Activity {
             String passwordString = password.getText().toString();
             String confirmPasswordString = confirmPassword.getText().toString();
 
-            // Input Validation
             if (TextUtils.isEmpty(fullNameString) || TextUtils.isEmpty(drivingLicenseNoString) ||
                     TextUtils.isEmpty(phoneNoString) || TextUtils.isEmpty(emailString) ||
                     TextUtils.isEmpty(passwordString) || TextUtils.isEmpty(confirmPasswordString)) {
@@ -236,54 +200,46 @@ public class screen2 extends Activity {
                 return;
             }
 
-            // Send OTP in a new thread
-            new Thread(() -> sendOtp(emailString, fullNameString, drivingLicenseNoString, phoneNoString, passwordString, confirmPasswordString, dialog1)).start();
+            sendOtp(emailString, fullNameString, drivingLicenseNoString, phoneNoString, passwordString, confirmPasswordString, dialog1);
         });
 
-        // Handle Signin Redirection
         TextView signin = view.findViewById(R.id.singin);
         signin.setOnClickListener(v -> {
-            dialog1.dismiss(); // Dismiss signup dialog before opening login
+            dialog1.dismiss();
             handleLoginDialog();
         });
     }
 
-    // Send OTP function
     private void sendOtp(String email, String fullName, String drivingLicenseNo, String contactNumber, String password, String confirmPassword, Dialog dialog) {
         HashMap<String, String> map = new HashMap<>();
         map.put("email", email);
 
-        // API Call to send OTP in a new thread
-        new Thread(() -> {
-            Call<Void> call = retrofitInterface.sendOtp(map);
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.code() == 200) {
-                        runOnUiThread(() -> {
-                            dialog.dismiss(); // Dismiss the signup dialog before opening OTP dialog
-                            handleOtpDialog(fullName, email, password, drivingLicenseNo, contactNumber, confirmPassword);
-                        });
-                    } else {
-                        runOnUiThread(() -> Toast.makeText(screen2.this, "Error sending OTP. Please try again.", Toast.LENGTH_LONG).show());
-                    }
+        Call<Void> call = retrofitInterface.sendOtp(map);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    runOnUiThread(() -> {
+                        dialog.dismiss();
+                        handleOtpDialog(fullName, email, contactNumber, drivingLicenseNo, password, confirmPassword);
+                    });
+                } else {
+                    runOnUiThread(() -> Toast.makeText(screen2.this, "user already exists", Toast.LENGTH_LONG).show());
                 }
+            }
 
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    runOnUiThread(() -> Toast.makeText(screen2.this, t.getMessage(), Toast.LENGTH_LONG).show());
-                }
-            });
-        }).start();
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                runOnUiThread(() -> Toast.makeText(screen2.this, t.getMessage(), Toast.LENGTH_LONG).show());
+            }
+        });
     }
 
-    // Handle OTP Dialog
-    private void handleOtpDialog(String fullName, String email, String password, String confirmPassword, String drivingLicenseNo, String contactNumber) {
+    private void handleOtpDialog(String fullName, String email, String contactNumber, String drivingLicenseNo, String password, String confirmPassword) {
         final Dialog dialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-        dialog.setContentView(R.layout.activity_otp); // Set correct layout
-        dialog.show(); // Show dialog before accessing views
+        dialog.setContentView(R.layout.activity_otp);
+        dialog.show();
 
-        // Access views using dialog.findViewById()
         FrameLayout verifyBtn = dialog.findViewById(R.id.submit);
         EditText otpEdit = dialog.findViewById(R.id.editTextAddress2);
 
@@ -300,37 +256,40 @@ public class screen2 extends Activity {
                 return;
             }
 
-            new Thread(() -> {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("otp", otp);
-                map.put("email", email);
+            HashMap<String, String> map = new HashMap<>();
+            map.put("otp", otp);
+            map.put("email", email);
 
-                Call<Void> verifyOtpCall = retrofitInterface.sendOtp(map);
-                verifyOtpCall.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            runOnUiThread(() -> {
-                                dialog.dismiss(); // Dismiss OTP dialog after successful verification
-                                registerUser(fullName, email, contactNumber, drivingLicenseNo, password, confirmPassword, otp);
-                            });
-                        } else {
-                            runOnUiThread(() -> Toast.makeText(screen2.this, "Invalid OTP", Toast.LENGTH_LONG).show());
-                        }
+            // Uncomment this if you want to verify OTP with backend
+            /*
+            Call<Void> verifyOtpCall = retrofitInterface.verifyOtp(map);
+            verifyOtpCall.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        runOnUiThread(() -> {
+                            dialog.dismiss(); // Dismiss OTP dialog after successful verification
+                            registerUser(fullName, email, contactNumber, drivingLicenseNo, password, confirmPassword, otp);
+                        });
+                    } else {
+                        runOnUiThread(() -> Toast.makeText(screen2.this, "Invalid OTP", Toast.LENGTH_LONG).show());
                     }
+                }
 
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        runOnUiThread(() -> Toast.makeText(screen2.this, t.getMessage(), Toast.LENGTH_LONG).show());
-                    }
-                });
-            }).start();
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    runOnUiThread(() -> Toast.makeText(screen2.this, t.getMessage(), Toast.LENGTH_LONG).show());
+                }
+            });
+            */
+
+            // Skipping OTP verification step for now, directly registering:
+            dialog.dismiss(); // Dismiss OTP dialog before proceeding
+            registerUser(fullName, email, contactNumber, drivingLicenseNo, password, confirmPassword, otp);
         });
     }
 
-    // Register user after OTP verification
     private void registerUser(String fullName, String email, String contactNumber, String drivingLicenseNo, String password, String confirmPassword, String otp) {
-        // Log password and confirm password
         Log.d("RegisterDebug", "Password: " + password);
         Log.d("RegisterDebug", "Confirm Password: " + confirmPassword);
 
@@ -340,19 +299,21 @@ public class screen2 extends Activity {
         map.put("contactNumber", contactNumber);
         map.put("drivingLicenseNo", drivingLicenseNo);
         map.put("password", password);
-        map.put("confirmPassword", confirmPassword); // ✅ Adding confirmPassword
-        map.put("otp", otp); // ✅ Passing OTP
+        map.put("confirmPassword", confirmPassword);
+        map.put("otp", otp);
+        Log.d("otp bheji hui", otp);
 
-        // Call backend to register
         new Thread(() -> {
             Call<Void> call = retrofitInterface.executableSignup(map);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
-                        runOnUiThread(() -> Toast.makeText(screen2.this, "Registration successful", Toast.LENGTH_LONG).show());
+                        runOnUiThread(() -> {
+                            Toast.makeText(screen2.this, "Registration successful", Toast.LENGTH_LONG).show();
+                            handleLoginDialog();
+                        });
                     } else {
-                        // Log response details for debugging
                         try {
                             String errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
                             Log.e("RegisterError", "Code: " + response.code() + " | Error: " + errorBody);
@@ -371,5 +332,4 @@ public class screen2 extends Activity {
             });
         }).start();
     }
-
 }
