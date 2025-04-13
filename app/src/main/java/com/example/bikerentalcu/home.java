@@ -289,7 +289,7 @@ public class home extends Activity {
             }
         }
     }
-
+//aded the filter on categories
     private void filterByCategory(String category) {
         List<bikeModel> filteredList = new ArrayList<>();
 
