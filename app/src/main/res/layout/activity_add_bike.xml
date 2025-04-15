@@ -1,0 +1,263 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".add_bike"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffff">
+
+        <TextView
+            android:id="@+id/signInTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:fontFamily="@font/imfellfrenchcanon_regular"
+            android:gravity="left"
+            android:text="Rent Your Bike"
+            android:textSize="@dimen/_40ssp" />
+
+        <View
+            android:id="@+id/vew1"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:background="@drawable/rectangle"
+            android:backgroundTint="#2B4C59"
+            android:layout_below="@id/signInTextView"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_30sdp" />
+
+        <TextView
+            android:id="@+id/bikename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bike Name"
+            android:textColor="#2B4C59"
+            android:gravity="left"
+            android:fontFamily="@font/robotoslab_variablefont_wght"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_below="@+id/vew1"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:textSize="@dimen/_20sdp" />
+
+        <EditText
+            android:id="@+id/bikename1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Splendor"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:layout_below="@+id/bikename"
+            android:backgroundTint="#E5E5E5" />
+
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:textColor="#2B4C59"
+            android:gravity="left"
+            android:fontFamily="@font/robotoslab_variablefont_wght"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_below="@+id/bikename1"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:textSize="@dimen/_20sdp" />
+
+        <Spinner
+            android:id="@+id/category1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_below="@+id/category"
+            android:background="@drawable/rectangle3"
+            android:spinnerMode="dropdown" />
+
+        <TextView
+            android:id="@+id/bikeno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registered Bike No."
+            android:textColor="#2B4C59"
+            android:gravity="left"
+            android:fontFamily="@font/robotoslab_variablefont_wght"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_below="@+id/category1"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textSize="@dimen/_20sdp" />
+
+        <EditText
+            android:id="@+id/bikeno1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:hint="*******"
+            android:drawableEnd="@drawable/outline_remove_red_eye_24"
+            android:paddingEnd="@dimen/_12sdp"
+            android:paddingRight="@dimen/_12sdp"
+            android:layout_below="@+id/bikeno"
+            android:backgroundTint="#E5E5E5" />
+
+        <TextView
+            android:id="@+id/rentalprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rental Price"
+            android:textColor="#2B4C59"
+            android:gravity="left"
+            android:fontFamily="@font/robotoslab_variablefont_wght"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_below="@+id/bikeno1"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:textSize="@dimen/_20sdp" />
+
+        <EditText
+            android:id="@+id/rentalprice1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:hint="*******"
+            android:drawableEnd="@drawable/outline_remove_red_eye_24"
+            android:paddingEnd="@dimen/_12sdp"
+            android:paddingRight="@dimen/_12sdp"
+            android:layout_below="@+id/rentalprice"
+            android:backgroundTint="#E5E5E5" />
+
+        <TextView
+            android:id="@+id/mileage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mileage"
+            android:textColor="#2B4C59"
+            android:gravity="left"
+            android:fontFamily="@font/robotoslab_variablefont_wght"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_below="@+id/rentalprice1"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:textSize="@dimen/_20ssp" />
+
+        <EditText
+            android:id="@+id/mileage1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mileage"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginTop="-1dp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:backgroundTint="#E5E5E5"
+            android:drawableEnd="@drawable/outline_remove_red_eye_24"
+            android:hint="*******"
+            android:inputType="textPassword"
+            android:paddingEnd="@dimen/_12sdp"
+            android:paddingRight="@dimen/_12sdp" />
+
+        <TextView
+            android:id="@+id/Transmission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transmission"
+            android:textColor="#2B4C59"
+            android:gravity="left"
+            android:fontFamily="@font/robotoslab_variablefont_wght"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_below="@+id/mileage1"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:textSize="@dimen/_20sdp" />
+
+        <Spinner
+            android:id="@+id/Transmission1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_below="@+id/Transmission"
+            android:background="@drawable/rectangle3"
+            android:spinnerMode="dropdown" />
+
+        <!-- ✅ Image Upload Section -->
+        <TextView
+            android:id="@+id/uploadImageLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload Bike Image"
+            android:textColor="#2B4C59"
+            android:fontFamily="@font/robotoslab_variablefont_wght"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_below="@+id/Transmission1"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:textSize="@dimen/_20sdp" />
+
+        <ImageView
+            android:id="@+id/uploadedImageView"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_below="@id/uploadImageLabel"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/rectangle2"
+            android:contentDescription="Uploaded image preview" />
+
+        <Button
+            android:id="@+id/uploadImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Image"
+            android:layout_below="@id/uploadedImageView"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:backgroundTint="#2B4C59"
+            android:textColor="#FFFFFF" />
+        <!-- ✅ End Upload Section -->
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_below="@+id/uploadImageButton" />
+
+        <FrameLayout
+            android:id="@+id/framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle2"
+            android:layout_below="@+id/view2"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:backgroundTint="#2B4C59"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/Add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ADD"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:fontFamily="@font/inter_medium"
+                android:textStyle="bold"
+                android:textSize="@dimen/_30ssp"
+                android:shadowColor="#000000"
+                android:shadowDx="10"
+                android:shadowDy="10"
+                android:shadowRadius="10"/>
+
+        </FrameLayout>
+
+
+
+    </RelativeLayout>
+</ScrollView>

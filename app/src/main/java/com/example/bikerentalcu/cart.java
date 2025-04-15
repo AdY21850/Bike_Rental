@@ -46,10 +46,10 @@ public class cart extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish());
 
         // Next Button Click Listener (Navigate to Checkout)
-        nextButton.setOnClickListener(v -> {
-            Intent intent = new Intent(cart.this, checkout.class);
-            startActivity(intent);
-        });
+//        nextButton.setOnClickListener(v -> {
+//            Intent intent = new Intent(cart.this, confirm_bike.class);
+//            startActivity(intent);
+//        });
     }
 
     // Load Cart Data (Simulating delay for fetching data)

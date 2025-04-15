@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <!-- Define the color of the semi-circle -->
+            <solid android:color="#95BCCC"/> <!-- Replace with your desired color -->
+
+            <!-- Define the radius of the semi-circle -->
+            <corners
+                android:topLeftRadius="@dimen/_40sdp"
+                android:topRightRadius="@dimen/_40sdp"
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="0dp"/>
+        </shape>
+    </item>
+
+</layer-list>
