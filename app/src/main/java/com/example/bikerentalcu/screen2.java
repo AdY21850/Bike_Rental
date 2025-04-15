@@ -83,7 +83,7 @@ public class screen2 extends Activity {
                 call.enqueue(new Callback<LoginResult>() {
                     @Override
                     public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
-                        runOnUiThread(() -> dialog.dismiss());
+
                         if (response.isSuccessful() && response.body() != null) {
                             LoginResult loginResult = response.body();
                             String token = loginResult.getToken();
@@ -99,7 +99,7 @@ public class screen2 extends Activity {
                     @Override
                     public void onFailure(Call<LoginResult> call, Throwable t) {
                         runOnUiThread(() -> {
-                            dialog.dismiss();
+//                            dialog.dismiss();
                             Toast.makeText(screen2.this, t.getMessage(), Toast.LENGTH_LONG).show();
                         });
                     }

@@ -21,8 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.Request;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import org.json.JSONArray;
@@ -31,8 +31,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-// ... [package & imports remain unchanged] ...
 
 public class home extends Activity {
 
@@ -45,11 +43,14 @@ public class home extends Activity {
     private ProgressBar progressBar, progressbar;
     private RecyclerView recyclerView, searchRecyclerView;
     private ArrayList<Bike> bikeList;
-    private ArrayList<bikeModel> bikeList1; // working filtered list
-    private ArrayList<bikeModel> originalBikeList = new ArrayList<>(); // true source
+    private ArrayList<bikeModel> bikeList1;
+    private ArrayList<bikeModel> originalBikeList = new ArrayList<>();
     private BikeAdapter bikeAdapter, searchBikeAdapter;
     private SearchView searchView;
     private Handler sliderHandler = new Handler();
+
+    private String currentCategory = "";
+    private List<bikeModel> filteredCategoryList = new ArrayList<>();
 
     private Runnable sliderRunnable = new Runnable() {
         @Override
@@ -66,7 +67,7 @@ public class home extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        getWindow().setStatusBarColor(Color.parseColor("#252B45"));
+        getWindow().setStatusBarColor(Color.parseColor("#FFFFFF"));
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
 
         initializeViews();
@@ -75,6 +76,37 @@ public class home extends Activity {
         setupViewPager();
         setupRecyclerView();
         setupCategoryClickListeners();
+
+        FloatingActionButton fabAdd = findViewById(R.id.add_bike);
+
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(home.this, "FAB clicked!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(home.this, add_bike.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void initializeViews() {
+        searchView = findViewById(R.id.searchview);
+        viewPager2 = findViewById(R.id.viewpagerslider);
+        dotsIndicator = findViewById(R.id.dots_indicator);
+        progressBar = findViewById(R.id.progressbar);
+        progressbar = findViewById(R.id.progressbar2);
+        recyclerView = findViewById(R.id.view_brands);
+        searchRecyclerView = findViewById(R.id.search_view_recycler);
+        searchRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+    }
+
+    private void setupNavigation() {
+        findViewById(R.id.to_the_drawer).setOnClickListener(view ->
+                startActivity(new Intent(home.this, navdraw.class)));
+
+        findViewById(R.id.cart1).setOnClickListener(view ->
+                startActivity(new Intent(home.this, cart.class)));
     }
 
     private void setupViewPager() {
@@ -102,31 +134,11 @@ public class home extends Activity {
         });
     }
 
-    private void initializeViews() {
-        searchView = findViewById(R.id.searchview);
-        viewPager2 = findViewById(R.id.viewpagerslider);
-        dotsIndicator = findViewById(R.id.dots_indicator);
-        progressBar = findViewById(R.id.progressbar);
-        progressbar = findViewById(R.id.progressbar2);
-        recyclerView = findViewById(R.id.view_brands);
-        searchRecyclerView = findViewById(R.id.search_view_recycler);
-    }
-
-    private void setupNavigation() {
-        findViewById(R.id.to_the_drawer).setOnClickListener(view ->
-                startActivity(new Intent(home.this, navdraw.class)));
-
-        findViewById(R.id.cart1).setOnClickListener(view ->
-                startActivity(new Intent(home.this, cart.class)));
-    }
-
     private void setupSearchView() {
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
+            public boolean onQueryTextSubmit(String query) { return false; }
 
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -196,11 +208,11 @@ public class home extends Activity {
                             bikeList.add(bike);
 
                             bikeModel model = new bikeModel(name, Integer.parseInt(price), transmission, speed, mileage, ownerName, ownerEmail, ownerContact, imageUrl, ownerImageUrl, ownerupi);
-                            bikeList1.add(model);             // Working list
-                            originalBikeList.add(model);      // 🔒 Permanent source
+                            bikeList1.add(model);
+                            originalBikeList.add(model);
                         }
 
-                        bikeAdapter.notifyDataSetChanged();
+                        bikeAdapter.updateList(originalBikeList);
                         progressbar.setVisibility(View.GONE);
 
                     } catch (JSONException e) {
@@ -213,9 +225,16 @@ public class home extends Activity {
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
+    private void toggleRecyclerView(boolean showSearch) {
+        searchRecyclerView.setVisibility(showSearch ? View.VISIBLE : View.GONE);
+        recyclerView.setVisibility(showSearch ? View.GONE : View.VISIBLE);
+    }
+
     private void filterList(String text) {
+        List<bikeModel> baseList = currentCategory.isEmpty() ? originalBikeList : filteredCategoryList;
         List<bikeModel> searchResults = new ArrayList<>();
-        for (bikeModel bike : originalBikeList) {
+
+        for (bikeModel bike : baseList) {
             if (bike.getName().toLowerCase().contains(text.toLowerCase()) ||
                     bike.getTransmission().toLowerCase().contains(text.toLowerCase()) ||
                     bike.getOwnerName().toLowerCase().contains(text.toLowerCase())) {
@@ -230,11 +249,6 @@ public class home extends Activity {
             searchBikeAdapter.updateList(searchResults);
             toggleRecyclerView(true);
         }
-    }
-
-    private void toggleRecyclerView(boolean showSearch) {
-        searchRecyclerView.setVisibility(showSearch ? View.VISIBLE : View.GONE);
-        recyclerView.setVisibility(showSearch ? View.GONE : View.VISIBLE);
     }
 
     private void setupCategoryClickListeners() {
@@ -289,35 +303,39 @@ public class home extends Activity {
             }
         }
     }
-//aded the filter on categories
-    private void filterByCategory(String category) {
-        List<bikeModel> filteredList = new ArrayList<>();
 
-        for (bikeModel bike : originalBikeList) { // ✅ always use full source
+    private void filterByCategory(String category) {
+        currentCategory = category;
+        filteredCategoryList.clear();
+
+        for (bikeModel bike : originalBikeList) {
             if (bike.getTransmission().equalsIgnoreCase(category)) {
-                filteredList.add(bike);
+                filteredCategoryList.add(bike);
             }
         }
 
-        if (filteredList.isEmpty()) {
+        if (filteredCategoryList.isEmpty()) {
             Toast.makeText(this, "No bikes found in " + category, Toast.LENGTH_SHORT).show();
         }
 
-        bikeAdapter.updateList(filteredList);
+        bikeAdapter.updateList(filteredCategoryList);
     }
 
     @Override
     public void onBackPressed() {
         if (searchRecyclerView.getVisibility() == View.VISIBLE || recyclerView.getVisibility() == View.GONE) {
-            bikeAdapter.updateList(originalBikeList); // ✅ Reset from full source
+            searchView.setQuery("", false);
+            searchView.clearFocus();
+
             recyclerView.setVisibility(View.VISIBLE);
             searchRecyclerView.setVisibility(View.GONE);
-            resetCardViews(null);
 
-            if (!searchView.getQuery().toString().isEmpty()) {
-                searchView.setQuery("", false);
-                searchView.clearFocus();
+            if (!currentCategory.isEmpty()) {
+                bikeAdapter.updateList(filteredCategoryList);
+            } else {
+                bikeAdapter.updateList(originalBikeList);
             }
+
         } else {
             super.onBackPressed();
         }

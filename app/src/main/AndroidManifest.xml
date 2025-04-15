@@ -2,16 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="34" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -29,13 +30,16 @@
         android:theme="@style/Theme.BikeRentalCu"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".add_bike"
+            android:exported="false" />
+        <activity
+            android:name=".updateProfile"
+            android:exported="false" />
         <activity
             android:name=".confirm_bike"
             android:exported="false" />
-        <activity
-            android:name=".checkout"
-            android:exported="false" />
+
         <activity
             android:name=".item_view"
             android:exported="false" />
@@ -70,7 +74,9 @@
             android:exported="false" />
         <activity
             android:name=".home"
-            android:exported="false" />
+            android:exported="false" >
+
+        </activity>
         <activity
             android:name=".screen2"
             android:exported="false" />
