@@ -30,8 +30,9 @@
                 android:layout_height="@dimen/_80sdp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
-                android:background="@drawable/rectangle2"
-                android:backgroundTint="#838383"
+                android:background="@drawable/circle"
+
+                android:backgroundTint="@color/white"
                >
 
                 <!-- Profile Picture -->
@@ -41,6 +42,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:clipToOutline="true"
+                    android:background="@drawable/circle"
+                    android:backgroundTint="@color/white"
                     android:src="@drawable/outline_account_circle_24" />
 
             </FrameLayout>
@@ -48,25 +53,6 @@
             <!-- Edit Profile Floating Button -->
 
             <!-- Name and Username Container -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/edit_profile"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_alignEnd="@id/profileContainer"
-                android:layout_alignBottom="@id/profileContainer"
-                android:layout_marginEnd="-23dp"
-                android:layout_marginBottom="-17dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="@dimen/_20sdp"
-                app:cardElevation="@dimen/_5sdp">
-
-                <ImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/baseline_edit_24"
-                    android:tint="@color/black" />
-            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -84,6 +70,8 @@
                     android:fontFamily="@font/bungee_regular"
                     android:includeFontPadding="false"
                     android:text="Aditya Sharma"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
                     android:textSize="@dimen/_20ssp"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"/>
@@ -91,11 +79,12 @@
                 <!-- Username -->
                 <TextView
                     android:id="@+id/user_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="aditya_sharma1204"
                     android:textAlignment="center"
+                    android:layout_gravity="center"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_15ssp" />
             </LinearLayout>
@@ -220,15 +209,17 @@
         android:layout_marginTop="0dp"
 
         android:textSize="@dimen/_15sdp"/>
-    <EditText
+    <TextView
         android:id="@+id/name1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="jhon doe"
         android:layout_marginLeft="@dimen/_30sdp"
         android:layout_marginRight="@dimen/_30sdp"
+        android:background="@drawable/rectangle2"
+        android:textSize="@dimen/_15sdp"
         android:layout_below="@+id/name"
-        android:backgroundTint="#E5E5E5"/>
+        android:backgroundTint="@color/white"/>
     <TextView
         android:id="@+id/phoneoremail"
         android:layout_width="wrap_content"
@@ -242,15 +233,18 @@
         android:layout_marginTop="0dp"
 
         android:textSize="@dimen/_15ssp"/>
-    <EditText
+    <TextView
         android:id="@+id/email1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Loremipsum@gmail.com"
+        android:background="@drawable/rectangle2"
+
+        android:textSize="@dimen/_15sdp"
         android:layout_marginLeft="@dimen/_30sdp"
         android:layout_marginRight="@dimen/_30sdp"
         android:layout_below="@+id/phoneoremail"
-        android:backgroundTint="#E5E5E5"/>
+        android:backgroundTint="@color/white"/>
 
 
     <TextView
@@ -266,14 +260,16 @@
         android:layout_marginTop="0dp"
         android:textSize="@dimen/_15ssp"/>
 
-    <EditText
+    <TextView
         android:id="@+id/phone1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/phone"
         android:layout_marginLeft="@dimen/_30sdp"
         android:layout_marginRight="@dimen/_30sdp"
-        android:backgroundTint="#E5E5E5"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/rectangle2"
+        android:textSize="@dimen/_15sdp"
         android:hint="**********"
         android:inputType="number"
         android:paddingEnd="@dimen/_12sdp"
@@ -292,7 +288,7 @@
         android:textColor="#2B4C59"
         android:textSize="@dimen/_15sdp" />
 
-    <EditText
+    <TextView
         android:id="@+id/dateofbirth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -301,10 +297,12 @@
         android:layout_marginRight="@dimen/_30sdp"
         android:hint="dd-mm-yy"
         android:drawableEnd="@drawable/outline_remove_red_eye_24"
+        android:background="@drawable/rectangle2"
+        android:textSize="@dimen/_15sdp"
         android:paddingEnd="@dimen/_12sdp"
         android:paddingRight="@dimen/_12sdp"
         android:layout_below="@+id/password"
-        android:backgroundTint="#E5E5E5"/>
+        android:backgroundTint="@color/white"/>
 
     <TextView
         android:id="@+id/dl"
@@ -319,7 +317,7 @@
         android:layout_marginTop="0dp"
         android:textSize="@dimen/_15sdp"/>
 
-    <EditText
+    <TextView
         android:id="@+id/dl1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -327,10 +325,12 @@
         android:layout_marginRight="@dimen/_30sdp"
         android:hint="*******"
         android:drawableEnd="@drawable/outline_remove_red_eye_24"
+        android:background="@drawable/rectangle2"
+        android:textSize="@dimen/_15sdp"
         android:paddingEnd="@dimen/_12sdp"
         android:paddingRight="@dimen/_12sdp"
         android:layout_below="@+id/dl"
-        android:backgroundTint="#E5E5E5"/>
+        android:backgroundTint="@color/white"/>
 
 
 

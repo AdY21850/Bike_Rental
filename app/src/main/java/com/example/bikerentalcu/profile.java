@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,13 +44,12 @@ public class profile extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
-    private EditText nameField, emailField, phoneField, dobField, dlField;
+    private TextView nameField, emailField, phoneField, dobField, dlField;
     private TextView nameField2, username;
     private FrameLayout updateButton;
     private ImageView profileImage;
 
     // Made static properly
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,10 +158,49 @@ public class profile extends AppCompatActivity {
         editor.putString("userName", nme);
         editor.apply();
 
-
         emailField.setText(userDetails.getEmail());
         phoneField.setText(userDetails.getContactNumber());
-        dobField.setText(userDetails.getdate_of_birth());
+
+        // ✅ Updated to fetch date of birth from additionalDetail
+        if (userDetails.getAdditionalDetail() != null) {
+            AdditionalDetail additionalDetail = userDetails.getAdditionalDetail();
+
+            // Display date of birth
+            String dob = additionalDetail.getDateOfBirth();
+            Log.d("date of birth fetched", dob + " fetched from additionalDetail");
+            dobField.setText(dob != null ? dob : "N/A");
+
+            // Display gender
+            String gender = additionalDetail.getGender();
+            Log.d("gender fetched", gender + " fetched from additionalDetail");
+            // You can add another TextView for gender if needed, or display it in `dobField` or elsewhere.
+            // Example of updating a gender field:
+            // genderField.setText(gender != null && !gender.isEmpty() ? gender : "N/A");
+
+            // Display about (this is optional, based on the received data)
+            String about = additionalDetail.getAbout();
+            Log.d("about fetched", about + " fetched from additionalDetail");
+            // You can add a TextView for about if you want to display that as well.
+            // Example of updating an about field:
+            // aboutField.setText(about != null && !about.isEmpty() ? about : "No information available");
+
+            // Handle bikes created (If you want to display bikes created by the user)
+            List<Bike> bikesCreated = additionalDetail.getBikesCreated();
+            if (bikesCreated != null && !bikesCreated.isEmpty()) {
+                for (Bike bike : bikesCreated) {
+                    // You can create a list or another UI element to show the bikes created by the user
+                    Log.d("bikes created", "bikes will be displayed " + " registered with " + "registration number for the same");
+                    // Example:
+                    // bikeModelField.setText(bike.getBikemodel() + " - " + bike.getRegisteredBikeNo());
+                }
+            } else {
+                Log.d("bikes created", "No bikes created by the user");
+            }
+        } else {
+            Log.d("date of birth fetched", "additionalDetail is null");
+            dobField.setText("N/A");
+        }
+
         dlField.setText(userDetails.getDrivingLicenseNo());
 
         String emailPart = userDetails.getEmail().split("@")[0];
@@ -188,6 +224,7 @@ public class profile extends AppCompatActivity {
             profileImage.setImageResource(R.drawable.circle_background);
         }
     }
+
 
     private void handleErrorResponse(Response<?> response) {
         try {
