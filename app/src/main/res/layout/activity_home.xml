@@ -7,21 +7,18 @@
     android:background="@color/white"
     tools:context=".home">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
             android:orientation="vertical">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:orientation="horizontal"
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintTop_toTopOf="parent">
@@ -40,8 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/rectangle"
-                    android:backgroundTint="@color/white"
+                    android:background="@drawable/rectangle3"
                     app:defaultQueryHint="search here"
                     android:focusable="true"
                     android:clickable="true"
@@ -49,12 +45,12 @@
                     android:focusableInTouchMode="true"/>
 
                 <ImageView
-                    android:id="@+id/cart1"
+                    android:id="@+id/notification"
                     android:layout_width="@dimen/_30sdp"
-                    android:layout_height="match_parent"
+                    android:layout_height="35dp"
                     android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_5sdp"
-                    android:src="@drawable/cart" />
+                    android:src="@drawable/outline_notifications_24" />
 
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
@@ -96,24 +92,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                    android:id="@+id/dots_indicator"
-                    android:layout_width="@dimen/_165sdp"
-                    android:layout_height="@dimen/_17sdp"
-                    android:layout_marginLeft="@dimen/_120sdp"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:visibility="gone"
-                    app:dotsColor="#D3D3D3"
-                    app:dotsCornerRadius="@dimen/_8sdp"
-                    app:dotsSize="@dimen/_6sdp"
-                    app:dotsSpacing="@dimen/_2sdp"
-                    app:dotsWidthFactor="2.5"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewpagerslider"
-                    app:selectedDotColor="#2B4C59"
-                    tools:visibility="visible" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -128,7 +107,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_25sdp"
+                        android:layout_height="@dimen/_35sdp"
                         android:orientation="horizontal"
                       >
 
@@ -136,7 +115,7 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/family_cars"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_20sdp"
+                            android:layout_height="@dimen/_30sdp"
                             android:layout_marginLeft="@dimen/_10sdp"
                             app:cardCornerRadius="@dimen/_20sdp"
 
@@ -150,6 +129,7 @@
                                 android:text="Road Bikes"
                                 android:textColor="#2B4C59"
                                 android:textSize="@dimen/_15ssp"
+                                android:padding="@dimen/_5sdp"
                                 android:layout_marginLeft="@dimen/_3sdp"
                                 android:layout_marginRight="@dimen/_3sdp"
                                 android:textStyle="bold"
@@ -161,7 +141,7 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cheapcars"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_20sdp"
+                            android:layout_height="@dimen/_30sdp"
                             android:layout_marginLeft="@dimen/_20sdp"
                             app:cardCornerRadius="@dimen/_20sdp"
                             app:cardElevation="@dimen/_5sdp"
@@ -173,6 +153,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                android:textStyle="bold"
+                                android:padding="@dimen/_5sdp"
                                 android:layout_marginLeft="@dimen/_3sdp"
                                 android:layout_marginRight="@dimen/_3sdp"
                                 android:text="Mountain Bikes"
@@ -184,7 +165,7 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/sports_Bikes"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_20sdp"
+                            android:layout_height="@dimen/_30sdp"
                             android:layout_marginLeft="@dimen/_20sdp"
                             app:cardCornerRadius="@dimen/_20sdp"
                             app:cardElevation="@dimen/_5sdp"
@@ -196,6 +177,7 @@
                                 android:layout_height="match_parent"
                                 android:text="Sports Bikes"
                                 android:textColor="#2B4C59"
+                                android:padding="@dimen/_5sdp"
                                 android:textSize="@dimen/_15ssp"
                                 android:textStyle="bold"
                                 android:layout_marginLeft="@dimen/_3sdp"
@@ -208,7 +190,7 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/Electrical_Bikes"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_20sdp"
+                            android:layout_height="@dimen/_30sdp"
                             android:layout_marginLeft="@dimen/_20sdp"
                             app:cardCornerRadius="@dimen/_20sdp"
                             app:cardElevation="@dimen/_5sdp"
@@ -219,6 +201,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="Electric Bikes"
+                                android:padding="@dimen/_5sdp"
                                 android:textColor="#2B4C59"
                                 android:textSize="@dimen/_15ssp"
                                 android:layout_marginLeft="@dimen/_3sdp"
@@ -232,7 +215,7 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/heavy_bikes"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_20sdp"
+                            android:layout_height="@dimen/_30sdp"
                             android:layout_marginLeft="@dimen/_20sdp"
                             app:cardCornerRadius="@dimen/_20sdp"
                             app:cardElevation="@dimen/_5sdp"
@@ -243,6 +226,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="Heavyweight"
+                                android:padding="@dimen/_5sdp"
                                 android:textColor="#2B4C59"
                                 android:textSize="@dimen/_15ssp"
                                 android:textStyle="bold"
@@ -256,7 +240,7 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/street_bikes"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_20sdp"
+                            android:layout_height="@dimen/_30sdp"
                             android:layout_marginLeft="@dimen/_20sdp"
                             app:cardCornerRadius="@dimen/_20sdp"
                             app:cardElevation="@dimen/_5sdp"
@@ -267,6 +251,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="Street Bikes"
+                                android:padding="@dimen/_5sdp"
                                 android:textColor="#2B4C59"
                                 android:textSize="@dimen/_15ssp"
                                 android:gravity="center"
@@ -315,7 +300,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/customBottomNav">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/view_brands"
@@ -344,20 +330,157 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 <View
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_20sdp"/>
+    android:layout_height="@dimen/_70sdp"/>
         </LinearLayout>
-    </ScrollView>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_bike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_16sdp"
-        android:src="@drawable/ic_add"
-    android:contentDescription="Add"
-        android:background="@drawable/rectangle2"
-    app:backgroundTint="@color/main_color"
-    app:tint="@android:color/white"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/customBottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@drawable/rectangle"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:weightSum="4"
+        android:backgroundTint="@color/main_color"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/nav_explore"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/_5sdp">
+
+            <FrameLayout
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/rectangle2"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/rental" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/text_explore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_5sdp"
+                android:text="Rented bikes"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_8ssp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cart"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/_5sdp">
+
+            <FrameLayout
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/rectangle2"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/cart" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/text_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_5sdp"
+                android:text="cart"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_8ssp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/add_bike"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/_5sdp">
+
+            <FrameLayout
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/rectangle2"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_add" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/text_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add bikes"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_8ssp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nav_profile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/_5sdp">
+
+            <FrameLayout
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/rectangle2"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/outline_account_circle_24" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/text_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:text="Profile"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_9ssp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,26 +13,26 @@
         <!-- Bike Image Section -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50ssp"
-            android:background="@drawable/rectangle2"
+            android:layout_height="@dimen/_100sdp"
+            android:background="@drawable/semicircle"
             android:layout_weight="1"
-            android:layout_marginTop="@dimen/_10sdp"
+
             android:backgroundTint="@color/white"
+
          >
 
             <ImageView
                 android:id="@+id/bike_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 android:src="@drawable/duke" />
 
             <ImageView
                 android:id="@+id/back_button"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_margin="@dimen/_10sdp"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_margin="@dimen/_20sdp"
                 android:background="@drawable/circle_background"
                 android:src="@drawable/baseline_west_24"
                 android:layout_alignParentStart="true" />
@@ -42,7 +42,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+
+            android:layout_marginTop="-50dp"
             android:background="@drawable/semicircle2"
             android:padding="@dimen/_16sdp">
 
@@ -64,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Activa"
-
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_20ssp"
                         android:fontFamily="@font/bungee_regular"
                         android:textStyle="normal"
@@ -96,6 +97,7 @@
                         android:layout_height="@dimen/_60sdp"
                         android:layout_weight="1"
                         android:background="@drawable/rounded_card"
+                        android:backgroundTint="@color/text_color2"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="@dimen/_8sdp">
@@ -113,8 +115,9 @@
                             android:layout_height="wrap_content"
                             android:text="Manual"
                             android:textSize="@dimen/_15ssp"
+
                             android:textStyle="bold"
-                            android:textColor="@android:color/black"/>
+                            android:textColor="@android:color/white"/>
                     </LinearLayout>
 
                     <!-- Speed -->
@@ -123,6 +126,7 @@
                         android:layout_height="@dimen/_60sdp"
                         android:layout_weight="1"
                         android:background="@drawable/rounded_card"
+                        android:backgroundTint="@color/text_color2"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:layout_marginStart="@dimen/_5sdp"
@@ -142,7 +146,7 @@
                             android:text="110 km/h"
                             android:textSize="@dimen/_15ssp"
                             android:textStyle="bold"
-                            android:textColor="@android:color/black"/>
+                            android:textColor="@android:color/white"/>
                     </LinearLayout>
 
                     <!-- Mileage -->
@@ -152,6 +156,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/rounded_card"
                         android:gravity="center"
+                        android:backgroundTint="@color/text_color2"
                         android:orientation="vertical"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:padding="@dimen/_8sdp">
@@ -170,7 +175,7 @@
                             android:text="35 kmpl"
                             android:textSize="@dimen/_15ssp"
                             android:textStyle="bold"
-                            android:textColor="@android:color/black"/>
+                            android:textColor="@android:color/white"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -189,6 +194,8 @@
                         android:layout_height="@dimen/_40sdp"
                         android:src="@drawable/profilepicturebikerental"
                         android:background="@drawable/circle_background"
+                        android:clipToOutline="true"
+                        android:backgroundTint="@color/main_color"
                         android:scaleType="centerCrop"/>
 
                     <TextView
@@ -199,7 +206,7 @@
                         android:text="Jane Smith"
                         android:textSize="@dimen/_10ssp"
                         android:textStyle="bold"
-                        android:textColor="@android:color/black"/>
+                        android:textColor="@android:color/white"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -208,17 +215,18 @@
 
                         <ImageView
                             android:id="@+id/owner_email"
-                            android:layout_width="@dimen/_35sdp"
-                            android:layout_height="@dimen/_35sdp"
-                            android:padding="@dimen/_2sdp"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:padding="@dimen/_4sdp"
                             android:layout_marginStart="@dimen/_20sdp"
                             android:src="@drawable/baseline_mail_24"
+                            android:backgroundTint="@color/white"
                             android:background="@drawable/circle_background"/>
 
                         <ImageView
                             android:id="@+id/owner_contact"
-                            android:layout_width="@dimen/_35sdp"
-                            android:layout_height="@dimen/_35sdp"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
                             android:padding="@dimen/_8sdp"
                             android:src="@drawable/baseline_call_24"
                             android:background="@drawable/circle_background"

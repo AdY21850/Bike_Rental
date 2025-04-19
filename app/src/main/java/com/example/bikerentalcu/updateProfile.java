@@ -91,13 +91,19 @@ public class updateProfile extends AppCompatActivity {
             String dob = dobInput.getText().toString().trim();
             String dl = dlInput.getText().toString().trim();
 
-            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || TextUtils.isEmpty(phone)) {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            if (TextUtils.isEmpty(name) &&
+                    TextUtils.isEmpty(email) &&
+                    TextUtils.isEmpty(phone) &&
+                    TextUtils.isEmpty(dob) &&
+                    TextUtils.isEmpty(dl) &&
+                    imageUri == null) {
+                Toast.makeText(this, "Please fill at least one field or select a profile picture", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             updateProfileToServer(name, email, phone, dob, dl, imageUri);
         });
+
 
         editProfileBtn.setOnClickListener(v -> openImagePicker());
     }
@@ -122,36 +128,58 @@ public class updateProfile extends AppCompatActivity {
         RetrofitInterface retrofitInterface = RetrofitClientInstance.getRetrofitInstance().create(RetrofitInterface.class);
 
         HashMap<String, String> updatedData = new HashMap<>();
-        updatedData.put("fullName", fullName);
-        updatedData.put("email", email);
-        updatedData.put("contactNumber", contactNumber);
-        updatedData.put("dateofBirth", dob);
-        updatedData.put("drivingLicenseNo", drivingLicenseNo);
 
-        retrofitInterface.updateUserProfile("Bearer " + token, email, updatedData)
-                .enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(updateProfile.this, "Profile info updated", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(updateProfile.this, "Failed to update profile text", Toast.LENGTH_SHORT).show();
+        if (!TextUtils.isEmpty(fullName)) {
+            updatedData.put("fullName", fullName);
+        }
+
+        if (!TextUtils.isEmpty(email)) {
+            updatedData.put("email", email);
+        }
+
+        if (!TextUtils.isEmpty(contactNumber)) {
+            updatedData.put("contactNumber", contactNumber);
+        }
+
+        if (!TextUtils.isEmpty(dob)) {
+            updatedData.put("dateofBirth", dob);
+        }
+
+        if (!TextUtils.isEmpty(drivingLicenseNo)) {
+            updatedData.put("drivingLicenseNo", drivingLicenseNo);
+        }
+
+        if (updatedData.isEmpty() && imageUri == null) {
+            Toast.makeText(this, "Nothing to update", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            return;
+        }
+
+        // Update text fields if any
+        if (!updatedData.isEmpty()) {
+            retrofitInterface.updateUserProfile("Bearer " + token, updatedData)
+                    .enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(updateProfile.this, "Profile info updated", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(updateProfile.this, "Failed to update profile info", Toast.LENGTH_SHORT).show();
+                            }
+                            progressDialog.dismiss();
                         }
-                        progressDialog.dismiss();
-                    }
 
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(updateProfile.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Toast.makeText(updateProfile.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        }
+                    });
+        }
 
-        // Image upload (new logic using content resolver)
+        // Upload profile picture if selected
         if (imageUri != null) {
             try {
-                Log.d("ImageUpload", "Starting image upload");
-
                 InputStream inputStream = getContentResolver().openInputStream(imageUri);
                 if (inputStream == null) {
                     Toast.makeText(this, "Unable to open image stream", Toast.LENGTH_SHORT).show();
@@ -171,26 +199,23 @@ public class updateProfile extends AppCompatActivity {
                             public void onResponse(Call<Void> call, Response<Void> response) {
                                 if (response.isSuccessful()) {
                                     Toast.makeText(updateProfile.this, "Profile picture updated", Toast.LENGTH_SHORT).show();
-                                    Log.d("ImageUpload", "Upload success");
                                 } else {
                                     Toast.makeText(updateProfile.this, "Failed to upload profile picture", Toast.LENGTH_SHORT).show();
-                                    Log.e("ImageUpload", "Upload failed: " + response.code() + ", message: " + response.message());
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<Void> call, Throwable t) {
                                 Toast.makeText(updateProfile.this, "Upload error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                Log.e("ImageUpload", "Upload error", t);
                             }
                         });
 
             } catch (Exception e) {
                 Toast.makeText(this, "Failed to process image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("ImageUpload", "Exception during upload", e);
             }
         }
     }
+
 
     private String getRealPathFromURI(Uri contentUri) {
         String[] proj = {MediaStore.Images.Media.DATA};

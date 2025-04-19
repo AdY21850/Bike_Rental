@@ -4,7 +4,7 @@
     <item>
         <shape android:shape="rectangle">
             <!-- Define the color of the semi-circle -->
-            <solid android:color="#95BCCC"/> <!-- Replace with your desired color -->
+            <solid android:color="@color/main_color"/> <!-- Replace with your desired color -->
 
             <!-- Define the radius of the semi-circle -->
             <corners

@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -31,6 +30,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".bikes_rented"
+            android:exported="false" />
+        <activity
             android:name=".add_bike"
             android:exported="false" />
         <activity
@@ -39,7 +41,6 @@
         <activity
             android:name=".confirm_bike"
             android:exported="false" />
-
         <activity
             android:name=".item_view"
             android:exported="false" />
@@ -74,9 +75,7 @@
             android:exported="false" />
         <activity
             android:name=".home"
-            android:exported="false" >
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".screen2"
             android:exported="false" />
