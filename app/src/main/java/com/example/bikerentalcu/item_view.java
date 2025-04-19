@@ -2,9 +2,11 @@ package com.example.bikerentalcu;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,8 +23,11 @@ public class item_view extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        makeStatusBarTransparent();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_view);
+
+
 
         // Initialize views
         ImageView bikeImage = findViewById(R.id.bike_image);
@@ -176,5 +181,12 @@ public class item_view extends AppCompatActivity {
             }
         }
         quantityText.setText(String.valueOf(quantity));
+    }
+    private void makeStatusBarTransparent() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.setStatusBarColor(android.graphics.Color.TRANSPARENT);
+        }
     }
 }

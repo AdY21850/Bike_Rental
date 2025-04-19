@@ -2,26 +2,26 @@ package com.example.bikerentalcu;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
@@ -29,8 +29,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class home extends Activity {
 
@@ -39,19 +42,22 @@ public class home extends Activity {
     private ViewPager2 viewPager2;
     private vpAdapter viewPagerAdapter;
     private ArrayList<HomeBannerviewpager> viewpageritemArrayList;
-    private DotsIndicator dotsIndicator;
+    private RetrofitInterface retrofitInterface;
+    TextView textExplore, textLike, textCart, textProfile;
+
     private ProgressBar progressBar, progressbar;
     private RecyclerView recyclerView, searchRecyclerView;
     private ArrayList<Bike> bikeList;
+    private SharedPreferences preferences;
+    private SharedPreferences preferencess;
     private ArrayList<bikeModel> bikeList1;
     private ArrayList<bikeModel> originalBikeList = new ArrayList<>();
     private BikeAdapter bikeAdapter, searchBikeAdapter;
     private SearchView searchView;
     private Handler sliderHandler = new Handler();
-
     private String currentCategory = "";
     private List<bikeModel> filteredCategoryList = new ArrayList<>();
-
+    private String  userName;
     private Runnable sliderRunnable = new Runnable() {
         @Override
         public void run() {
@@ -67,8 +73,18 @@ public class home extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        getWindow().setStatusBarColor(Color.parseColor("#FFFFFF"));
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        );
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+
+
+        retrofitInterface = RetrofitClientInstance.getRetrofitInstance().create(RetrofitInterface.class);
+
+        textExplore = findViewById(R.id.text_explore);
+        textLike = findViewById(R.id.text_like);
+        textCart = findViewById(R.id.text_cart);
+        textProfile = findViewById(R.id.text_profile);
 
         initializeViews();
         setupNavigation();
@@ -77,23 +93,19 @@ public class home extends Activity {
         setupRecyclerView();
         setupCategoryClickListeners();
 
-        FloatingActionButton fabAdd = findViewById(R.id.add_bike);
-
-        fabAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(home.this, "FAB clicked!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(home.this, add_bike.class);
-                startActivity(intent);
-            }
-        });
+        preferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String token = preferences.getString("authToken", null);
+        Log.d("Token Retrieved", "Token: " + token);
+        if (token!=null) {
+            fetchUserData(token); // ✅ CALLING the method!
+        }
 
     }
 
     private void initializeViews() {
         searchView = findViewById(R.id.searchview);
         viewPager2 = findViewById(R.id.viewpagerslider);
-        dotsIndicator = findViewById(R.id.dots_indicator);
+
         progressBar = findViewById(R.id.progressbar);
         progressbar = findViewById(R.id.progressbar2);
         recyclerView = findViewById(R.id.view_brands);
@@ -102,11 +114,44 @@ public class home extends Activity {
     }
 
     private void setupNavigation() {
-        findViewById(R.id.to_the_drawer).setOnClickListener(view ->
-                startActivity(new Intent(home.this, navdraw.class)));
 
-        findViewById(R.id.cart1).setOnClickListener(view ->
-                startActivity(new Intent(home.this, cart.class)));
+        ImageView navdrawer = findViewById(R.id.to_the_drawer);
+        navdrawer.setOnClickListener(v -> {
+            updateNavSelection(textCart);
+
+            Intent intent = new Intent(home.this, navdraw.class);
+            intent.putExtra("userName", userName); // Pass userName
+            startActivity(intent);
+        });
+
+
+        LinearLayout fabAdd = findViewById(R.id.add_bike);
+        fabAdd.setOnClickListener(v -> {
+            updateNavSelection(textCart);
+            startActivity(new Intent(home.this, add_bike.class));
+        });
+
+        LinearLayout cart = findViewById(R.id.cart);
+        cart.setOnClickListener(v -> {
+            updateNavSelection(textLike);
+            startActivity(new Intent(home.this, cart.class));
+        });
+
+        LinearLayout nav_explore = findViewById(R.id.nav_explore);
+        nav_explore.setOnClickListener(v -> {
+            updateNavSelection(textExplore);
+            startActivity(new Intent(home.this, bikes_rented.class));
+        });
+
+        LinearLayout nav_profile = findViewById(R.id.nav_profile);
+        nav_profile.setOnClickListener(v -> {
+            updateNavSelection(textProfile);
+            startActivity(new Intent(home.this, profile.class));
+        });
+
+        findViewById(R.id.notification).setOnClickListener(view -> {
+            startActivity(new Intent(home.this, notifications.class));
+        });
     }
 
     private void setupViewPager() {
@@ -119,15 +164,16 @@ public class home extends Activity {
         for (String url : imageUrls) {
             viewpageritemArrayList.add(new HomeBannerviewpager(url));
         }
+
         viewPagerAdapter = new vpAdapter(viewpageritemArrayList);
         viewPager2.setAdapter(viewPagerAdapter);
-        dotsIndicator.setViewPager2(viewPager2);
+
         progressBar.setVisibility(View.GONE);
         sliderHandler.postDelayed(sliderRunnable, 3000);
+
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
-                super.onPageSelected(position);
                 sliderHandler.removeCallbacks(sliderRunnable);
                 sliderHandler.postDelayed(sliderRunnable, 3000);
             }
@@ -153,20 +199,11 @@ public class home extends Activity {
     }
 
     private void setupRecyclerView() {
-        int numberOfColumns = 2;
-        int spacingInDp = 0;
-        int spacingInPx = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                spacingInDp,
-                getResources().getDisplayMetrics()
-        );
-
-        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(numberOfColumns, spacingInPx, true));
+        int columns = 2;
+        recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
 
         bikeList = new ArrayList<>();
         bikeList1 = new ArrayList<>();
-
         bikeAdapter = new BikeAdapter(this, bikeList1);
         searchBikeAdapter = new BikeAdapter(this, new ArrayList<>());
 
@@ -175,7 +212,6 @@ public class home extends Activity {
 
         searchRecyclerView.setVisibility(View.GONE);
         progressbar.setVisibility(View.VISIBLE);
-
         fetchBikeData();
     }
 
@@ -202,12 +238,9 @@ public class home extends Activity {
                             String ownerEmail = (owner != null) ? owner.optString("email", "Unknown") : "Unknown";
                             String ownerContact = (owner != null) ? owner.optString("contactNumber", "Unknown") : "Unknown";
                             String ownerImageUrl = (owner != null) ? owner.optString("upiId", "") : "";
-                            String ownerupi = (owner != null) ? owner.optString("upiId", "") : "";
+                            String ownerUpi = (owner != null) ? owner.optString("upiId", "") : "";
 
-                            Bike bike = new Bike(name, price, transmission, speed, mileage, imageUrl, ownerName, ownerEmail, ownerContact, ownerImageUrl, ownerupi);
-                            bikeList.add(bike);
-
-                            bikeModel model = new bikeModel(name, Integer.parseInt(price), transmission, speed, mileage, ownerName, ownerEmail, ownerContact, imageUrl, ownerImageUrl, ownerupi);
+                            bikeModel model = new bikeModel(name, Integer.parseInt(price), transmission, speed, mileage, ownerName, ownerEmail, ownerContact, imageUrl, ownerImageUrl, ownerUpi);
                             bikeList1.add(model);
                             originalBikeList.add(model);
                         }
@@ -228,7 +261,26 @@ public class home extends Activity {
     private void toggleRecyclerView(boolean showSearch) {
         searchRecyclerView.setVisibility(showSearch ? View.VISIBLE : View.GONE);
         recyclerView.setVisibility(showSearch ? View.GONE : View.VISIBLE);
+
+        // Hide banners
+        viewPager2.setVisibility(showSearch ? View.GONE : View.VISIBLE);
+
+
+        // Hide category cards
+        findViewById(R.id.family_cars).setVisibility(showSearch ? View.GONE : View.VISIBLE);
+        findViewById(R.id.cheapcars).setVisibility(showSearch ? View.GONE : View.VISIBLE);
+        findViewById(R.id.sports_Bikes).setVisibility(showSearch ? View.GONE : View.VISIBLE);
+        findViewById(R.id.Electrical_Bikes).setVisibility(showSearch ? View.GONE : View.VISIBLE);
+        findViewById(R.id.heavy_bikes).setVisibility(showSearch ? View.GONE : View.VISIBLE);
+        findViewById(R.id.street_bikes).setVisibility(showSearch ? View.GONE : View.VISIBLE);
+
+        // Hide navigation bar items (optional - depends on your design)
+//        findViewById(R.id.bottom_navigation).setVisibility(showSearch ? View.GONE : View.VISIBLE);
+
+        // Hide progress bar if needed (optional)
+        progressbar.setVisibility(showSearch ? View.GONE : View.VISIBLE);
     }
+
 
     private void filterList(String text) {
         List<bikeModel> baseList = currentCategory.isEmpty() ? originalBikeList : filteredCategoryList;
@@ -252,7 +304,7 @@ public class home extends Activity {
     }
 
     private void setupCategoryClickListeners() {
-        CardView[] cardViews = {
+        CardView[] cards = {
                 findViewById(R.id.family_cars),
                 findViewById(R.id.cheapcars),
                 findViewById(R.id.sports_Bikes),
@@ -261,21 +313,14 @@ public class home extends Activity {
                 findViewById(R.id.street_bikes)
         };
 
-        String[] categories = {
-                "Road Bikes",
-                "Mountain",
-                "Sports",
-                "Electric",
-                "Heavyweight",
-                "Street"
-        };
+        String[] categories = {"Road Bikes", "Mountain", "Sports", "Electric", "Heavyweight", "Street"};
 
-        for (int i = 0; i < cardViews.length; i++) {
-            int index = i;
-            cardViews[i].setOnClickListener(v -> {
-                swapColors(cardViews[index]);
-                Toast.makeText(home.this, "Selected: " + categories[index], Toast.LENGTH_SHORT).show();
-                filterByCategory(categories[index]);
+        for (int i = 0; i < cards.length; i++) {
+            int finalI = i;
+            cards[i].setOnClickListener(v -> {
+                swapColors(cards[finalI]);
+                currentCategory = categories[finalI];
+                filterByCategory(currentCategory);
             });
         }
     }
@@ -287,7 +332,7 @@ public class home extends Activity {
     }
 
     private void resetCardViews(CardView selectedCard) {
-        CardView[] cardViews = {
+        CardView[] cards = {
                 findViewById(R.id.family_cars),
                 findViewById(R.id.cheapcars),
                 findViewById(R.id.sports_Bikes),
@@ -296,18 +341,16 @@ public class home extends Activity {
                 findViewById(R.id.street_bikes)
         };
 
-        for (CardView cardView : cardViews) {
-            if (selectedCard == null || cardView != selectedCard) {
-                cardView.setCardBackgroundColor(Color.WHITE);
-                ((TextView) cardView.getChildAt(0)).setTextColor(Color.parseColor("#2B4C59"));
+        for (CardView card : cards) {
+            if (card != selectedCard) {
+                card.setCardBackgroundColor(Color.WHITE);
+                ((TextView) card.getChildAt(0)).setTextColor(Color.parseColor("#2B4C59"));
             }
         }
     }
 
     private void filterByCategory(String category) {
-        currentCategory = category;
         filteredCategoryList.clear();
-
         for (bikeModel bike : originalBikeList) {
             if (bike.getTransmission().equalsIgnoreCase(category)) {
                 filteredCategoryList.add(bike);
@@ -323,21 +366,90 @@ public class home extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (searchRecyclerView.getVisibility() == View.VISIBLE || recyclerView.getVisibility() == View.GONE) {
+        if (searchRecyclerView.getVisibility() == View.VISIBLE) {
+            toggleRecyclerView(false);
             searchView.setQuery("", false);
             searchView.clearFocus();
-
-            recyclerView.setVisibility(View.VISIBLE);
-            searchRecyclerView.setVisibility(View.GONE);
-
-            if (!currentCategory.isEmpty()) {
-                bikeAdapter.updateList(filteredCategoryList);
-            } else {
-                bikeAdapter.updateList(originalBikeList);
-            }
-
+        } else if (!currentCategory.isEmpty()) {
+            resetCardViews(null);
+            currentCategory = "";
+            bikeAdapter.updateList(originalBikeList);
+            Toast.makeText(this, "Showing all bikes", Toast.LENGTH_SHORT).show();
         } else {
-            super.onBackPressed();
+            super.onBackPressed(); // Exit app
         }
     }
+
+    private void updateNavSelection(TextView selectedTextView) {
+        textExplore.setVisibility(View.GONE);
+        textLike.setVisibility(View.GONE);
+        textCart.setVisibility(View.GONE);
+        textProfile.setVisibility(View.GONE);
+        selectedTextView.setVisibility(View.VISIBLE);
+    }
+    private void fetchUserData(String token) {
+        Log.d(TAG, "Fetching profile with token: " + token);
+
+        if (token == null) {
+            Toast.makeText(this, "Authentication error", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Call<ResponseData> call = retrofitInterface.getUserProfile("Bearer " + token);
+        call.enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseData> call, @NonNull Response<ResponseData> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "User profile fetched successfully");
+                    displayUserData(response.body().getUserDetails());
+                } else {
+                    handleErrorResponse(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Log.e(TAG, "Network error: " + t.getMessage(), t);
+                Toast.makeText(home.this, "Network error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void displayUserData(User userDetails) {
+        if (userDetails == null) {
+            Log.e(TAG, "User details are null");
+            return;
+        }
+
+        Log.d(TAG, "Displaying user data: " + userDetails.getFullName());
+
+
+        String userName = userDetails.getFullName();
+//         to get and store the user id of the user.
+//
+//        to save the name of the user
+        SharedPreferences sharedPreferencess = getSharedPreferences("myuser", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferencess.edit();
+        editor.putString("userName", userName);
+        editor.apply();
+
+        String img = userDetails.getImage();
+        Log.d("user image fetched from backend",img+"null");
+        SharedPreferences.Editor imurl = preferences.edit();
+        imurl.putString("userimage", img);
+        imurl.apply();
+
+
+
+
+    }
+    private void handleErrorResponse(Response<?> response) {
+        try {
+            String errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
+            Log.e(TAG, "API Error: " + errorBody);
+            Toast.makeText(this, "Error: " + errorBody, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e(TAG, "Exception while reading error body", e);
+        }
+    }
+
 }

@@ -19,169 +19,116 @@
             <LinearLayout
                 android:id="@+id/LL_cardveiw"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_250sdp"
+                    android:layout_height="@dimen/_300sdp"
                     android:background="@drawable/semicircle"
-                    android:backgroundTint="#000">
+                    android:backgroundTint="#95BCCC">
+
                     <FrameLayout
-                        android:layout_width="@dimen/_100sdp"
-                        android:layout_height="@dimen/_100sdp"
+                        android:id="@+id/profileContainer"
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="@dimen/_150sdp"
                         android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/_30sdp"
                         android:background="@drawable/circle"
                         android:backgroundTint="@color/white">
 
+                        <!-- Profile Picture -->
                         <ImageView
                             android:id="@+id/circle_center_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/bikewale1" />
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:scaleType="fitXY"
+                            android:clipToOutline="true"
+                            android:background="@drawable/circle"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/exclamation_mark" />
                     </FrameLayout>
-                </FrameLayout>
 
+                    <!-- HELLO Text -->
+                    <TextView
+                        android:id="@+id/textHello"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HELLO !"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_color2"
+                        android:textSize="@dimen/_25ssp"
+                        android:fontFamily="@font/matemasie_regular"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:layout_marginBottom="@dimen/_60sdp" />
+
+                    <!-- Username Text -->
+                    <TextView
+                        android:id="@+id/textUsername"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Username"
+                        android:fontFamily="@font/matemasie_regular"
+                        android:textColor="@color/text_color2"
+                        android:textSize="@dimen/_18ssp"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:layout_marginBottom="@dimen/_30sdp" />
+                </FrameLayout>
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:orientation="vertical">
+
                 <FrameLayout
-                    android:id="@+id/profilebtn"
+                    android:id="@+id/profilebtn1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rectangle2"
                     android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_marginRight="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:elevation="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:elevation="@dimen/_20sdp"
                     android:backgroundTint="@color/white">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_weight="1"
-                            android:src="@drawable/outline_account_circle_24" />
 
                         <TextView
                             android:id="@+id/drawer_profile_txt"
                             android:layout_width="@dimen/_200sdp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoslab_variablefont_wght"
-                            android:text="Profile"
+                            android:text="Profile Settings"
+                            android:layout_gravity="center"
+                            android:textStyle="bold"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:textAlignment="center"
+                            android:layout_marginLeft="@dimen/_25sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
                             android:textColor="#2B4C59"
                             android:textSize="@dimen/_20ssp"
-                            android:textStyle="bold" />
+                            />
+
                         <ImageView
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="@dimen/_50sdp"
-                            android:layout_weight="1"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_marginRight="@dimen/_10sdp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24"/>
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:src="@drawable/baseline_arrow_forward_ios_24" />
                     </LinearLayout>
 
                 </FrameLayout>
 
-                <FrameLayout
-                    android:id="@+id/Settingsbtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rectangle2"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:elevation="@dimen/_10sdp"
-                    android:backgroundTint="@color/white">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
 
-                        android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="@dimen/_100sdp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_weight="1"
-                            android:src="@drawable/outline_settings_24" />
 
-                        <TextView
-                            android:id="@+id/drawer_settings_txt"
-                            android:layout_width="@dimen/_200sdp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/robotoslab_variablefont_wght"
-                            android:text="Settings"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:textAlignment="center"
-                            android:textColor="#2B4C59"
-                            android:textSize="@dimen/_20ssp"
-                            android:textStyle="bold" />
-                        <ImageView
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="@dimen/_50sdp"
-                            android:layout_weight="1"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24"/>
-                    </LinearLayout>
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/Notificationbtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rectangle2"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:elevation="@dimen/_10sdp"
-                    android:backgroundTint="@color/white">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/_100sdp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_weight="1"
-                            android:src="@drawable/outline_notifications_24" />
-
-                        <TextView
-                            android:id="@+id/drawer_notifications_txt"
-                            android:layout_width="@dimen/_200sdp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/robotoslab_variablefont_wght"
-                            android:text="Notification"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:textAlignment="center"
-                            android:textColor="#2B4C59"
-                            android:textSize="@dimen/_20ssp"
-                            android:textStyle="bold" />
-                        <ImageView
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="@dimen/_50sdp"
-                            android:layout_weight="1"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24"/>
-                    </LinearLayout>
-
-                </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/privacybtn"
@@ -190,40 +137,38 @@
                     android:background="@drawable/rectangle2"
                     android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_marginRight="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:elevation="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:elevation="@dimen/_20sdp"
                     android:backgroundTint="@color/white">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="@dimen/_100sdp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_weight="1"
-                            android:src="@drawable/baseline_vpn_key_24" />
 
                         <TextView
                             android:id="@+id/drawer_privacy_txt"
                             android:layout_width="@dimen/_200sdp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoslab_variablefont_wght"
                             android:text="Privacy"
+                            android:layout_gravity="center"
+
+                            android:textStyle="bold"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:textAlignment="center"
+                            android:layout_marginLeft="@dimen/_25sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
                             android:textColor="#2B4C59"
                             android:textSize="@dimen/_20ssp"
-                            android:textStyle="bold" />
+                            />
+
                         <ImageView
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="@dimen/_50sdp"
-                            android:layout_weight="1"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_marginRight="@dimen/_10sdp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24"/>
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:src="@drawable/baseline_arrow_forward_ios_24" />
                     </LinearLayout>
 
                 </FrameLayout>
@@ -235,44 +180,83 @@
                     android:background="@drawable/rectangle2"
                     android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_marginRight="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:elevation="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:elevation="@dimen/_20sdp"
                     android:backgroundTint="@color/white">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="@dimen/_100sdp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_weight="1"
-                            android:src="@drawable/exclamation_mark" />
 
                         <TextView
                             android:id="@+id/drawer_help_txt"
                             android:layout_width="@dimen/_200sdp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoslab_variablefont_wght"
-                            android:text="Help &amp; Support"
+                            android:text="Help"
+                            android:layout_gravity="center"
+
+                            android:textStyle="bold"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:textAlignment="center"
+                            android:layout_marginLeft="@dimen/_25sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
                             android:textColor="#2B4C59"
                             android:textSize="@dimen/_20ssp"
-                            android:textStyle="bold" />
+                            />
+
                         <ImageView
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="@dimen/_50sdp"
-                            android:layout_weight="1"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_marginRight="@dimen/_10sdp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24"/>
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:src="@drawable/baseline_arrow_forward_ios_24" />
                     </LinearLayout>
 
                 </FrameLayout>
 
+                <FrameLayout
+                    android:id="@+id/aboutbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle2"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:elevation="@dimen/_20sdp"
+                    android:backgroundTint="@color/white">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:id="@+id/drawer_about_txt"
+                            android:layout_width="@dimen/_200sdp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoslab_variablefont_wght"
+                            android:text="About"
+                            android:layout_gravity="center"
+                            android:textStyle="bold"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginLeft="@dimen/_25sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:textColor="#2B4C59"
+                            android:textSize="@dimen/_20ssp"
+                            />
+
+                        <ImageView
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:src="@drawable/baseline_arrow_forward_ios_24" />
+                    </LinearLayout>
+
+                </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/logoutbtn"

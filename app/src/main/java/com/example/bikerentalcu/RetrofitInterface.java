@@ -9,6 +9,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -28,10 +29,9 @@ public interface RetrofitInterface {
     Call<Void> sendOtp(@Body HashMap<String, String> data); // For sending OTP
 
     // PROFILE OPERATIONS:
-    @PUT("/api/v1/profile/update-profile")
+    @PATCH("/api/v1/profile/update-profile")
     Call<Void> updateUserProfile(
-            @Header("Authorization") String token, // Add Authorization header
-            @Query("email") String email,
+            @Header("Authorization") String token,
             @Body HashMap<String, String> updatedData
     );
 

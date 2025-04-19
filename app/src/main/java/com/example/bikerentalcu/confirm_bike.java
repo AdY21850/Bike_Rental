@@ -217,7 +217,7 @@ public class confirm_bike extends AppCompatActivity implements PaymentResultList
                                       String userName, String ownerEmail, String bikeName,
                                       String ownerPhone, String ownerUpi) {
         Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_test_MP5obIFQZPZ6n5");
+        checkout.setKeyID("rzp_test_aj3ooR3fh3476A");
 
         try {
             int amountInPaise = Integer.parseInt(amount) * 100;

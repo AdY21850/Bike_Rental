@@ -19,11 +19,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -50,15 +59,33 @@ public class profile extends AppCompatActivity {
     private ImageView profileImage;
 
     // Made static properly
+    TextView walletBalanceText;
+    FrameLayout addMoneyButton;
+
+    String userId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        walletBalanceText = findViewById(R.id.rupees);
+        addMoneyButton = findViewById(R.id.add_Money);
 
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        );
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+
+
+        fetchWalletBalance(userId);
         setupUI();
         setupRetrofit();
         checkPermissions();
+
+        addMoneyButton.setOnClickListener(v -> {
+            addMoneyToWallet(userId, 100); // Add ₹100
+        });
+
     }
 
     @Override
@@ -71,8 +98,6 @@ public class profile extends AppCompatActivity {
     }
 
     private void setupUI() {
-        getWindow().setStatusBarColor(Color.parseColor("#838383"));
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         nameField = findViewById(R.id.name1);
         nameField2 = findViewById(R.id.name12);
@@ -154,9 +179,20 @@ public class profile extends AppCompatActivity {
         nameField.setText(userDetails.getFullName());
         nameField2.setText(userDetails.getFullName());
         String nme = userDetails.getFullName();
+        // to get and store the user id of the user.
+        userId = getIntent().getStringExtra("userId");
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        userId = prefs.getString("userId", "");
+        //to save the name of the user
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("userName", nme);
         editor.apply();
+
+        String img = userDetails.getImage();
+        Log.d("user image fetched from backend",img+"null");
+        SharedPreferences.Editor imurl = preferences.edit();
+        imurl.putString("userimage", img);
+        imurl.apply();
 
         emailField.setText(userDetails.getEmail());
         phoneField.setText(userDetails.getContactNumber());
@@ -266,4 +302,60 @@ public class profile extends AppCompatActivity {
             editor.apply();
         }
     }
+
+    private void fetchWalletBalance(String userId) {
+        String url = "https://yourdomain.com/api/users/" + userId;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        JSONObject user = response.getJSONObject("userDetails");
+                        double wallet = user.getDouble("walletBalance");
+                        walletBalanceText.setText("Wallet: ₹" + wallet);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    Toast.makeText(profile.this, "Failed to fetch wallet", Toast.LENGTH_SHORT).show();
+                });
+
+        Volley.newRequestQueue(this).add(request);
+    }
+
+    //add the money to the wallet.
+    private void addMoneyToWallet(String userId, int amount) {
+        String url = "https://bikewale-wyxw.onrender.com/api/v1//update-wallet" + userId;
+
+        JSONObject body = new JSONObject();
+        try {
+            body.put("amount", amount);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, body,
+                response -> {
+                    try {
+                        double updatedBalance = response.getDouble("walletBalance");
+                        walletBalanceText.setText("Wallet: ₹" + updatedBalance);
+                        Toast.makeText(this, "Wallet updated!", Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    Toast.makeText(this, "Error updating wallet", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        Volley.newRequestQueue(this).add(request);
+    }
+
 }
