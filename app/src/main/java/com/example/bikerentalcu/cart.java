@@ -29,7 +29,7 @@ public class cart extends AppCompatActivity {
         // Initialize views
         cartRecyclerView = findViewById(R.id.cartRecyclerView);
         progressBar = findViewById(R.id.progressBar);
-        nextButton = findViewById(R.id.nextButton);
+//        nextButton = findViewById(R.id.nextButton);
         backButton = findViewById(R.id.backButton);
 
         // Setup RecyclerView

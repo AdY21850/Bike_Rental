@@ -34,6 +34,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
 
+
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CartItem item = cartList.get(position);
@@ -41,8 +43,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.price.setText("₹" + item.getPrice());
         Glide.with(context).load(item.getImageUrl()).into(holder.image);
 
-        // Handle quantity change
-        holder.quantity.setText("1"); // Default to 1
+        int defaultQuantity = 1;
+
+        // Check if the intent has quantity AND a matching name
+        if (context instanceof cart) {
+            Intent intent = ((cart) context).getIntent();
+            if (intent != null && intent.hasExtra("quantity") && intent.hasExtra("itemName")) {
+                int quantityFromIntent = intent.getIntExtra("quantity", 1);
+                String itemNameFromIntent = intent.getStringExtra("itemName");
+
+                if (item.getName().equals(itemNameFromIntent)) {
+                    defaultQuantity = quantityFromIntent;
+                }
+            }
+        }
+
+        holder.quantity.setText(String.valueOf(defaultQuantity));
 
         holder.plus.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.quantity.getText().toString());
@@ -58,26 +74,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             }
         });
 
-        // Handle Remove Item
         holder.removeButton.setOnClickListener(v -> {
             int removedPosition = holder.getAdapterPosition();
             if (removedPosition != RecyclerView.NO_POSITION) {
-                // Remove from CartManager
                 CartManager.removeFromCart(cartList.get(removedPosition));
                 notifyItemRemoved(removedPosition);
             }
             Toast.makeText(context, item.getName() + " removed from cart", Toast.LENGTH_SHORT).show();
         });
 
-        // Open item details when clicking on the cart item
         holder.itemView.setOnClickListener(v -> {
-            int quantity = Integer.parseInt(holder.quantity.getText().toString()); // Get the quantity value
+            int quantity = Integer.parseInt(holder.quantity.getText().toString());
             Intent intent = new Intent(context, confirm_bike.class);
-            intent.putExtra("cartItems", item);  // Ensure CartItem is Parcelable
-            intent.putExtra("quantity", quantity); // Send quantity to item_view
+            intent.putExtra("cartItems", item);
+            intent.putExtra("quantity", quantity);
+            intent.putExtra("itemName", item.getName()); // So we know which one was clicked
             context.startActivity(intent);
         });
     }
+
 
     @Override
     public int getItemCount() {

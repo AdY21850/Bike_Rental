@@ -1,6 +1,7 @@
 package com.example.bikerentalcu;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,8 +27,10 @@ public class item_view extends AppCompatActivity {
         makeStatusBarTransparent();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_view);
-
-
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        );
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
 
         // Initialize views
         ImageView bikeImage = findViewById(R.id.bike_image);
@@ -58,6 +61,8 @@ public class item_view extends AppCompatActivity {
                 if (bike != null) {
                     // Set values to views for bikeModel
                     bikeName.setText(bike.getName());
+                    Log.d("bikename-->",bike.getName()+"null");
+                    bikeMileage.setText(bike.getMileage());
                     bikePrice.setText("₹ " + bike.getPrice());
                     bikeTransmission.setText(bike.getTransmission());
                     bikeSpeed.setText(bike.getSpeed());
@@ -66,10 +71,13 @@ public class item_view extends AppCompatActivity {
 
                     // Load bike image using Glide
                     Glide.with(this).load(bike.getImageUrl()).into(bikeImage);
+                    Log.d("Item view owner image url-->",bike.getownerurl()+"null");
+
+                    //load owner image using glide functionality
                     Glide.with(this)
                             .load(bike.getownerurl())
-                            .placeholder(R.drawable.exclamation_mark)
-                            .error(R.drawable.exclamation_mark)
+                            .placeholder(R.drawable.profilepicturebikerental)
+                            .error(R.drawable.profilepicturebikerental)
                             .into(owner_image);
 
                     // Email click listener
@@ -136,36 +144,39 @@ public class item_view extends AppCompatActivity {
                 if (bike != null && !CartManager.isBikeInCart(bike)) {
                     cartItemToAdd = new CartItem(
                             bike.getName(),
-                            bike.getPrice() * quantity,             // price
-                            bike.getTransmission(),                 // transmission
-                            bike.getSpeed(),                        // speed
-                            bike.getMileage(),                      // mileage
-                            bike.getOwnerName(),                    // owner name
-                            bike.getOwnerEmail(),                   // owner email
-                            bike.getOwnerContact(),                 // owner contact
-                            bike.getImageUrl(),                     // image URL
+                            bike.getPrice() * quantity,
+                            bike.getTransmission(),
+                            bike.getSpeed(),
+                            bike.getMileage(),
+                            bike.getOwnerName(),
+                            bike.getOwnerEmail(),
+                            bike.getOwnerContact(),
+                            bike.getImageUrl(),
                             bike.getownerurl(),
-                            bike.getownerupi()// owner URL
+                            bike.getownerupi()
                     );
-
                 } else {
-                    // Optional: show message if already in cart
                     Toast.makeText(this, "Bike already in cart!", Toast.LENGTH_SHORT).show();
                     return;
                 }
             } else if (getIntent().hasExtra("cartItems")) {
                 cartItemToAdd = getIntent().getParcelableExtra("cartItems");
                 if (cartItemToAdd != null) {
-                    cartItemToAdd.setPrice(cartItemToAdd.getPrice() * quantity); // update price based on quantity
+                    cartItemToAdd.setPrice(cartItemToAdd.getPrice() * quantity);
                 }
             }
 
             if (cartItemToAdd != null) {
                 CartManager.addToCart(cartItemToAdd);
                 Toast.makeText(this, "Bike added to cart", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, cart.class));
+
+                Intent inten = new Intent(this, cart.class);
+                inten.putExtra("quantity", quantity);
+                inten.putExtra("itemName", cartItemToAdd.getName());// ✅ Sending quantity as extra
+                startActivity(inten);
             }
         });
+
 
         // Quantity selection listeners
         decreaseQuantity.setOnClickListener(v -> updateQuantity(false));

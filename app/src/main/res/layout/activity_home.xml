@@ -328,12 +328,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-<View
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/_70sdp"/>
+
         </LinearLayout>
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_70sdp"/>
     <LinearLayout
         android:id="@+id/customBottomNav"
         android:layout_width="match_parent"

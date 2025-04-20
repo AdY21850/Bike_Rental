@@ -228,7 +228,7 @@ public class home extends Activity {
 
                             String name = bikeObject.getString("bikemodel");
                             String price = bikeObject.getString("rentprice");
-                            String transmission = bikeObject.optString("typeofbike", "N/A");
+                            String transmission = bikeObject.optString("transmistion", "N/A");
                             String speed = bikeObject.optString("topSpeed", "N/A");
                             String mileage = bikeObject.optString("mileage", "N/A");
                             String imageUrl = bikeObject.getString("bikepic");
@@ -237,10 +237,13 @@ public class home extends Activity {
                             String ownerName = (owner != null) ? owner.optString("fullName", "Unknown") : "Unknown";
                             String ownerEmail = (owner != null) ? owner.optString("email", "Unknown") : "Unknown";
                             String ownerContact = (owner != null) ? owner.optString("contactNumber", "Unknown") : "Unknown";
-                            String ownerImageUrl = (owner != null) ? owner.optString("upiId", "") : "";
+                            String ownerImageUrl = (owner != null) ? owner.optString("displayPicture", "") : "";
                             String ownerUpi = (owner != null) ? owner.optString("upiId", "") : "";
-
-                            bikeModel model = new bikeModel(name, Integer.parseInt(price), transmission, speed, mileage, ownerName, ownerEmail, ownerContact, imageUrl, ownerImageUrl, ownerUpi);
+                                Log.d("milage-->",mileage+"null");
+                            Log.d("speed-->",speed+"null");
+                            bikeModel model = new bikeModel( name,  Integer.parseInt(price),  transmission,  speed,  mileage,
+                                     ownerName,  ownerEmail,  ownerContact,
+                                     imageUrl,  ownerImageUrl,  ownerUpi);
                             bikeList1.add(model);
                             originalBikeList.add(model);
                         }
