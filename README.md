@@ -1,132 +1,100 @@
-🚴‍♂️ Bike Rental Android App
-A complete, production-ready Android application that allows users to browse, rent, and manage bikes in real-time. Integrated with a MongoDB-powered backend and modern third-party services for payment, email, OTP, and image handling.
+🚴‍♂️ Bike Rental Android App – Frontend
+An Android application that allows users to browse, rent, and upload bikes, complete with real-time updates, secure payments, email notifications, and profile management — all handled via a modern and intuitive UI using Android SDK and third-party integrations.
 
-✅ Project Summary
-This application allows:
+📱 Features (Frontend-Only)
+1. 🔐 User Authentication (via Backend API)
+Register, Login, and OTP verification
 
-Users to rent bikes
+Managed via Retrofit + Dialog fragments
 
-Owners to upload bikes for rent
+JWT token stored securely using SharedPreferences
 
-Real-time data sync with MongoDB
+2. 🏍️ Bike Listing & Details
+Fetch bikes from backend using Volley
 
-Integrated payment flow using Razorpay
+Display in grid format using RecyclerView
 
-Email & OTP verification for security
+Each bike card includes image, price, specs, and owner details
 
-Profile management for both renters and owners
+Search & filter bikes by name, type, or owner
 
-🧠 Key Features (with Implementation Highlights)
-🗄️ 1. Authentication System
-Built using MongoDB + Node.js + Express.js
+3. 📤 Upload Bike for Rent
+Custom form to:
 
-Users can register, verify with OTP, log in, and update password
+Enter bike name, type, registration number, rent price, etc.
 
-JWT tokens stored in SharedPreferences
+Upload image from gallery (with permission checks)
 
-Backend protects private routes using middleware auth
+Send data via Multipart Retrofit call
 
-🏍️ 2. Bike Listing and Uploading
-Bike data includes:
+4. 🔍 Search & Category Filtering
+Live search using SearchView
 
-Name, type, speed, mileage, price, owner contact, UPI ID, images
+Filter bikes by categories (Sports, Electric, Street, etc.)
 
-Upload bikes using:
+Dynamic update of UI via RecyclerView adapter
 
-Volley for network communication
+5. 🛒 Cart System
+Add bikes to cart for batch booking
 
-Cloudinary for storing and retrieving images
+Quantity selector with plus/minus controls
 
-Uses Glide to load and cache images in the app
+Remove items from cart
 
-Real-time fetch using:
+View total calculated amount
 
-java
-Copy
-Edit
-JsonObjectRequest -> Volley -> Backend `/api/v1/bike/allbikes`
-🔍 3. Search and Filter
-Users can:
+6. 📅 Rental Booking
+Select rental start & end date using DatePickerDialog
 
-Search bikes by name, category, or owner
+Calculates duration and total cost automatically
 
-Filter bikes using clickable category cards
+Autofills user location using Google FusedLocation API
 
-Uses SearchView + RecyclerView filtering
+7. 💳 Payment Integration
+Integrated Razorpay Checkout SDK
 
-🛒 4. Cart & Booking Confirmation
-Add bikes to cart via CartManager
+Prefills name and contact info
 
-Confirm rentals with:
+On success:
 
-Custom start & end date pickers
+Sends confirmation emails
 
-Location autofill using Google’s FusedLocationProviderClient
+Sends WhatsApp message via Twilio (API call from frontend)
 
-Auto price calculation based on date range & quantity
+8. 📧 Email Notifications
+On booking confirmation:
 
-💳 5. Payment Integration (Razorpay)
-Razorpay SDK handles secure checkout
+Sends mail to both bike owner and renter
 
-Payment success triggers:
+Email sending via JavaMail API with Gmail SMTP
 
-Email to bike owner & user
+9. 🖼️ Image Uploading & Display
+Uses Glide to:
 
-WhatsApp message to the owner via Twilio API
+Load bike images from Cloudinary URLs
 
-📧 6. Email Confirmation (JavaMail API)
-Sends email using:
+Cache and show fallback placeholders
 
-Gmail SMTP via JavaMailAPI
+User and bike images shown in profile and listings
 
-Owner gets booking details
+10. 👤 User Profile Management
+Fetch user info after login and display in:
 
-User gets confirmation copy
+Navigation Drawer
 
-Credentials secured with App Passwords (2FA)
+Profile section
 
-🔐 7. OTP Verification
-OTP sent via email during registration
+Stores user name and profile image in SharedPreferences
 
-Validates code on backend
-
-Frontend dialogs built using custom XML layouts
-
-🖼️ 8. Image Upload & Display
-Image picked from gallery using Intent
-
-Stored on Cloudinary
-
-Loaded into app using Glide
-
-Used in:
-
-Bike upload
-
-Profile picture
-
-Bike detail previews
-
-👤 9. Profile Management
-Fetches user profile using JWT-authenticated API call
-
-Supports:
-
-Display of name, image, email
-
-Update of profile info
-
-Data fetched and saved in SharedPreferences
-
-🛠️ Tech Stack
-Component	Technology/Library
-Backend	Node.js, Express.js, MongoDB (Mongoose)
-Auth	JWT, Bcrypt, OTP via email
+🛠️ Technologies & Libraries
+Purpose	Library / Tool
 Networking	Volley, Retrofit
-Payments	Razorpay SDK
-Email	JavaMail + Gmail SMTP
-Image Handling	Cloudinary + Glide
-Location	FusedLocationProviderClient
-UI	Android SDK + XML + ViewPager2
-Realtime Fetch	Volley + JSON API from backend
+Image Loading	Glide
+Email Sending	JavaMail API
+UI Components	RecyclerView, ViewPager2
+Location Access	FusedLocationProviderClient
+Payments	Razorpay Android SDK
+Data Storage	SharedPreferences
+File Upload	Retrofit Multipart + Intent
+Permission Handling	ActivityResultLauncher
 
